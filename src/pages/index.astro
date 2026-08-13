@@ -1,13 +1,212 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Proyectos from '../components/Proyectos.astro';
 import Layout from '../layouts/Layout.astro';
+import Proyectos from '../components/Proyectos.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const stats = [
+	{
+		value: 'UPV',
+		label: 'Formación',
+		detail: 'Grado en Ciencia de Datos, Universitat Politècnica de València.',
+	},
+	{
+		value: 'Élite',
+		label: 'Experiencia',
+		detail: 'Trabajo real dentro de un equipo de ciclismo profesional.',
+	},
+	{
+		value: 'Data + Sport',
+		label: 'Enfoque',
+		detail: 'Analítica aplicada a la mejora del rendimiento deportivo.',
+	},
+];
 ---
 
 <Layout>
-	<Welcome />
+	<section id="hero" class="hero">
+		<div class="container hero-grid">
+			<div class="hero-copy reveal">
+				<p class="eyebrow">Científico de datos · Analítica deportiva · Valencia</p>
+				<h1>
+					Convierto datos deportivos en <span class="highlight">decisiones que ganan</span>
+				</h1>
+				<p class="hero-subtitle text-dim">
+					Soy el puente entre el análisis de datos y el deporte de élite: transformo métricas de
+					rendimiento en estrategias que marcan la diferencia sobre el terreno.
+				</p>
+				<div class="hero-actions">
+					<a href="#proyectos" class="btn btn-primary">Ver proyectos</a>
+					<a href="#contacto" class="btn btn-ghost">Contacto</a>
+				</div>
+			</div>
+
+			<div class="hero-portrait reveal">
+				<div class="portrait-frame">
+					<img src="/mario.jpg" alt="Retrato de Mario Álvarez" width="420" height="420" />
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="sobre-mi" class="sobre-mi">
+		<div class="container">
+			<div class="section-intro reveal">
+				<p class="eyebrow">Sobre mí</p>
+				<h2>Datos con contexto de pista, carretera y competición</h2>
+				<p class="text-dim">
+					Soy Mario Álvarez, estudiante de Ciencia de Datos en la UPV con experiencia real dentro
+					del ciclismo profesional. Uno el análisis de datos con el rendimiento deportivo de
+					élite, para convertir cada métrica en una decisión que mejora resultados.
+				</p>
+			</div>
+
+			<div class="stats-grid">
+				{
+					stats.map((stat, i) => (
+						<div class="stat-card reveal" style={`transition-delay: ${i * 0.1}s`}>
+							<p class="stat-value">{stat.value}</p>
+							<p class="stat-label">{stat.label}</p>
+							<p class="stat-detail text-dim">{stat.detail}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
 	<Proyectos />
 </Layout>
+
+<style>
+	.hero {
+		padding-block: 5rem 6rem;
+	}
+
+	.hero-grid {
+		display: grid;
+		grid-template-columns: 1.15fr 0.85fr;
+		align-items: center;
+		gap: 3rem;
+	}
+
+	.hero-copy h1 {
+		font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+		margin-block: 0.9rem 1.1rem;
+	}
+
+	.hero-subtitle {
+		font-size: 1.05rem;
+		max-width: 46ch;
+		margin-block-end: 2rem;
+	}
+
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.hero-portrait {
+		display: flex;
+		justify-content: center;
+	}
+
+	.portrait-frame {
+		position: relative;
+		width: min(360px, 80vw);
+		aspect-ratio: 1 / 1;
+		border-radius: 28px;
+		padding: 4px;
+		background: linear-gradient(155deg, var(--color-blue), var(--color-green) 60%, transparent);
+	}
+
+	.portrait-frame::before {
+		content: '';
+		position: absolute;
+		inset: -30px;
+		z-index: -1;
+		background: radial-gradient(circle, rgba(56, 189, 248, 0.25), transparent 70%);
+		filter: blur(20px);
+	}
+
+	.portrait-frame img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 24px;
+		background: var(--color-bg-elevated);
+	}
+
+	.sobre-mi {
+		padding-block: 2rem 6rem;
+	}
+
+	.section-intro {
+		max-width: 62ch;
+		margin-block-end: 3rem;
+	}
+
+	.section-intro h2 {
+		font-size: clamp(1.6rem, 3vw, 2.1rem);
+		margin-block: 0.75rem 1rem;
+	}
+
+	.section-intro p.text-dim {
+		font-size: 1.02rem;
+	}
+
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		gap: 1.5rem;
+	}
+
+	.stat-card {
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: 16px;
+		padding: 1.5rem;
+		transition:
+			border-color var(--transition-fast),
+			transform var(--transition-fast),
+			opacity 0.6s ease,
+			transform 0.6s ease;
+	}
+
+	.stat-card:hover {
+		border-color: var(--color-blue);
+		transform: translateY(-3px);
+	}
+
+	.stat-value {
+		font-family: var(--font-mono);
+		font-size: 1.4rem;
+		font-weight: 500;
+		color: var(--color-green);
+		margin-block-end: 0.35rem;
+	}
+
+	.stat-label {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		margin-block-end: 0.5rem;
+	}
+
+	.stat-detail {
+		font-size: 0.92rem;
+		line-height: 1.5;
+	}
+
+	@media (max-width: 860px) {
+		.hero-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.hero-portrait {
+			order: -1;
+		}
+
+		.portrait-frame {
+			width: min(280px, 60vw);
+		}
+	}
+</style>

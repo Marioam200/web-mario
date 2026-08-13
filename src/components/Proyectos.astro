@@ -39,103 +39,94 @@ const languages = [...new Set(repos.map((repo) => repo.language).filter(Boolean)
 ---
 
 <section id="proyectos">
-	<div class="section-header">
-		<h2>Proyectos</h2>
-		<p>Una selección automática de mis repositorios públicos en GitHub.</p>
-	</div>
+	<div class="container">
+		<div class="section-header reveal">
+			<p class="eyebrow">Trabajo</p>
+			<h2>Proyectos</h2>
+			<p class="text-dim">Una selección automática de mis repositorios públicos en GitHub.</p>
+		</div>
 
-	{
-		languages.length > 0 && (
-			<div class="especializaciones">
-				<h3>Especializaciones</h3>
-				<ul class="tags">
-					{languages.map((lang) => (
-						<li class="tag">{lang}</li>
+		{
+			languages.length > 0 && (
+				<div class="especializaciones reveal">
+					<h3>Especializaciones</h3>
+					<ul class="tags">
+						{languages.map((lang) => (
+							<li class="tag">{lang}</li>
+						))}
+					</ul>
+				</div>
+			)
+		}
+
+		{
+			repos.length > 0 ? (
+				<div class="grid">
+					{repos.map((repo, i) => (
+						<article class="card reveal" style={`transition-delay: ${Math.min(i, 6) * 0.06}s`}>
+							<div class="card-header">
+								<h3>{repo.name}</h3>
+								{repo.language && <span class="language">{repo.language}</span>}
+							</div>
+							<p class="description text-dim">{repo.description ?? 'Sin descripción disponible.'}</p>
+							<a class="button" href={repo.html_url} target="_blank" rel="noopener noreferrer">
+								Ver en GitHub
+							</a>
+						</article>
 					))}
-				</ul>
-			</div>
-		)
-	}
-
-	{
-		repos.length > 0 ? (
-			<div class="grid">
-				{repos.map((repo) => (
-					<article class="card">
-						<div class="card-header">
-							<h3>{repo.name}</h3>
-							{repo.language && <span class="language">{repo.language}</span>}
-						</div>
-						<p class="description">{repo.description ?? 'Sin descripción disponible.'}</p>
-						<a class="button" href={repo.html_url} target="_blank" rel="noopener noreferrer">
-							Ver en GitHub
-						</a>
-					</article>
-				))}
-			</div>
-		) : (
-			<p class="empty">No se pudieron cargar los repositorios en este momento.</p>
-		)
-	}
+				</div>
+			) : (
+				<p class="empty text-dim">No se pudieron cargar los repositorios en este momento.</p>
+			)
+		}
+	</div>
 </section>
 
 <style>
 	#proyectos {
-		background: #0d1117;
-		color: #e6edf3;
-		padding: 4rem 1.5rem;
+		padding-block: 2rem 6rem;
 	}
 
 	.section-header {
-		max-width: 1100px;
-		margin: 0 auto 2.5rem;
-		text-align: center;
+		max-width: 62ch;
+		margin-block-end: 2.5rem;
 	}
 
 	.section-header h2 {
-		font-size: 2rem;
-		margin: 0 0 0.5rem;
-	}
-
-	.section-header p {
-		color: #8b949e;
-		margin: 0;
+		font-size: clamp(1.6rem, 3vw, 2.1rem);
+		margin-block: 0.75rem 0.5rem;
 	}
 
 	.especializaciones {
-		max-width: 1100px;
-		margin: 0 auto 3rem;
-		text-align: center;
+		margin-block-end: 3rem;
 	}
 
 	.especializaciones h3 {
-		font-size: 1.1rem;
-		color: #c9d1d9;
-		margin: 0 0 1rem;
+		font-family: var(--font-heading);
+		font-size: 1.05rem;
+		font-weight: 600;
+		margin-block-end: 1rem;
 	}
 
 	.tags {
 		list-style: none;
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: center;
 		gap: 0.6rem;
-		margin: 0;
-		padding: 0;
 	}
 
 	.tag {
-		background: linear-gradient(83.21deg, #3245ff 0%, #bc52ee 100%);
-		color: white;
-		font-size: 0.85rem;
-		font-weight: 600;
-		padding: 0.4rem 0.9rem;
+		font-family: var(--font-mono);
+		background: rgba(56, 189, 248, 0.1);
+		border: 1px solid rgba(56, 189, 248, 0.35);
+		color: var(--color-blue);
+		font-size: 0.8rem;
+		font-weight: 500;
+		padding: 0.4rem 0.85rem;
 		border-radius: 999px;
 	}
 
 	.grid {
-		max-width: 1100px;
-		margin: 0 auto;
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 		gap: 1.5rem;
@@ -144,18 +135,20 @@ const languages = [...new Set(repos.map((repo) => repo.language).filter(Boolean)
 	.card {
 		display: flex;
 		flex-direction: column;
-		background: #161b22;
-		border: 1px solid #30363d;
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
 		border-radius: 14px;
 		padding: 1.5rem;
 		transition:
 			transform 0.2s ease,
-			border-color 0.2s ease;
+			border-color 0.2s ease,
+			opacity 0.6s ease,
+			transform 0.6s ease;
 	}
 
 	.card:hover {
 		transform: translateY(-4px);
-		border-color: #58a6ff;
+		border-color: var(--color-green);
 	}
 
 	.card-header {
@@ -167,17 +160,17 @@ const languages = [...new Set(repos.map((repo) => repo.language).filter(Boolean)
 	}
 
 	.card-header h3 {
-		font-size: 1.15rem;
-		margin: 0;
+		font-size: 1.1rem;
 		word-break: break-word;
 	}
 
 	.language {
 		flex-shrink: 0;
-		font-size: 0.75rem;
-		font-weight: 600;
-		color: #58a6ff;
-		background: rgba(88, 166, 255, 0.12);
+		font-family: var(--font-mono);
+		font-size: 0.72rem;
+		font-weight: 500;
+		color: var(--color-green);
+		background: rgba(52, 211, 153, 0.12);
 		padding: 0.2rem 0.6rem;
 		border-radius: 999px;
 		white-space: nowrap;
@@ -185,7 +178,6 @@ const languages = [...new Set(repos.map((repo) => repo.language).filter(Boolean)
 
 	.description {
 		flex-grow: 1;
-		color: #8b949e;
 		font-size: 0.92rem;
 		line-height: 1.5;
 		margin: 0 0 1.25rem;
@@ -193,16 +185,13 @@ const languages = [...new Set(repos.map((repo) => repo.language).filter(Boolean)
 
 	.button {
 		align-self: flex-start;
-		color: white;
-		background: linear-gradient(83.21deg, #3245ff 0%, #bc52ee 100%);
-		font-size: 0.9rem;
+		color: #1a1305;
+		background: var(--color-amber);
+		font-size: 0.88rem;
 		font-weight: 600;
 		text-decoration: none;
 		padding: 0.55rem 1.1rem;
 		border-radius: 8px;
-		box-shadow:
-			inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-			inset 0 -2px 0 rgba(0, 0, 0, 0.24);
 		transition: opacity 0.2s ease;
 	}
 
@@ -212,6 +201,5 @@ const languages = [...new Set(repos.map((repo) => repo.language).filter(Boolean)
 
 	.empty {
 		text-align: center;
-		color: #8b949e;
 	}
 </style>
