@@ -12,12 +12,14 @@ const {
 } = Astro.props;
 
 const navLinks = [
-	{ href: '#', label: 'Inicio' },
-	{ href: '#sobre-mi', label: 'Sobre mí' },
-	{ href: '#proyectos', label: 'Proyectos' },
-	{ href: '#experiencia', label: 'Experiencia' },
-	{ href: '#contacto', label: 'Contacto' },
+	{ href: '/sobre-mi', label: 'Sobre mí' },
+	{ href: '/proyectos', label: 'Proyectos' },
+	{ href: '/experiencia', label: 'Experiencia' },
+	{ href: '/contacto', label: 'Contacto' },
 ];
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => currentPath === href;
 
 const socialLinks = [
 	{ href: 'https://www.linkedin.com/in/mario-alvarez-martinez/', label: 'LinkedIn' },
@@ -46,8 +48,8 @@ const socialLinks = [
 	<body>
 		<header id="site-header">
 			<div class="container nav-inner">
-				<a href="#" class="brand">
-					<img src="/mark.png" alt="" width="36" height="36" class="brand-mark" />
+				<a href="/" class="brand">
+					<img src="/mark-blanco.png" alt="" width="36" height="36" class="brand-mark" />
 					<span class="brand-name">Mario Álvarez</span>
 				</a>
 
@@ -56,7 +58,9 @@ const socialLinks = [
 						{
 							navLinks.map((link) => (
 								<li>
-									<a href={link.href}>{link.label}</a>
+									<a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
+										{link.label}
+									</a>
 								</li>
 							))
 						}
@@ -64,7 +68,7 @@ const socialLinks = [
 				</nav>
 
 				<div class="nav-actions">
-					<a href="#contacto" class="btn btn-primary">Contacto</a>
+					<a href="/contacto" class="btn btn-primary">Contacto</a>
 					<button id="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="site-nav">
 						<span></span>
 						<span></span>
@@ -81,7 +85,8 @@ const socialLinks = [
 		<footer id="contacto">
 			<div class="container footer-inner">
 				<div class="footer-brand">
-					<img src="/logo.png" alt="Mario Álvarez" class="footer-logo" />
+					<img src="/mark-blanco.png" alt="" width="28" height="28" class="footer-logo" />
+					<span class="footer-brand-name">Mario Álvarez</span>
 					<p class="text-dim">Data · Sport · Progress</p>
 				</div>
 
@@ -196,6 +201,21 @@ const socialLinks = [
 		color: var(--color-text);
 	}
 
+	#site-nav a[aria-current='page'] {
+		color: var(--color-text);
+		position: relative;
+	}
+
+	#site-nav a[aria-current='page']::after {
+		content: '';
+		position: absolute;
+		inset-inline: 0;
+		inset-block-end: -6px;
+		height: 2px;
+		border-radius: 2px;
+		background: linear-gradient(90deg, var(--color-blue), var(--color-green));
+	}
+
 	#site-nav ul li:last-child {
 		display: none;
 	}
@@ -254,8 +274,14 @@ const socialLinks = [
 	}
 
 	.footer-logo {
-		height: 32px;
-		width: auto;
+		border-radius: 8px;
+	}
+
+	.footer-brand-name {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 1rem;
+		color: var(--color-text);
 	}
 
 	.footer-social {

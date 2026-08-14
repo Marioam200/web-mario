@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const facts = [
+	{ label: 'Base', value: 'Benidorm · Valencia' },
+	{
+		label: 'Formación',
+		value:
+			'Grado en Ciencia de Datos (UPV) · Máster en Digitalización, Innovación y Tecnología en el Deporte (online, becado)',
+	},
+	{ label: 'Enfoque', value: 'Datos + rendimiento deportivo' },
+	{ label: 'Idiomas', value: 'Español nativo · Valenciano · Inglés B1' },
+	{ label: 'Estado', value: 'Disponible para proyectos' },
+];
+---
+
+<Layout title="Sobre mí — Mario Álvarez" description="De campeón de España de madison a estudiante de Ciencia de Datos: la trayectoria de Mario Álvarez entre el ciclismo de élite y la analítica deportiva.">
+	<PageHeader eyebrow="Sobre mí" title="Del velódromo a los datos" />
+
+	<section class="bio">
+		<div class="container bio-grid">
+			<div class="bio-text reveal">
+				<p>
+					Empecé compitiendo. A los 18 me proclamé campeón de España de madison en pista y la
+					Selección Española de Ciclismo me convocó para los Campeonatos del Mundo y de Europa,
+					donde fui sexto en ambos, lo que me valió la condición de deportista de élite.
+				</p>
+				<p>
+					De ahí di el salto a la Ciencia de Datos: hoy curso 3º del Grado en la Universitat
+					Politècnica de València, orientado a la digitalización y la tecnología aplicadas al
+					deporte.
+				</p>
+				<p>
+					Mi valor diferencial es ese puente: he vivido el alto rendimiento desde dentro —como
+					corredor, como director deportivo de base y como quiromasajista de ciclistas
+					profesionales— y sé leer los datos que hay detrás. Entiendo lo que un número significa
+					para un deportista, porque yo he sido ese deportista. Uno los dos mundos para convertir
+					datos en decisiones que mejoran el rendimiento.
+				</p>
+				<p>
+					Además, gracias a mi condición de deportista de élite, curso con beca un Máster en
+					Digitalización, Innovación y Tecnología en el Deporte, que amplía mi enfoque a todo el
+					ecosistema deportivo, más allá del ciclismo.
+				</p>
+			</div>
+
+			<div class="facts-grid reveal">
+				{
+					facts.map((fact) => (
+						<div class="fact-card">
+							<p class="fact-label">{fact.label}</p>
+							<p class="fact-value">{fact.value}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.bio {
+		padding-block: 1rem 6rem;
+	}
+
+	.bio-grid {
+		display: grid;
+		grid-template-columns: 1.3fr 1fr;
+		gap: 3rem;
+		align-items: start;
+	}
+
+	.bio-text p {
+		font-size: 1.02rem;
+		line-height: 1.7;
+		color: var(--color-text-dim);
+	}
+
+	.bio-text p + p {
+		margin-block-start: 1.15rem;
+	}
+
+	.facts-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+	}
+
+	.fact-card {
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: 14px;
+		padding: 1.1rem 1.3rem;
+		transition: border-color var(--transition-fast);
+	}
+
+	.fact-card:hover {
+		border-color: var(--color-blue);
+	}
+
+	.fact-label {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-blue);
+		margin-block-end: 0.4rem;
+	}
+
+	.fact-value {
+		font-family: var(--font-heading);
+		font-weight: 500;
+		font-size: 0.98rem;
+	}
+
+	@media (max-width: 860px) {
+		.bio-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

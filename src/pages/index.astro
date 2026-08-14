@@ -35,7 +35,7 @@ const stats = [
 				</p>
 				<div class="hero-actions">
 					<a href="#proyectos" class="btn btn-primary">Ver proyectos</a>
-					<a href="#contacto" class="btn btn-ghost">Contacto</a>
+					<a href="/contacto" class="btn btn-ghost">Contacto</a>
 				</div>
 			</div>
 
@@ -47,7 +47,7 @@ const stats = [
 		</div>
 	</section>
 
-	<section id="sobre-mi" class="sobre-mi">
+	<section id="sobre-mi-resumen" class="sobre-mi">
 		<div class="container">
 			<div class="section-intro reveal">
 				<p class="eyebrow">Sobre mí</p>
@@ -57,6 +57,7 @@ const stats = [
 					del ciclismo profesional. Uno el análisis de datos con el rendimiento deportivo de
 					élite, para convertir cada métrica en una decisión que mejora resultados.
 				</p>
+				<a href="/sobre-mi" class="btn btn-ghost section-cta">Ver más</a>
 			</div>
 
 			<div class="stats-grid">
@@ -73,7 +74,33 @@ const stats = [
 		</div>
 	</section>
 
+	<section id="experiencia-resumen" class="experiencia-teaser">
+		<div class="container">
+			<div class="section-intro reveal">
+				<p class="eyebrow">Experiencia</p>
+				<h2>Dos mundos, un mismo lenguaje: el rendimiento</h2>
+				<p class="text-dim">
+					He competido al máximo nivel y hoy aplico ese mismo criterio a los datos: entiendo lo
+					que un número significa para un deportista porque he sido ese deportista.
+				</p>
+				<a href="/experiencia" class="btn btn-ghost section-cta">Ver más</a>
+			</div>
+		</div>
+	</section>
+
 	<Proyectos />
+
+	<div class="container proyectos-cta reveal">
+		<a href="/proyectos" class="btn btn-ghost">Ver todos los proyectos</a>
+	</div>
+
+	<section class="cta-final">
+		<div class="container cta-final-inner reveal">
+			<h2>¿Hablamos de datos?</h2>
+			<p class="text-dim">Cuéntame tu proyecto y buscamos juntos dónde están las decisiones que mejoran el rendimiento.</p>
+			<a href="/contacto" class="btn btn-primary">Ir a contacto</a>
+		</div>
+	</section>
 </Layout>
 
 <style>
@@ -152,6 +179,48 @@ const stats = [
 
 	.section-intro p.text-dim {
 		font-size: 1.02rem;
+	}
+
+	.section-cta {
+		margin-block-start: 1.5rem;
+	}
+
+	.experiencia-teaser {
+		padding-block: 1rem 6rem;
+	}
+
+	.experiencia-teaser .section-intro {
+		margin-block-end: 0;
+	}
+
+	.proyectos-cta {
+		display: flex;
+		justify-content: center;
+		margin-block-start: -3.5rem;
+		margin-block-end: 6rem;
+	}
+
+	.cta-final {
+		border-top: 1px solid var(--color-border);
+		padding-block: 4.5rem;
+	}
+
+	.cta-final-inner {
+		max-width: 56ch;
+		text-align: center;
+		margin-inline: auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.cta-final-inner h2 {
+		font-size: clamp(1.6rem, 3vw, 2.2rem);
+	}
+
+	.cta-final-inner .btn {
+		margin-block-start: 0.5rem;
 	}
 
 	.stats-grid {

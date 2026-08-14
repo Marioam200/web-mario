@@ -1,0 +1,97 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const socialLinks = [
+	{ href: 'https://www.linkedin.com/in/mario-alvarez-martinez/', label: 'LinkedIn' },
+	{ href: 'https://github.com/Marioam200', label: 'GitHub' },
+	{ href: 'https://www.instagram.com/mario.a.m_200/', label: 'Instagram' },
+];
+---
+
+<Layout title="Contacto — Mario Álvarez" description="Ponte en contacto con Mario Álvarez para hablar de datos, rendimiento deportivo y proyectos.">
+	<PageHeader
+		eyebrow="Contacto"
+		title="¿Tienes datos y una pregunta que resolver?"
+		description="Hablemos. Ya sea un proyecto de analítica deportiva, una colaboración de datos o simplemente una idea que quieras contrastar, respondo con gusto."
+	/>
+
+	<section class="contact">
+		<div class="container contact-grid">
+			<div class="contact-primary reveal">
+				<a href="mailto:malvmar5@hotmail.com" class="btn btn-primary btn-lg">malvmar5@hotmail.com</a>
+				<a href="tel:+34656867231" class="phone-link">+34 656 867 231</a>
+			</div>
+
+			<ul class="contact-social reveal">
+				{
+					socialLinks.map((link) => (
+						<li>
+							<a href={link.href} target="_blank" rel="noopener noreferrer">
+								{link.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.contact {
+		padding-block: 1.5rem 6rem;
+	}
+
+	.contact-grid {
+		display: flex;
+		flex-direction: column;
+		gap: 2.5rem;
+	}
+
+	.contact-primary {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 1.5rem;
+	}
+
+	.btn-lg {
+		padding: 0.95rem 1.9rem;
+		font-size: 1.02rem;
+	}
+
+	.phone-link {
+		font-family: var(--font-mono);
+		font-size: 1rem;
+		color: var(--color-text-dim);
+		text-decoration: none;
+		transition: color var(--transition-fast);
+	}
+
+	.phone-link:hover {
+		color: var(--color-text);
+	}
+
+	.contact-social {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 2rem;
+		list-style: none;
+		padding-block-start: 1.75rem;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.contact-social a {
+		text-decoration: none;
+		color: var(--color-text-dim);
+		font-family: var(--font-heading);
+		font-weight: 500;
+		font-size: 1rem;
+		transition: color var(--transition-fast);
+	}
+
+	.contact-social a:hover {
+		color: var(--color-blue);
+	}
+</style>
