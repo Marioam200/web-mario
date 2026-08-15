@@ -68,7 +68,9 @@ const languages = [...new Set(repos.map((repo) => repo.language).filter(Boolean)
 								<h3>{repo.name}</h3>
 								{repo.language && <span class="language">{repo.language}</span>}
 							</div>
-							<p class="description text-dim">{repo.description ?? 'Sin descripción disponible.'}</p>
+							<p class="description text-dim">
+							{repo.description || 'Proyecto de análisis y ciencia de datos.'}
+						</p>
 							<a class="button" href={repo.html_url} target="_blank" rel="noopener noreferrer">
 								Ver en GitHub
 							</a>
@@ -185,18 +187,22 @@ const languages = [...new Set(repos.map((repo) => repo.language).filter(Boolean)
 
 	.button {
 		align-self: flex-start;
-		color: #1a1305;
-		background: var(--color-amber);
+		color: var(--color-text);
+		background: transparent;
+		border: 1px solid rgba(56, 189, 248, 0.4);
 		font-size: 0.88rem;
 		font-weight: 600;
 		text-decoration: none;
-		padding: 0.55rem 1.1rem;
+		padding: 0.5rem 1.05rem;
 		border-radius: 8px;
-		transition: opacity 0.2s ease;
+		transition:
+			border-color 0.2s ease,
+			background 0.2s ease;
 	}
 
 	.button:hover {
-		opacity: 0.85;
+		border-color: var(--color-blue);
+		background: rgba(56, 189, 248, 0.08);
 	}
 
 	.empty {
