@@ -1,4 +1,6 @@
 ---
+import { obtenerDescripciones } from '../lib/descripciones';
+
 interface Repo {
 	id: number;
 	name: string;
@@ -36,6 +38,13 @@ try {
 }
 
 const languages = [...new Set(repos.map((repo) => repo.language).filter(Boolean))].sort() as string[];
+
+let descripciones: Record<string, string> = {};
+try {
+	descripciones = await obtenerDescripciones(repos);
+} catch (error) {
+	console.error('Error al generar las descripciones con IA:', error);
+}
 ---
 
 <section id="proyectos">
@@ -69,8 +78,8 @@ const languages = [...new Set(repos.map((repo) => repo.language).filter(Boolean)
 								{repo.language && <span class="language">{repo.language}</span>}
 							</div>
 							<p class="description text-dim">
-							{repo.description || 'Proyecto de análisis y ciencia de datos.'}
-						</p>
+								{descripciones[repo.name] || repo.description || 'Proyecto de análisis y ciencia de datos.'}
+							</p>
 							<a class="button" href={repo.html_url} target="_blank" rel="noopener noreferrer">
 								Ver en GitHub
 							</a>

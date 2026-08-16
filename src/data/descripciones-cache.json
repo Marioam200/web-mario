@@ -1,0 +1,17 @@
+{
+  "mario-alvarez-site": {
+    "name": "mario-alvarez-site",
+    "updated_at": "2026-08-13T07:53:56Z",
+    "description": "Sitio web y portfolio personal enfocado en ciencia de datos y deporte, con soporte bilingüe en español e inglés. Está desarrollado como una página estática sencilla utilizando únicamente HTML, CSS y JavaScript puro, sin dependencias ni herramientas de compilación."
+  },
+  "CATALOGO_HECTOR_ALVAREZ": {
+    "name": "CATALOGO_HECTOR_ALVAREZ",
+    "updated_at": "2026-08-12T10:16:44Z",
+    "description": "Proyecto de análisis y ciencia de datos."
+  },
+  "TRABAJO_MDP": {
+    "name": "TRABAJO_MDP",
+    "updated_at": "2026-06-07T17:06:33Z",
+    "description": "Un proyecto práctico de análisis exploratorio y reducción de dimensionalidad mediante PCA sobre las propiedades fisicoquímicas de distintos cristales. Está desarrollado en R utilizando paquetes como FactoMineR, factoextra, dplyr y ggplot2 para la limpieza de datos, el tratamiento de valores atípicos y la visualización."
+  }
+}
