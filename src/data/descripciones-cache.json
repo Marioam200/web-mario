@@ -13,5 +13,15 @@
     "name": "TRABAJO_MDP",
     "updated_at": "2026-06-07T17:06:33Z",
     "description": "Un proyecto práctico de análisis exploratorio y reducción de dimensionalidad mediante PCA sobre las propiedades fisicoquímicas de distintos cristales. Está desarrollado en R utilizando paquetes como FactoMineR, factoextra, dplyr y ggplot2 para la limpieza de datos, el tratamiento de valores atípicos y la visualización."
+  },
+  "web-mario": {
+    "name": "web-mario",
+    "updated_at": "2026-08-16T17:07:04Z",
+    "description": "Proyecto base para un sitio web personal creado a partir de la plantilla inicial de Astro. Sirve como punto de partida práctico para familiarizarse con este framework y su estructura de componentes."
+  },
+  "TRABAJO_CORREDORES": {
+    "name": "TRABAJO_CORREDORES",
+    "updated_at": "2026-04-13T16:24:44Z",
+    "description": "Una aplicación creada con Streamlit y Python para planificar alineaciones en equipos ciclistas, obteniendo datos de portales especializados mediante web scraping con Selenium y BeautifulSoup. También incorpora la API de Gemini para procesar automáticamente normativas en PDF y extraer los sistemas de puntuación UCI."
   }
 }

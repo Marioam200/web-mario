@@ -61,6 +61,28 @@ const socialLinks = [
 		<meta name="twitter:image" content={socialImageURL} />
 		<meta name="twitter:image:alt" content={socialImageAlt} />
 
+		<script type="application/ld+json" is:inline>
+			{
+				"@context": "https://schema.org",
+				"@type": "Person",
+				"name": "Mario Álvarez",
+				"jobTitle": "Científico de datos",
+				"description": "Científico de datos especializado en analítica deportiva, con experiencia dentro del ciclismo profesional.",
+				"url": "https://marioalvarez.me",
+				"image": "https://marioalvarez.me/mario.jpg",
+				"alumniOf": {
+					"@type": "CollegeOrUniversity",
+					"name": "Universitat Politècnica de València"
+				},
+				"knowsAbout": ["Ciencia de datos", "Analítica deportiva", "Ciclismo", "Machine Learning", "Python", "SQL", "R", "Power BI"],
+				"sameAs": [
+					"https://www.linkedin.com/in/mario-alvarez-martinez/",
+					"https://github.com/Marioam200",
+					"https://www.instagram.com/mario.a.m_200/"
+				]
+			}
+		</script>
+
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
