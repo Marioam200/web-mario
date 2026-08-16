@@ -11,6 +11,10 @@ const {
 	description = 'Mario Álvarez, científico de datos en Valencia especializado en analítica deportiva. Data · Sport · Progress.',
 } = Astro.props;
 
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL('/og-card.png', Astro.site);
+const socialImageAlt = 'Mario Álvarez — científico de datos especializado en analítica deportiva';
+
 const navLinks = [
 	{ href: '/sobre-mi', label: 'Sobre mí' },
 	{ href: '/proyectos', label: 'Proyectos' },
@@ -38,6 +42,24 @@ const socialLinks = [
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalURL} />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:site_name" content="Mario Álvarez" />
+		<meta property="og:locale" content="es_ES" />
+		<meta property="og:image" content={socialImageURL} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content={socialImageAlt} />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={socialImageURL} />
+		<meta name="twitter:image:alt" content={socialImageAlt} />
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
