@@ -75,7 +75,7 @@ const languages = [...new Set([...repos.map((repo) => repo.language).filter(Bool
 
 let descripciones: Record<string, string> = {};
 try {
-	descripciones = await obtenerDescripciones(repos);
+	descripciones = await obtenerDescripciones(repos, lang);
 } catch (error) {
 	console.error('Error al generar las descripciones con IA:', error);
 }

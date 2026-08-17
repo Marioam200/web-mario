@@ -7,12 +7,12 @@
 	],
 	"facts": [
 		{ "label": "Base", "value": "Benidorm · Valencia" },
+		{ "label": "Estado", "value": "Disponible para proyectos" },
+		{ "label": "Enfoque", "value": "Datos + rendimiento deportivo" },
+		{ "label": "Idiomas", "value": "Español nativo · Valenciano · Inglés B1" },
 		{
 			"label": "Formación",
 			"value": "Grado en Ciencia de Datos (UPV) · Máster en Digitalización, Innovación y Tecnología en el Deporte"
-		},
-		{ "label": "Enfoque", "value": "Datos + rendimiento deportivo" },
-		{ "label": "Idiomas", "value": "Español nativo · Valenciano · Inglés B1" },
-		{ "label": "Estado", "value": "Disponible para proyectos" }
+		}
 	]
 }

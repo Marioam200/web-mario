@@ -7,12 +7,12 @@
 	],
 	"facts": [
 		{ "label": "Based in", "value": "Benidorm · Valencia" },
+		{ "label": "Status", "value": "Available for projects" },
+		{ "label": "Focus", "value": "Data + sports performance" },
+		{ "label": "Languages", "value": "Native Spanish · Valencian · English B1" },
 		{
 			"label": "Education",
 			"value": "Data Science degree (UPV) · Master's in Digitalization, Innovation and Technology in Sport"
-		},
-		{ "label": "Focus", "value": "Data + sports performance" },
-		{ "label": "Languages", "value": "Native Spanish · Valencian · English B1" },
-		{ "label": "Status", "value": "Available for projects" }
+		}
 	]
 }

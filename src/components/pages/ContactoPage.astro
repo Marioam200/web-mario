@@ -15,12 +15,6 @@ const { lang = 'es' } = Astro.props;
 const TELEFONO = '+34 656 867 231';
 const TELEFONO_TEL = 'tel:+34656867231';
 
-const socialLinks = [
-	{ href: 'https://www.linkedin.com/in/mario-alvarez-martinez/', label: 'LinkedIn' },
-	{ href: 'https://github.com/Marioam200', label: 'GitHub' },
-	{ href: 'https://www.instagram.com/mario.a.m_200/', label: 'Instagram' },
-];
-
 const UI = {
 	es: {
 		title: 'Contacto — Mario Álvarez',
@@ -49,6 +43,13 @@ const UI = {
 } as const;
 
 const t = UI[lang];
+
+const socialLinks = [
+	{ href: 'https://www.linkedin.com/in/mario-alvarez-martinez/', label: 'LinkedIn' },
+	{ href: 'https://github.com/Marioam200', label: 'GitHub' },
+	{ href: 'https://www.instagram.com/mario.a.m_200/', label: 'Instagram' },
+	{ href: TELEFONO_TEL, label: t.telefono },
+];
 ---
 
 <Layout title={t.title} description={t.description} lang={lang}>
