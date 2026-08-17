@@ -52,18 +52,42 @@ function normalizarEntrada(entrada) {
 	return { name: entrada.name, updated_at: entrada.updated_at, es: entrada.description };
 }
 
+// Se reutiliza entre todas las llamadas del mismo proceso de build (inicio ES/EN, proyectos
+// ES/EN) para no pedir el README del mismo repo varias veces y agotar el límite de la API de
+// GitHub.
+const cacheReadmes = new Map();
+
 async function obtenerReadme(repoName) {
+	if (cacheReadmes.has(repoName)) return cacheReadmes.get(repoName);
+
+	const headers = { Accept: 'application/vnd.github.raw' };
+	if (process.env.GITHUB_API_TOKEN) {
+		headers.Authorization = `Bearer ${process.env.GITHUB_API_TOKEN}`;
+	}
+
+	let resultado;
 	try {
-		const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${repoName}/readme`, {
-			headers: { Accept: 'application/vnd.github.raw' },
-		});
-		if (!response.ok) return null;
-		const texto = (await response.text()).trim();
-		return texto || null;
+		const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${repoName}/readme`, { headers });
+
+		if (response.status === 404) {
+			// Confirmado: este repo no tiene README.
+			resultado = { ok: true, texto: null };
+		} else if (!response.ok) {
+			// Fallo temporal (límite de peticiones, error de GitHub...): no confirma que no
+			// haya README, así que no debe tratarse igual que un 404.
+			console.error(`No se pudo obtener el README de "${repoName}": HTTP ${response.status}`);
+			resultado = { ok: false, texto: null };
+		} else {
+			const texto = (await response.text()).trim();
+			resultado = { ok: true, texto: texto || null };
+		}
 	} catch (error) {
 		console.error(`No se pudo obtener el README de "${repoName}":`, error);
-		return null;
+		resultado = { ok: false, texto: null };
 	}
+
+	cacheReadmes.set(repoName, resultado);
+	return resultado;
 }
 
 function construirPrompt(lang, repoName, readme) {
@@ -144,18 +168,24 @@ export async function obtenerDescripciones(repos, lang = 'es') {
 
 		let descripcion = FALLBACK_DESCRIPTION[lang];
 		// Solo se persiste en caché cuando el estado es estable para el `updated_at` actual
-		// (sin README, o generación exitosa). Un fallo transitorio de Gemini no se cachea,
-		// para que el próximo build lo reintente en vez de quedarse con el fallback para siempre.
+		// (sin README, o generación exitosa). Un fallo transitorio (de la API de GitHub o de
+		// Gemini) no se cachea, para que el próximo build lo reintente en vez de quedarse con
+		// el fallback para siempre.
 		let persistirEnCache = true;
 
-		if (readme) {
+		if (!readme.ok) {
+			// No sabemos si tiene README o no (fallo temporal de la API de GitHub): no se
+			// guarda en caché, para que el próximo build lo reintente.
+			descripcion = entradaCache?.[lang] || FALLBACK_DESCRIPTION[lang];
+			persistirEnCache = false;
+		} else if (readme.texto) {
 			if (seHaLlamadoAGeminiEnEsteProceso) {
 				await esperar(RATE_LIMIT_DELAY_MS);
 			}
 			seHaLlamadoAGeminiEnEsteProceso = true;
 
 			try {
-				const generada = await generarDescripcion(model, repo.name, readme, lang);
+				const generada = await generarDescripcion(model, repo.name, readme.texto, lang);
 				descripcion = generada || FALLBACK_DESCRIPTION[lang];
 			} catch (error) {
 				console.error(`Gemini no pudo generar la descripción (${lang}) de "${repo.name}":`, error);
@@ -163,6 +193,8 @@ export async function obtenerDescripciones(repos, lang = 'es') {
 				persistirEnCache = false;
 			}
 		}
+		// Si readme.ok es true y readme.texto es null: confirmado que no hay README, se queda
+		// con el texto de reserva y SÍ se persiste en caché (es un estado estable y correcto).
 
 		descripciones[repo.name] = descripcion;
 		if (persistirEnCache) {

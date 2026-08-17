@@ -7,7 +7,6 @@
   "CATALOGO_HECTOR_ALVAREZ": {
     "name": "CATALOGO_HECTOR_ALVAREZ",
     "updated_at": "2026-08-12T10:16:44Z",
-    "es": "Proyecto de análisis y ciencia de datos.",
     "en": "Data analysis and data science project."
   },
   "TRABAJO_MDP": {
@@ -17,23 +16,20 @@
   },
   "web-mario": {
     "name": "web-mario",
-    "updated_at": "2026-08-16T17:07:04Z",
-    "description": "Proyecto base para un sitio web personal creado a partir de la plantilla inicial de Astro. Sirve como punto de partida práctico para familiarizarse con este framework y su estructura de componentes."
+    "updated_at": "2026-08-17T14:39:59Z",
+    "en": "A starter web project initialized with the Astro framework to learn and practice component-based web development. It serves as a basic foundation for building a site using Astro's standard templates and layouts."
   },
   "TRABAJO_CORREDORES": {
     "name": "TRABAJO_CORREDORES",
     "updated_at": "2026-04-13T16:24:44Z",
-    "es": "Una aplicación creada con Streamlit y Python para planificar alineaciones en equipos ciclistas, obteniendo datos de portales especializados mediante web scraping con Selenium y BeautifulSoup. También incorpora la API de Gemini para procesar automáticamente normativas en PDF y extraer los sistemas de puntuación UCI.",
-    "en": "Data analysis and data science project."
+    "es": "Una aplicación creada con Streamlit y Python para planificar alineaciones en equipos ciclistas, obteniendo datos de portales especializados mediante web scraping con Selenium y BeautifulSoup. También incorpora la API de Gemini para procesar automáticamente normativas en PDF y extraer los sistemas de puntuación UCI."
   },
   "EVALUACION-DE-MODELOS-": {
     "name": "EVALUACION-DE-MODELOS-",
-    "updated_at": "2026-07-07T11:35:18Z",
-    "en": "Data analysis and data science project."
+    "updated_at": "2026-07-07T11:35:18Z"
   },
   "COFIDIS": {
     "name": "COFIDIS",
-    "updated_at": "2026-04-13T16:24:41Z",
-    "en": "Data analysis and data science project."
+    "updated_at": "2026-04-13T16:24:41Z"
   }
 }
