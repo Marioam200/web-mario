@@ -12,6 +12,7 @@ interface Repo {
 }
 
 const GITHUB_USER = 'Marioam200';
+const ESPECIALIZACIONES_MANUALES = ['R', 'SQL', 'Power BI'];
 
 let repos: Repo[] = [];
 
@@ -37,7 +38,7 @@ try {
 	console.error('Error al obtener los repositorios de GitHub:', error);
 }
 
-const languages = [...new Set(repos.map((repo) => repo.language).filter(Boolean))].sort() as string[];
+const languages = [...new Set([...repos.map((repo) => repo.language).filter(Boolean), ...ESPECIALIZACIONES_MANUALES])].sort() as string[];
 
 let descripciones: Record<string, string> = {};
 try {
