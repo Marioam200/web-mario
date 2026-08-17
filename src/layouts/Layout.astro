@@ -11,6 +11,10 @@ const {
 	description = 'Mario Álvarez, científico de datos en Valencia especializado en analítica deportiva. Data · Sport · Progress.',
 } = Astro.props;
 
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL('/og-card.png', Astro.site);
+const socialImageAlt = 'Mario Álvarez — científico de datos especializado en analítica deportiva';
+
 const navLinks = [
 	{ href: '/sobre-mi', label: 'Sobre mí' },
 	{ href: '/proyectos', label: 'Proyectos' },
@@ -33,10 +37,51 @@ const socialLinks = [
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalURL} />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:site_name" content="Mario Álvarez" />
+		<meta property="og:locale" content="es_ES" />
+		<meta property="og:image" content={socialImageURL} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content={socialImageAlt} />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={socialImageURL} />
+		<meta name="twitter:image:alt" content={socialImageAlt} />
+
+		<script type="application/ld+json" is:inline>
+			{
+				"@context": "https://schema.org",
+				"@type": "Person",
+				"name": "Mario Álvarez",
+				"jobTitle": "Científico de datos",
+				"description": "Científico de datos especializado en analítica deportiva, con experiencia dentro del ciclismo profesional.",
+				"url": "https://marioalvarez.me",
+				"image": "https://marioalvarez.me/mario.jpg",
+				"alumniOf": {
+					"@type": "CollegeOrUniversity",
+					"name": "Universitat Politècnica de València"
+				},
+				"knowsAbout": ["Ciencia de datos", "Analítica deportiva", "Ciclismo", "Machine Learning", "Python", "SQL", "R", "Power BI"],
+				"sameAs": [
+					"https://www.linkedin.com/in/mario-alvarez-martinez/",
+					"https://github.com/Marioam200",
+					"https://www.instagram.com/mario.a.m_200/"
+				]
+			}
+		</script>
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -85,9 +130,11 @@ const socialLinks = [
 		<footer id="contacto">
 			<div class="container footer-inner">
 				<div class="footer-brand">
-					<img src="/mark-blanco.png" alt="" width="28" height="28" class="footer-logo" />
-					<span class="footer-brand-name">Mario Álvarez</span>
-					<p class="text-dim">Data · Sport · Progress</p>
+					<img src="/mark-blanco.png" alt="" width="30" height="30" class="footer-mark" />
+					<div>
+						<p class="footer-name">Mario Álvarez</p>
+						<p class="text-dim">Data · Sport · Progress</p>
+					</div>
 				</div>
 
 				<ul class="footer-social" aria-label="Redes sociales">
@@ -270,18 +317,17 @@ const socialLinks = [
 	.footer-brand {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
+		gap: 0.85rem;
 	}
 
-	.footer-logo {
-		border-radius: 8px;
+	.footer-mark {
+		flex-shrink: 0;
 	}
 
-	.footer-brand-name {
+	.footer-name {
 		font-family: var(--font-heading);
 		font-weight: 600;
-		font-size: 1rem;
-		color: var(--color-text);
+		margin-block-end: 0.2rem;
 	}
 
 	.footer-social {
