@@ -1,0 +1,383 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<Layout title="Panel — Mario Álvarez" description="Panel privado de edición del sitio." noindex={true}>
+	<PageHeader
+		eyebrow="Panel privado"
+		title="Habla y la web se actualiza sola"
+		description="Cuéntame algo de tu vida (proyectos, experiencia, deporte, formación) y te propondré el cambio a los datos del sitio. Nada se guarda sin que lo apruebes."
+	/>
+
+	<section class="panel">
+		<div class="container panel-grid">
+			<div class="chat-card reveal">
+				<div id="mensajes" class="mensajes" aria-live="polite"></div>
+
+				<form id="form-chat" class="form-chat">
+					<textarea
+						id="input-chat"
+						rows="2"
+						placeholder="Escribe con normalidad, como si me lo contaras a mí..."
+						required
+					></textarea>
+					<button type="submit" class="btn btn-primary">Enviar</button>
+				</form>
+				<p id="estado-chat" class="estado-chat text-dim"></p>
+			</div>
+
+			<aside class="sidebar-panel reveal">
+				<div class="card-propuesta">
+					<h2>Cambio propuesto</h2>
+					<div id="sin-propuesta" class="text-dim">Todavía no hay ningún cambio propuesto.</div>
+
+					<div id="propuesta" class="propuesta" hidden>
+						<p class="propuesta-archivo"><span id="propuesta-archivo-nombre"></span></p>
+						<p id="propuesta-resumen" class="propuesta-resumen"></p>
+						<details class="propuesta-json">
+							<summary>Ver JSON completo</summary>
+							<pre id="propuesta-contenido"></pre>
+						</details>
+						<div class="propuesta-acciones">
+							<button id="btn-aprobar" type="button" class="btn btn-primary">Aprobar</button>
+							<button id="btn-descartar" type="button" class="btn btn-ghost">Descartar</button>
+						</div>
+						<p id="estado-propuesta" class="estado-propuesta"></p>
+					</div>
+				</div>
+
+				<div class="card-cv">
+					<h2>Descargar CV</h2>
+					<p class="text-dim">Generado al vuelo a partir de los datos actuales.</p>
+					<div class="cv-controles">
+						<select id="cv-idioma" aria-label="Idioma del CV">
+							<option value="es">Español</option>
+							<option value="en">English</option>
+						</select>
+						<button id="btn-cv" type="button" class="btn btn-ghost">Descargar PDF</button>
+					</div>
+				</div>
+			</aside>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.panel {
+		padding-block: 1rem 6rem;
+	}
+
+	.panel-grid {
+		display: grid;
+		grid-template-columns: 1.4fr 1fr;
+		gap: 2rem;
+		align-items: start;
+	}
+
+	.chat-card {
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: 16px;
+		padding: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		min-height: 460px;
+	}
+
+	.mensajes {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+		max-height: 55vh;
+		overflow-y: auto;
+		padding-inline-end: 0.25rem;
+	}
+
+	.burbuja {
+		max-width: 80%;
+		padding: 0.7rem 1rem;
+		border-radius: 12px;
+		font-size: 0.92rem;
+		line-height: 1.5;
+		white-space: pre-wrap;
+	}
+
+	.burbuja-usuario {
+		align-self: flex-end;
+		background: var(--color-blue);
+		color: #06131c;
+		border-bottom-right-radius: 3px;
+	}
+
+	.burbuja-modelo {
+		align-self: flex-start;
+		background: rgba(231, 236, 243, 0.06);
+		border: 1px solid var(--color-border);
+		color: var(--color-text);
+		border-bottom-left-radius: 3px;
+	}
+
+	.form-chat {
+		display: flex;
+		gap: 0.75rem;
+		align-items: flex-end;
+		border-top: 1px solid var(--color-border);
+		padding-block-start: 1rem;
+	}
+
+	.form-chat textarea {
+		flex-grow: 1;
+		resize: vertical;
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: 10px;
+		color: var(--color-text);
+		font-family: var(--font-body);
+		font-size: 0.92rem;
+		padding: 0.7rem 0.85rem;
+	}
+
+	.form-chat textarea:focus {
+		outline: none;
+		border-color: var(--color-blue);
+	}
+
+	.form-chat button {
+		flex-shrink: 0;
+	}
+
+	.estado-chat {
+		font-size: 0.82rem;
+		min-height: 1.2em;
+	}
+
+	.sidebar-panel {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.card-propuesta,
+	.card-cv {
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: 16px;
+		padding: 1.4rem;
+	}
+
+	.card-propuesta h2,
+	.card-cv h2 {
+		font-size: 1.02rem;
+		font-weight: 600;
+		margin-block-end: 0.6rem;
+	}
+
+	.propuesta-archivo {
+		font-family: var(--font-mono);
+		font-size: 0.78rem;
+		color: var(--color-blue);
+		margin-block-end: 0.4rem;
+	}
+
+	.propuesta-resumen {
+		font-size: 0.92rem;
+		line-height: 1.5;
+		margin-block-end: 0.85rem;
+	}
+
+	.propuesta-json {
+		margin-block-end: 1rem;
+	}
+
+	.propuesta-json summary {
+		cursor: pointer;
+		font-size: 0.82rem;
+		color: var(--color-text-dim);
+	}
+
+	.propuesta-json pre {
+		margin-block-start: 0.6rem;
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		padding: 0.75rem;
+		font-size: 0.75rem;
+		max-height: 260px;
+		overflow: auto;
+		white-space: pre-wrap;
+		word-break: break-word;
+	}
+
+	.propuesta-acciones {
+		display: flex;
+		gap: 0.75rem;
+	}
+
+	.estado-propuesta {
+		font-size: 0.82rem;
+		margin-block-start: 0.75rem;
+		min-height: 1.2em;
+	}
+
+	.cv-controles {
+		display: flex;
+		gap: 0.75rem;
+		margin-block-start: 1rem;
+	}
+
+	.cv-controles select {
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		color: var(--color-text);
+		font-family: var(--font-body);
+		font-size: 0.88rem;
+		padding: 0.55rem 0.7rem;
+	}
+
+	@media (max-width: 900px) {
+		.panel-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+<script>
+	type Rol = 'user' | 'model';
+	interface Turno {
+		role: Rol;
+		text: string;
+	}
+	interface Propuesta {
+		archivo: string;
+		resumen: string;
+		contenido: unknown;
+	}
+
+	const mensajesEl = document.getElementById('mensajes')!;
+	const formEl = document.getElementById('form-chat') as HTMLFormElement;
+	const inputEl = document.getElementById('input-chat') as HTMLTextAreaElement;
+	const estadoChatEl = document.getElementById('estado-chat')!;
+
+	const sinPropuestaEl = document.getElementById('sin-propuesta')!;
+	const propuestaEl = document.getElementById('propuesta')!;
+	const propuestaArchivoEl = document.getElementById('propuesta-archivo-nombre')!;
+	const propuestaResumenEl = document.getElementById('propuesta-resumen')!;
+	const propuestaContenidoEl = document.getElementById('propuesta-contenido')!;
+	const btnAprobarEl = document.getElementById('btn-aprobar') as HTMLButtonElement;
+	const btnDescartarEl = document.getElementById('btn-descartar') as HTMLButtonElement;
+	const estadoPropuestaEl = document.getElementById('estado-propuesta')!;
+
+	const cvIdiomaEl = document.getElementById('cv-idioma') as HTMLSelectElement;
+	const btnCvEl = document.getElementById('btn-cv') as HTMLButtonElement;
+
+	const history: Turno[] = [];
+	let propuestaActual: Propuesta | null = null;
+
+	function agregarBurbuja(role: Rol, texto: string) {
+		const burbuja = document.createElement('div');
+		burbuja.className = `burbuja ${role === 'user' ? 'burbuja-usuario' : 'burbuja-modelo'}`;
+		burbuja.textContent = texto;
+		mensajesEl.appendChild(burbuja);
+		mensajesEl.scrollTop = mensajesEl.scrollHeight;
+	}
+
+	function mostrarPropuesta(propuesta: Propuesta) {
+		propuestaActual = propuesta;
+		sinPropuestaEl.hidden = true;
+		propuestaEl.hidden = false;
+		propuestaArchivoEl.textContent = `src/data/${propuesta.archivo}`;
+		propuestaResumenEl.textContent = propuesta.resumen;
+		propuestaContenidoEl.textContent = JSON.stringify(propuesta.contenido, null, 2);
+		estadoPropuestaEl.textContent = '';
+	}
+
+	function limpiarPropuesta() {
+		propuestaActual = null;
+		propuestaEl.hidden = true;
+		sinPropuestaEl.hidden = false;
+		estadoPropuestaEl.textContent = '';
+	}
+
+	formEl.addEventListener('submit', async (evento) => {
+		evento.preventDefault();
+		const texto = inputEl.value.trim();
+		if (!texto) return;
+
+		agregarBurbuja('user', texto);
+		history.push({ role: 'user', text: texto });
+		inputEl.value = '';
+		inputEl.disabled = true;
+		estadoChatEl.textContent = 'Pensando...';
+
+		try {
+			const respuesta = await fetch('/api/chat', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ history }),
+			});
+			const datos = await respuesta.json();
+
+			if (!datos.ok) {
+				estadoChatEl.textContent = datos.error || 'Ha fallado el chat.';
+				history.pop();
+				return;
+			}
+
+			agregarBurbuja('model', datos.reply);
+			history.push({ role: 'model', text: datos.reply });
+			estadoChatEl.textContent = '';
+
+			if (datos.proposal) {
+				mostrarPropuesta(datos.proposal);
+			}
+		} catch (error) {
+			estadoChatEl.textContent = 'No se pudo contactar con el servidor.';
+			history.pop();
+		} finally {
+			inputEl.disabled = false;
+			inputEl.focus();
+		}
+	});
+
+	btnDescartarEl.addEventListener('click', () => {
+		limpiarPropuesta();
+	});
+
+	btnAprobarEl.addEventListener('click', async () => {
+		if (!propuestaActual) return;
+		btnAprobarEl.disabled = true;
+		btnDescartarEl.disabled = true;
+		estadoPropuestaEl.textContent = 'Guardando en panel-test...';
+
+		try {
+			const respuesta = await fetch('/api/guardar', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ archivo: propuestaActual.archivo, contenido: propuestaActual.contenido }),
+			});
+			const datos = await respuesta.json();
+
+			if (!datos.ok) {
+				estadoPropuestaEl.textContent = datos.error || 'No se pudo guardar.';
+				return;
+			}
+
+			estadoPropuestaEl.textContent = `Guardado en ${datos.rama}.`;
+			setTimeout(limpiarPropuesta, 1500);
+		} catch (error) {
+			estadoPropuestaEl.textContent = 'No se pudo contactar con el servidor.';
+		} finally {
+			btnAprobarEl.disabled = false;
+			btnDescartarEl.disabled = false;
+		}
+	});
+
+	btnCvEl.addEventListener('click', () => {
+		const lang = cvIdiomaEl.value;
+		window.open(`/api/cv-pdf?lang=${lang}&rama=panel-test`, '_blank');
+	});
+</script>

@@ -1,0 +1,105 @@
+{
+	"lang": "es",
+	"contact": {
+		"name": "Mario Álvarez Martínez",
+		"title": "Científico de Datos · Analítica Deportiva",
+		"phone": "+34 656 867 231",
+		"email": "malvmar5@hotmail.com",
+		"location": "Benidorm · Valencia, España",
+		"github": "https://github.com/Marioam200",
+		"site": "https://marioalvarez.me"
+	},
+	"profile": "Estudiante de 3º del Grado en Ciencia de Datos (UPV) con experiencia real dentro del ciclismo profesional. He vivido el alto rendimiento desde dentro -como corredor de élite, director deportivo de base y quiromasajista de ciclistas profesionales- y uno ese conocimiento con el análisis de datos para convertir métricas en decisiones que mejoran el rendimiento.",
+	"experience": [
+		{
+			"role": "Prácticas de Ciencia de Datos (Ingeniería de Datos)",
+			"org": "SIME Telecom",
+			"dates": "2026",
+			"bullets": [
+				"Análisis de una base de datos de más de 580 tablas interconectadas y más de 100 millones de registros, repartida en varias bases por motivos de carga.",
+				"Optimización de consultas e índices para diseñar la unificación de todos los datos en una única base eficiente sin escalar apenas el hardware (RAM/CPU).",
+				"Mejora ya desarrollada, en fase de validación sobre servidor de pruebas."
+			]
+		},
+		{
+			"role": "Analista de datos (proyecto propio)",
+			"org": "Equipo Cofidis (UCI World Tour)",
+			"dates": "Verano 2025",
+			"bullets": [
+				"Analizador de dificultad UCI: web scraping del ranking UCI para situar a los corredores del equipo y estimar el nivel de dificultad necesario para sumar puntos según la plantilla.",
+				"Predictor de perfil de carrera: anticipa las características de cada carrera y le asigna una nota de dificultad para planificar objetivos y estrategia."
+			]
+		},
+		{
+			"role": "Auxiliar de dirección deportiva",
+			"org": "Selección de Ciclismo de la Comunidad Valenciana",
+			"dates": "2026",
+			"bullets": [
+				"Apoyo en competiciones junto al cuerpo técnico de la selección autonómica."
+			]
+		},
+		{
+			"role": "Quiromasajista y staff técnico",
+			"org": "Selección de la Comunidad Valenciana · equipo continental filipino · ciclistas particulares (Benidorm)",
+			"dates": "Verano 2025",
+			"bullets": [
+				"Quiromasajista titulado de ciclistas profesionales durante concentraciones y competiciones.",
+				"Staff técnico con un equipo continental filipino y con ciclistas a título particular."
+			]
+		}
+	],
+	"education": [
+		{
+			"degree": "Grado en Ciencia de Datos",
+			"org": "Universitat Politècnica de València (UPV)",
+			"dates": "3º curso, en curso",
+			"bullets": ["Orientado a la digitalización y la tecnología aplicadas al deporte."]
+		},
+		{
+			"degree": "Máster en Digitalización, Innovación y Tecnología en el Deporte",
+			"org": "Beca de deportista de élite",
+			"dates": "Completado",
+			"bullets": ["Amplía el enfoque a todo el ecosistema deportivo, más allá del ciclismo."]
+		}
+	],
+	"certifications": [
+		"Director Deportivo Nivel I y II (RFEC)",
+		"Quiromasajista titulado"
+	],
+	"skills": [
+		{ "name": "Python", "level": 5 },
+		{ "name": "SQL", "level": 4 },
+		{ "name": "R", "level": 4 },
+		{ "name": "Power BI", "level": 4 },
+		{ "name": "Machine Learning", "level": 3 }
+	],
+	"languages": [
+		{ "name": "Español", "level": "Nativo" },
+		{ "name": "Valenciano", "level": "Nativo" },
+		{ "name": "Inglés", "level": "B1" }
+	],
+	"competencies": [
+		"Análisis de datos deportivos",
+		"Optimización de bases de datos",
+		"Web scraping",
+		"Visualización de datos",
+		"Trabajo en equipos de alto rendimiento"
+	],
+	"sport": [
+		"Campeón de España de madison en pista (18 años)",
+		"6º en el Campeonato del Mundo de pista con la Selección Española",
+		"6º en el Campeonato de Europa de pista con la Selección Española",
+		"Deportista de élite",
+		"Ciclista de pista federado, en activo"
+	],
+	"projects": [
+		{
+			"name": "Analizador de dificultad UCI",
+			"description": "Web scraping del ranking UCI para estimar el nivel de dificultad necesario para sumar puntos según la plantilla del equipo."
+		},
+		{
+			"name": "Predictor de perfil de carrera",
+			"description": "Anticipa las características de cada carrera y asigna una nota de dificultad para planificar objetivos y estrategia."
+		}
+	]
+}

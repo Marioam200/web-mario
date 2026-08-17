@@ -15,7 +15,9 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "@google/generative-ai": "^0.24.1",
-    "astro": "^7.2.1"
+    "astro": "^7.2.1",
+    "pdf-lib": "^1.17.1",
+    "qrcode-generator": "^2.0.4"
   },
   "devDependencies": {
     "wrangler": "^4.123.0"
