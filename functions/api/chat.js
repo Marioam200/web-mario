@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { leerArchivoJson, json } from './_lib.js';
+import { verificarSesion, registrarLog } from './_auth.js';
 
 const MODEL_NAME = 'gemini-flash-latest';
 const PERMITIDOS = ['inicio.json', 'sobre-mi.json', 'experiencia.json', 'cv.json'];
@@ -87,6 +88,11 @@ function extraerPropuesta(texto) {
 }
 
 export async function onRequestPost({ request, env }) {
+	const userId = await verificarSesion(request, env);
+	if (!userId) {
+		return json({ error: 'No autenticado' }, 401);
+	}
+
 	const apiKey = env.GEMINI_API_KEY;
 	if (!apiKey) {
 		return json({ ok: false, error: 'Falta GEMINI_API_KEY' }, 500);
@@ -132,6 +138,7 @@ export async function onRequestPost({ request, env }) {
 		return json({ ok: true, reply, proposal });
 	} catch (error) {
 		console.error('Error en el chat del panel:', error);
+		await registrarLog(env, 'error', 'chat', error instanceof Error ? error.message : String(error));
 		return json({ ok: false, error: 'No se pudo contactar con Gemini' }, 500);
 	}
 }

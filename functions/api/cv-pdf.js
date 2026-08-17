@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { leerArchivoJson, json } from './_lib.js';
 import { generarCvPdf } from './_generar-cv.js';
+import { verificarSesion } from './_auth.js';
 
 const MODEL_NAME = 'gemini-flash-latest';
 const IDIOMAS = { en: 'inglés (en)', es: 'español (es)' };
@@ -49,6 +50,11 @@ ${JSON.stringify(cv)}`;
 }
 
 export async function onRequestGet({ request, env }) {
+	const userId = await verificarSesion(request, env);
+	if (!userId) {
+		return json({ ok: false, error: 'No autenticado' }, 401);
+	}
+
 	if (!env.GITHUB_TOKEN) {
 		return json({ ok: false, error: 'Falta GITHUB_TOKEN' }, 500);
 	}

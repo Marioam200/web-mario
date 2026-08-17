@@ -12,3 +12,21 @@ CREATE TABLE IF NOT EXISTS eventos (
 	creado_en TEXT NOT NULL DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_eventos_visitante ON eventos(visitante_id);
+
+CREATE TABLE IF NOT EXISTS usuarios_panel (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	nombre TEXT NOT NULL,
+	email TEXT NOT NULL UNIQUE,
+	password_hash TEXT NOT NULL,
+	password_salt TEXT NOT NULL,
+	creado_en TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS logs_sistema (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	nivel TEXT NOT NULL, -- 'info' | 'error'
+	contexto TEXT NOT NULL, -- 'login' | 'chat' | 'guardar'
+	mensaje TEXT NOT NULL,
+	creado_en TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_logs_creado ON logs_sistema(creado_en);

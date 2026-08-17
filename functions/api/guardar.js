@@ -1,8 +1,14 @@
 import { toB64, gh, json, leerArchivoJson } from './_lib.js';
+import { verificarSesion, registrarLog } from './_auth.js';
 
 const PERMITIDOS = ['experiencia.json', 'sobre-mi.json', 'inicio.json', 'cv.json'];
 
-export async function onRequestGet({ env }) {
+export async function onRequestGet({ request, env }) {
+	const userId = await verificarSesion(request, env);
+	if (!userId) {
+		return json({ ok: false, error: 'No autenticado' }, 401);
+	}
+
 	const token = env.GITHUB_TOKEN;
 	const rama = env.GITHUB_BRANCH || 'panel-test';
 
@@ -14,11 +20,17 @@ export async function onRequestGet({ env }) {
 		const { sha, contenido } = await leerArchivoJson(env, 'experiencia.json', rama);
 		return json({ ok: true, sha, contenido });
 	} catch (error) {
+		await registrarLog(env, 'error', 'guardar', error instanceof Error ? error.message : String(error));
 		return json({ ok: false, error: 'No se pudo contactar con GitHub' }, 500);
 	}
 }
 
 export async function onRequestPost({ request, env }) {
+	const userId = await verificarSesion(request, env);
+	if (!userId) {
+		return json({ ok: false, error: 'No autenticado' }, 401);
+	}
+
 	const token = env.GITHUB_TOKEN;
 	const repo = env.GITHUB_REPO;
 	const rama = env.GITHUB_BRANCH || 'panel-test';
@@ -116,6 +128,7 @@ export async function onRequestPost({ request, env }) {
 
 		return json({ ok: true, rama, commit: putData.commit?.html_url });
 	} catch (error) {
+		await registrarLog(env, 'error', 'guardar', error instanceof Error ? error.message : String(error));
 		return json({ ok: false, error: 'No se pudo contactar con GitHub' }, 500);
 	}
 }

@@ -1,73 +1,260 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import PageHeader from '../components/PageHeader.astro';
 ---
 
-<Layout title="Panel — Mario Álvarez" description="Panel privado de edición del sitio." noindex={true}>
-	<PageHeader
-		eyebrow="Panel privado"
-		title="Habla y la web se actualiza sola"
-		description="Cuéntame algo de tu vida (proyectos, experiencia, deporte, formación) y te propondré el cambio a los datos del sitio. Nada se guarda sin que lo apruebes."
-	/>
-
+<Layout title="Panel — Mario Álvarez" description="Panel privado de gestión del sitio." noindex={true}>
 	<section class="panel">
-		<div class="container panel-grid">
-			<div class="chat-card reveal">
-				<div id="mensajes" class="mensajes" aria-live="polite"></div>
+		<div class="container">
+			<p id="panel-cargando" class="panel-cargando">Cargando…</p>
 
-				<form id="form-chat" class="form-chat">
-					<textarea
-						id="input-chat"
-						rows="2"
-						placeholder="Escribe con normalidad, como si me lo contaras a mí..."
-						required
-					></textarea>
-					<button type="submit" class="btn btn-primary">Enviar</button>
-				</form>
-				<p id="estado-chat" class="estado-chat text-dim"></p>
+			<div id="panel-login" class="panel-login" hidden>
+				<div class="login-card">
+					<h1>Panel privado</h1>
+					<form id="form-login">
+						<label>
+							Email
+							<input type="email" id="login-email" autocomplete="username" required />
+						</label>
+						<label>
+							Contraseña
+							<input type="password" id="login-password" autocomplete="current-password" required />
+						</label>
+						<button type="submit" class="btn btn-primary">Entrar</button>
+					</form>
+					<p id="login-error" class="login-error"></p>
+				</div>
 			</div>
 
-			<aside class="sidebar-panel reveal">
-				<div class="card-propuesta">
-					<h2>Cambio propuesto</h2>
-					<div id="sin-propuesta" class="text-dim">Todavía no hay ningún cambio propuesto.</div>
-
-					<div id="propuesta" class="propuesta" hidden>
-						<p class="propuesta-archivo"><span id="propuesta-archivo-nombre"></span></p>
-						<p id="propuesta-resumen" class="propuesta-resumen"></p>
-						<details class="propuesta-json">
-							<summary>Ver JSON completo</summary>
-							<pre id="propuesta-contenido"></pre>
-						</details>
-						<div class="propuesta-acciones">
-							<button id="btn-aprobar" type="button" class="btn btn-primary">Aprobar</button>
-							<button id="btn-descartar" type="button" class="btn btn-ghost">Descartar</button>
+			<div id="panel-app" class="panel-app" hidden>
+				<aside class="panel-sidebar">
+					<nav aria-label="Secciones del panel">
+						<div class="sidebar-grupo">
+							<p class="sidebar-titulo">Añadir a la web</p>
+							<button type="button" class="sidebar-link is-active" data-tab="chat">Chat</button>
 						</div>
-						<p id="estado-propuesta" class="estado-propuesta"></p>
-					</div>
-				</div>
 
-				<div class="card-cv">
-					<h2>Descargar CV</h2>
-					<p class="text-dim">Generado al vuelo a partir de los datos actuales.</p>
-					<div class="cv-controles">
-						<select id="cv-idioma" aria-label="Idioma del CV">
-							<option value="es">Español</option>
-							<option value="en">English</option>
-						</select>
-						<button id="btn-cv" type="button" class="btn btn-ghost">Descargar PDF</button>
+						<div class="sidebar-grupo">
+							<p class="sidebar-titulo">Usuarios</p>
+							<button type="button" class="sidebar-link" data-tab="usuarios">Gestionar</button>
+						</div>
+
+						<div class="sidebar-grupo">
+							<p class="sidebar-titulo">Sistema</p>
+							<button type="button" class="sidebar-link" data-tab="logs">Registros</button>
+							<button type="button" class="sidebar-link" data-tab="acerca-de">Acerca de</button>
+						</div>
+					</nav>
+
+					<button type="button" id="btn-logout" class="btn-logout">Cerrar sesión</button>
+				</aside>
+
+				<main class="panel-main">
+					<section id="tab-chat" class="panel-tab" data-tab-panel="chat">
+						<div class="panel-grid">
+							<div class="chat-card reveal">
+								<div id="mensajes" class="mensajes" aria-live="polite"></div>
+
+								<form id="form-chat" class="form-chat">
+									<textarea
+										id="input-chat"
+										rows="2"
+										placeholder="Escribe con normalidad, como si me lo contaras a mí..."
+										required
+									></textarea>
+									<button type="submit" class="btn btn-primary">Enviar</button>
+								</form>
+								<p id="estado-chat" class="estado-chat text-dim"></p>
+							</div>
+
+							<aside class="sidebar-panel reveal">
+								<div class="card-propuesta">
+									<h2>Cambio propuesto</h2>
+									<div id="sin-propuesta" class="text-dim">Todavía no hay ningún cambio propuesto.</div>
+
+									<div id="propuesta" class="propuesta" hidden>
+										<p class="propuesta-archivo"><span id="propuesta-archivo-nombre"></span></p>
+										<p id="propuesta-resumen" class="propuesta-resumen"></p>
+										<details class="propuesta-json">
+											<summary>Ver JSON completo</summary>
+											<pre id="propuesta-contenido"></pre>
+										</details>
+										<div class="propuesta-acciones">
+											<button id="btn-aprobar" type="button" class="btn btn-primary">Aprobar</button>
+											<button id="btn-descartar" type="button" class="btn btn-ghost">Descartar</button>
+										</div>
+										<p id="estado-propuesta" class="estado-propuesta"></p>
+									</div>
+								</div>
+
+								<div class="card-cv">
+									<h2>Descargar CV</h2>
+									<p class="text-dim">Generado al vuelo a partir de los datos actuales.</p>
+									<div class="cv-controles">
+										<select id="cv-idioma" aria-label="Idioma del CV">
+											<option value="es">Español</option>
+											<option value="en">English</option>
+										</select>
+										<button id="btn-cv" type="button" class="btn btn-ghost">Descargar PDF</button>
+									</div>
+								</div>
+							</aside>
+						</div>
+					</section>
+
+					<section id="tab-usuarios" class="panel-tab" data-tab-panel="usuarios" hidden>
+						<div class="tab-header">
+							<h1>Usuarios</h1>
+							<button type="button" id="btn-nuevo-usuario" class="btn btn-primary">+ Nuevo usuario</button>
+						</div>
+
+						<table class="tabla-panel">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Correo electrónico</th>
+									<th>Alta</th>
+								</tr>
+							</thead>
+							<tbody id="usuarios-tbody"></tbody>
+						</table>
+					</section>
+
+					<section id="tab-logs" class="panel-tab" data-tab-panel="logs" hidden>
+						<h1>Registros</h1>
+						<input type="search" id="logs-buscar" class="input-buscar" placeholder="Buscar en mensaje o contexto..." />
+						<table class="tabla-panel">
+							<thead>
+								<tr>
+									<th>Nivel</th>
+									<th>Contexto</th>
+									<th>Fecha</th>
+									<th>Mensaje</th>
+								</tr>
+							</thead>
+							<tbody id="logs-tbody"></tbody>
+						</table>
+					</section>
+
+					<section id="tab-acerca-de" class="panel-tab" data-tab-panel="acerca-de" hidden>
+						<h1>Acerca de</h1>
+						<table class="tabla-panel tabla-clave-valor">
+							<tbody id="acerca-de-tbody"></tbody>
+						</table>
+					</section>
+				</main>
+			</div>
+
+			<div id="modal-nuevo-usuario" class="panel-modal" hidden>
+				<form id="form-nuevo-usuario" class="panel-modal-card">
+					<h2>Nuevo usuario</h2>
+
+					<label>
+						Nombre
+						<input type="text" id="nuevo-usuario-nombre" required />
+					</label>
+
+					<label>
+						Email
+						<input type="email" id="nuevo-usuario-email" required />
+					</label>
+
+					<label>
+						Contraseña
+						<div class="password-row">
+							<input type="text" id="nuevo-usuario-password" autocomplete="off" minlength="10" required />
+							<button type="button" id="btn-generar-password">Generar aleatoria</button>
+						</div>
+					</label>
+
+					<p id="nuevo-usuario-error" class="form-error"></p>
+
+					<div class="form-acciones">
+						<button type="submit" class="btn btn-primary">Crear</button>
+						<button type="button" id="btn-cancelar-usuario" class="btn btn-ghost">Cancelar</button>
 					</div>
-				</div>
-			</aside>
+				</form>
+			</div>
 		</div>
 	</section>
 </Layout>
 
 <style>
 	.panel {
-		padding-block: 1rem 6rem;
+		padding-block: 2rem 6rem;
 	}
 
+	.panel-cargando {
+		color: var(--color-text-dim);
+		font-size: 0.92rem;
+	}
+
+	/* --- Login --- */
+	.panel-login {
+		display: flex;
+		justify-content: center;
+		padding-block: 3rem;
+	}
+
+	.login-card {
+		width: 100%;
+		max-width: 360px;
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: 16px;
+		padding: 2rem;
+	}
+
+	.login-card h1 {
+		font-size: 1.3rem;
+		margin-block-end: 1.25rem;
+	}
+
+	.login-card form {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.login-card label,
+	.panel-modal-card label {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+		font-size: 0.85rem;
+		color: var(--color-text-dim);
+	}
+
+	.login-card input,
+	.panel-modal-card input {
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		color: var(--color-text);
+		font-family: var(--font-body);
+		font-size: 0.92rem;
+		padding: 0.6rem 0.8rem;
+	}
+
+	.login-card input:focus,
+	.panel-modal-card input:focus,
+	.input-buscar:focus {
+		outline: none;
+		border-color: var(--color-blue);
+	}
+
+	.login-card button[type='submit'] {
+		margin-block-start: 0.5rem;
+	}
+
+	.login-error,
+	.form-error {
+		color: #f87171;
+		font-size: 0.85rem;
+		min-height: 1.2em;
+		margin-block-start: 0.85rem;
+	}
+
+	/* --- Chat (sin cambios respecto al panel anterior) --- */
 	.panel-grid {
 		display: grid;
 		grid-template-columns: 1.4fr 1fr;
@@ -238,9 +425,267 @@ import PageHeader from '../components/PageHeader.astro';
 		padding: 0.55rem 0.7rem;
 	}
 
+	/* --- Estructura del panel: sidebar + contenido --- */
+	.panel-app {
+		display: grid;
+		grid-template-columns: 230px 1fr;
+		gap: 2rem;
+		align-items: start;
+	}
+
+	.panel-sidebar {
+		position: sticky;
+		top: 90px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 2.5rem;
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: 16px;
+		padding: 1.5rem 1.25rem;
+	}
+
+	.panel-sidebar nav {
+		display: flex;
+		flex-direction: column;
+		gap: 1.75rem;
+	}
+
+	.sidebar-grupo {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+	}
+
+	.sidebar-titulo {
+		font-family: var(--font-mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-text-dim);
+		padding-inline: 0.6rem;
+		margin-block-end: 0.2rem;
+	}
+
+	.sidebar-link {
+		display: block;
+		width: 100%;
+		text-align: left;
+		background: none;
+		border: none;
+		border-radius: 8px;
+		color: var(--color-text-dim);
+		font-family: inherit;
+		font-size: 0.92rem;
+		font-weight: 500;
+		padding: 0.55rem 0.6rem;
+		cursor: pointer;
+		transition:
+			background var(--transition-fast),
+			color var(--transition-fast);
+	}
+
+	.sidebar-link:hover {
+		color: var(--color-text);
+		background: rgba(231, 236, 243, 0.06);
+	}
+
+	.sidebar-link.is-active {
+		color: var(--color-blue);
+		background: rgba(56, 189, 248, 0.1);
+	}
+
+	.btn-logout {
+		background: none;
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		color: var(--color-text-dim);
+		font-family: inherit;
+		font-size: 0.85rem;
+		padding: 0.6rem;
+		cursor: pointer;
+		transition:
+			border-color var(--transition-fast),
+			color var(--transition-fast);
+	}
+
+	.btn-logout:hover {
+		border-color: #f87171;
+		color: #f87171;
+	}
+
+	.panel-main {
+		min-width: 0;
+	}
+
+	.panel-tab h1 {
+		font-size: 1.4rem;
+		margin-block-end: 1.5rem;
+	}
+
+	.tab-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-block-end: 1.5rem;
+	}
+
+	.tab-header h1 {
+		margin-block-end: 0;
+	}
+
+	/* --- Tablas --- */
+	.tabla-panel {
+		width: 100%;
+		border-collapse: collapse;
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: 14px;
+		overflow: hidden;
+		font-size: 0.9rem;
+	}
+
+	.tabla-panel th,
+	.tabla-panel td {
+		text-align: left;
+		padding: 0.75rem 1rem;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.tabla-panel th {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 0.8rem;
+		color: var(--color-text-dim);
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+
+	.tabla-panel tbody tr:last-child td {
+		border-bottom: none;
+	}
+
+	.tabla-clave-valor td:first-child {
+		color: var(--color-text-dim);
+		width: 40%;
+	}
+
+	.etiqueta-nivel {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		padding: 0.15rem 0.55rem;
+		border-radius: 999px;
+		text-transform: uppercase;
+	}
+
+	.etiqueta-nivel-info {
+		color: var(--color-green);
+		background: rgba(52, 211, 153, 0.12);
+	}
+
+	.etiqueta-nivel-error {
+		color: #f87171;
+		background: rgba(248, 113, 113, 0.12);
+	}
+
+	.input-buscar {
+		display: block;
+		width: 100%;
+		max-width: 320px;
+		margin-block-end: 1.25rem;
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		color: var(--color-text);
+		font-family: var(--font-body);
+		font-size: 0.9rem;
+		padding: 0.6rem 0.85rem;
+	}
+
+	/* --- Modal nuevo usuario --- */
+	.panel-modal {
+		position: fixed;
+		inset: 0;
+		z-index: 300;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(6, 9, 15, 0.7);
+		padding: 1.5rem;
+	}
+
+	.panel-modal-card {
+		width: 100%;
+		max-width: 380px;
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: 16px;
+		padding: 1.75rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.panel-modal-card h2 {
+		font-size: 1.1rem;
+	}
+
+	.password-row {
+		display: flex;
+		gap: 0.6rem;
+	}
+
+	.password-row input {
+		flex-grow: 1;
+		font-family: var(--font-mono);
+	}
+
+	.password-row button {
+		flex-shrink: 0;
+		background: transparent;
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		color: var(--color-text);
+		font-size: 0.8rem;
+		padding: 0 0.75rem;
+		cursor: pointer;
+		white-space: nowrap;
+		transition: border-color var(--transition-fast);
+	}
+
+	.password-row button:hover {
+		border-color: var(--color-blue);
+	}
+
+	.form-acciones {
+		display: flex;
+		gap: 0.75rem;
+		margin-block-start: 0.25rem;
+	}
+
 	@media (max-width: 900px) {
 		.panel-grid {
 			grid-template-columns: 1fr;
+		}
+
+		.panel-app {
+			grid-template-columns: 1fr;
+		}
+
+		.panel-sidebar {
+			position: static;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.panel-sidebar nav {
+			flex-direction: row;
+			flex-wrap: wrap;
+			gap: 1rem;
 		}
 	}
 </style>
@@ -257,6 +702,25 @@ import PageHeader from '../components/PageHeader.astro';
 		contenido: unknown;
 	}
 
+	// --- Elementos del cascarón (login / carga / app) ---
+	const cargandoEl = document.getElementById('panel-cargando')!;
+	const loginSeccionEl = document.getElementById('panel-login')!;
+	const appEl = document.getElementById('panel-app')!;
+
+	const formLoginEl = document.getElementById('form-login') as HTMLFormElement;
+	const loginEmailEl = document.getElementById('login-email') as HTMLInputElement;
+	const loginPasswordEl = document.getElementById('login-password') as HTMLInputElement;
+	const loginErrorEl = document.getElementById('login-error')!;
+
+	const btnLogoutEl = document.getElementById('btn-logout') as HTMLButtonElement;
+
+	function escaparHtml(texto: string): string {
+		const div = document.createElement('div');
+		div.textContent = texto;
+		return div.innerHTML;
+	}
+
+	// ================= Chat (igual que antes, solo se movió de sitio) =================
 	const mensajesEl = document.getElementById('mensajes')!;
 	const formEl = document.getElementById('form-chat') as HTMLFormElement;
 	const inputEl = document.getElementById('input-chat') as HTMLTextAreaElement;
@@ -380,4 +844,271 @@ import PageHeader from '../components/PageHeader.astro';
 		const lang = cvIdiomaEl.value;
 		window.open(`/api/cv-pdf?lang=${lang}&rama=panel-test`, '_blank');
 	});
+
+	// ================= Usuarios =================
+	const usuariosTbodyEl = document.getElementById('usuarios-tbody')!;
+	const btnNuevoUsuarioEl = document.getElementById('btn-nuevo-usuario') as HTMLButtonElement;
+	const modalNuevoUsuarioEl = document.getElementById('modal-nuevo-usuario')!;
+	const formNuevoUsuarioEl = document.getElementById('form-nuevo-usuario') as HTMLFormElement;
+	const nuevoUsuarioNombreEl = document.getElementById('nuevo-usuario-nombre') as HTMLInputElement;
+	const nuevoUsuarioEmailEl = document.getElementById('nuevo-usuario-email') as HTMLInputElement;
+	const nuevoUsuarioPasswordEl = document.getElementById('nuevo-usuario-password') as HTMLInputElement;
+	const btnGenerarPasswordEl = document.getElementById('btn-generar-password') as HTMLButtonElement;
+	const nuevoUsuarioErrorEl = document.getElementById('nuevo-usuario-error')!;
+	const btnCancelarUsuarioEl = document.getElementById('btn-cancelar-usuario') as HTMLButtonElement;
+
+	interface Usuario {
+		nombre: string;
+		email: string;
+		creadoEn: string;
+	}
+
+	function generarPasswordAleatoria(longitud = 16): string {
+		const alfabeto = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*';
+		const valores = crypto.getRandomValues(new Uint32Array(longitud));
+		return Array.from(valores, (v) => alfabeto[v % alfabeto.length]).join('');
+	}
+
+	async function cargarUsuarios() {
+		usuariosTbodyEl.innerHTML = '<tr><td colspan="3">Cargando…</td></tr>';
+		try {
+			const respuesta = await fetch('/api/panel/usuarios');
+			const datos = await respuesta.json();
+
+			if (!respuesta.ok) {
+				usuariosTbodyEl.innerHTML = `<tr><td colspan="3">${escaparHtml(datos.error || 'No se pudo cargar.')}</td></tr>`;
+				return;
+			}
+
+			const usuarios: Usuario[] = datos.usuarios;
+			if (usuarios.length === 0) {
+				usuariosTbodyEl.innerHTML = '<tr><td colspan="3">Todavía no hay usuarios.</td></tr>';
+				return;
+			}
+
+			usuariosTbodyEl.innerHTML = usuarios
+				.map(
+					(u) => `
+						<tr>
+							<td>${escaparHtml(u.nombre)}</td>
+							<td>${escaparHtml(u.email)}</td>
+							<td>${escaparHtml(u.creadoEn)}</td>
+						</tr>
+					`,
+				)
+				.join('');
+		} catch (error) {
+			usuariosTbodyEl.innerHTML = '<tr><td colspan="3">No se pudo contactar con el servidor.</td></tr>';
+		}
+	}
+
+	function abrirModalUsuario() {
+		formNuevoUsuarioEl.reset();
+		nuevoUsuarioErrorEl.textContent = '';
+		modalNuevoUsuarioEl.hidden = false;
+		nuevoUsuarioNombreEl.focus();
+	}
+
+	function cerrarModalUsuario() {
+		modalNuevoUsuarioEl.hidden = true;
+	}
+
+	btnNuevoUsuarioEl.addEventListener('click', abrirModalUsuario);
+	btnCancelarUsuarioEl.addEventListener('click', cerrarModalUsuario);
+
+	btnGenerarPasswordEl.addEventListener('click', () => {
+		nuevoUsuarioPasswordEl.value = generarPasswordAleatoria(16);
+	});
+
+	formNuevoUsuarioEl.addEventListener('submit', async (evento) => {
+		evento.preventDefault();
+		nuevoUsuarioErrorEl.textContent = '';
+
+		const nombre = nuevoUsuarioNombreEl.value.trim();
+		const email = nuevoUsuarioEmailEl.value.trim();
+		const password = nuevoUsuarioPasswordEl.value;
+
+		try {
+			const respuesta = await fetch('/api/panel/usuarios', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ nombre, email, password }),
+			});
+			const datos = await respuesta.json();
+
+			if (!respuesta.ok) {
+				nuevoUsuarioErrorEl.textContent = datos.error || 'No se pudo crear el usuario.';
+				return;
+			}
+
+			cerrarModalUsuario();
+			cargarUsuarios();
+		} catch (error) {
+			nuevoUsuarioErrorEl.textContent = 'No se pudo contactar con el servidor.';
+		}
+	});
+
+	// ================= Registros (logs) =================
+	const logsTbodyEl = document.getElementById('logs-tbody')!;
+	const logsBuscarEl = document.getElementById('logs-buscar') as HTMLInputElement;
+	let logsDebounceId: ReturnType<typeof setTimeout> | undefined;
+
+	interface LogSistema {
+		nivel: string;
+		contexto: string;
+		mensaje: string;
+		creadoEn: string;
+	}
+
+	async function cargarLogs(buscar = '') {
+		logsTbodyEl.innerHTML = '<tr><td colspan="4">Cargando…</td></tr>';
+		try {
+			const url = buscar ? `/api/panel/logs?buscar=${encodeURIComponent(buscar)}` : '/api/panel/logs';
+			const respuesta = await fetch(url);
+			const datos = await respuesta.json();
+
+			if (!respuesta.ok) {
+				logsTbodyEl.innerHTML = `<tr><td colspan="4">${escaparHtml(datos.error || 'No se pudo cargar.')}</td></tr>`;
+				return;
+			}
+
+			const logs: LogSistema[] = datos.logs;
+			if (logs.length === 0) {
+				logsTbodyEl.innerHTML = '<tr><td colspan="4">Sin resultados.</td></tr>';
+				return;
+			}
+
+			logsTbodyEl.innerHTML = logs
+				.map(
+					(l) => `
+						<tr>
+							<td><span class="etiqueta-nivel etiqueta-nivel-${escaparHtml(l.nivel)}">${escaparHtml(l.nivel)}</span></td>
+							<td>${escaparHtml(l.contexto)}</td>
+							<td>${escaparHtml(l.creadoEn)}</td>
+							<td>${escaparHtml(l.mensaje)}</td>
+						</tr>
+					`,
+				)
+				.join('');
+		} catch (error) {
+			logsTbodyEl.innerHTML = '<tr><td colspan="4">No se pudo contactar con el servidor.</td></tr>';
+		}
+	}
+
+	logsBuscarEl.addEventListener('input', () => {
+		clearTimeout(logsDebounceId);
+		logsDebounceId = setTimeout(() => cargarLogs(logsBuscarEl.value.trim()), 300);
+	});
+
+	// ================= Acerca de =================
+	const acercaDeTbodyEl = document.getElementById('acerca-de-tbody')!;
+
+	const ETIQUETAS_ACERCA_DE: Record<string, string> = {
+		nombre: 'Nombre',
+		framework: 'Framework',
+		entorno: 'Entorno',
+		url: 'URL',
+		baseDatos: 'Base de datos',
+		repo: 'Repositorio',
+		commit: 'Commit',
+		rama: 'Rama',
+	};
+
+	async function cargarAcercaDe() {
+		acercaDeTbodyEl.innerHTML = '<tr><td colspan="2">Cargando…</td></tr>';
+		try {
+			const respuesta = await fetch('/api/panel/acerca-de');
+			const datos = await respuesta.json();
+
+			if (!respuesta.ok) {
+				acercaDeTbodyEl.innerHTML = `<tr><td colspan="2">${escaparHtml(datos.error || 'No se pudo cargar.')}</td></tr>`;
+				return;
+			}
+
+			acercaDeTbodyEl.innerHTML = Object.entries(ETIQUETAS_ACERCA_DE)
+				.map(([clave, etiqueta]) => {
+					const valor = datos[clave];
+					return `<tr><td>${escaparHtml(etiqueta)}</td><td>${valor != null ? escaparHtml(String(valor)) : '—'}</td></tr>`;
+				})
+				.join('');
+		} catch (error) {
+			acercaDeTbodyEl.innerHTML = '<tr><td colspan="2">No se pudo contactar con el servidor.</td></tr>';
+		}
+	}
+
+	// ================= Navegación por pestañas =================
+	const sidebarLinks = Array.from(document.querySelectorAll<HTMLButtonElement>('.sidebar-link'));
+	const paneles = Array.from(document.querySelectorAll<HTMLElement>('.panel-tab'));
+
+	const cargasPorPestana: Record<string, () => void> = {
+		usuarios: cargarUsuarios,
+		logs: () => cargarLogs(logsBuscarEl.value.trim()),
+		'acerca-de': cargarAcercaDe,
+	};
+
+	sidebarLinks.forEach((link) => {
+		link.addEventListener('click', () => {
+			const pestana = link.dataset.tab!;
+			sidebarLinks.forEach((l) => l.classList.toggle('is-active', l === link));
+			paneles.forEach((panel) => {
+				panel.hidden = panel.dataset.tabPanel !== pestana;
+			});
+			cargasPorPestana[pestana]?.();
+		});
+	});
+
+	// ================= Sesión: login / logout / comprobación inicial =================
+	formLoginEl.addEventListener('submit', async (evento) => {
+		evento.preventDefault();
+		loginErrorEl.textContent = '';
+
+		const email = loginEmailEl.value.trim();
+		const password = loginPasswordEl.value;
+
+		try {
+			const respuesta = await fetch('/api/panel/login', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email, password }),
+			});
+
+			if (!respuesta.ok) {
+				const datos = await respuesta.json().catch(() => ({}));
+				loginErrorEl.textContent = datos.error || 'No se pudo iniciar sesión.';
+				return;
+			}
+
+			location.reload();
+		} catch (error) {
+			loginErrorEl.textContent = 'No se pudo contactar con el servidor.';
+		}
+	});
+
+	btnLogoutEl.addEventListener('click', async () => {
+		btnLogoutEl.disabled = true;
+		try {
+			await fetch('/api/panel/logout', { method: 'POST' });
+		} finally {
+			location.reload();
+		}
+	});
+
+	(async () => {
+		try {
+			const respuesta = await fetch('/api/panel/me');
+			const datos = await respuesta.json();
+
+			cargandoEl.hidden = true;
+
+			if (datos.autenticado) {
+				appEl.hidden = false;
+			} else {
+				loginSeccionEl.hidden = false;
+				loginEmailEl.focus();
+			}
+		} catch (error) {
+			cargandoEl.hidden = true;
+			loginSeccionEl.hidden = false;
+		}
+	})();
 </script>
