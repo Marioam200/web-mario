@@ -1,0 +1,151 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../PageHeader.astro';
+import { type Locale } from '../../lib/i18n';
+import sobreMiEs from '../../data/sobre-mi.json';
+import sobreMiEn from '../../data/en/sobre-mi.json';
+
+interface Props {
+	lang?: Locale;
+}
+
+const { lang = 'es' } = Astro.props;
+
+const sobreMi = lang === 'en' ? sobreMiEn : sobreMiEs;
+const { bio, facts } = sobreMi;
+
+const UI = {
+	es: {
+		title: 'Sobre mí — Mario Álvarez',
+		description:
+			'De campeón de España de madison a estudiante de Ciencia de Datos: la trayectoria de Mario Álvarez entre el ciclismo de élite y la analítica deportiva.',
+		eyebrow: 'Sobre mí',
+		heading: 'Del velódromo a los datos',
+	},
+	en: {
+		title: 'About me — Mario Álvarez',
+		description:
+			'From Spanish madison champion to Data Science student: Mario Álvarez’s journey between elite cycling and sports analytics.',
+		eyebrow: 'About me',
+		heading: 'From the velodrome to data',
+	},
+} as const;
+
+const t = UI[lang];
+---
+
+<Layout title={t.title} description={t.description} lang={lang}>
+	<PageHeader eyebrow={t.eyebrow} title={t.heading} />
+
+	<section class="bio">
+		<div class="container">
+			<div class="bio-grid">
+				<div class="bio-text reveal">
+					{bio.map((p) => <p>{p}</p>)}
+				</div>
+
+				<div class="bio-photo reveal">
+					<img src="/mario.jpg" alt="Retrato de Mario Álvarez" width="420" height="525" />
+				</div>
+			</div>
+
+			<div class="facts-row reveal">
+				{
+					facts.map((fact) => (
+						<div class="fact-card">
+							<p class="fact-label">{fact.label}</p>
+							<p class="fact-value">{fact.value}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.bio {
+		padding-block: 1rem 6rem;
+	}
+
+	.bio-grid {
+		display: grid;
+		grid-template-columns: 1.3fr 1fr;
+		gap: 3rem;
+		align-items: start;
+		margin-block-end: 2.5rem;
+	}
+
+	.bio-text p {
+		font-size: 1.02rem;
+		line-height: 1.7;
+		color: var(--color-text-dim);
+	}
+
+	.bio-text p + p {
+		margin-block-start: 1.15rem;
+	}
+
+	.bio-photo {
+		display: flex;
+		justify-content: center;
+	}
+
+	.bio-photo img {
+		width: 100%;
+		max-width: 320px;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		border-radius: 14px;
+		border: 1px solid var(--color-border);
+		background: var(--color-bg-elevated);
+	}
+
+	.facts-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.fact-card {
+		flex: 1 1 210px;
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: 14px;
+		padding: 1.1rem 1.3rem;
+		transition: border-color var(--transition-fast);
+	}
+
+	.fact-card:hover {
+		border-color: var(--color-blue);
+	}
+
+	.fact-label {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-blue);
+		margin-block-end: 0.4rem;
+	}
+
+	.fact-value {
+		font-family: var(--font-heading);
+		font-weight: 500;
+		font-size: 0.98rem;
+	}
+
+	@media (max-width: 860px) {
+		.bio-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.bio-photo {
+			order: -1;
+		}
+
+		.bio-photo img {
+			max-width: 240px;
+		}
+	}
+</style>

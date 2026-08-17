@@ -1,0 +1,40 @@
+{
+	"hero": {
+		"eyebrow": "Data Scientist · Sports Analytics · Valencia",
+		"titlePre": "Turning sports data into ",
+		"titleHighlight": "decisions that win",
+		"subtitle": "I'm the bridge between data analysis and elite sport: I turn performance metrics into strategies that make the difference on the ground.",
+		"tools": ["Python", "R", "SQL", "Power BI", "Machine Learning"]
+	},
+	"sobreMiResumen": {
+		"eyebrow": "About me",
+		"title": "Data with the context of the track, the road, and competition",
+		"text": "I'm Mario Álvarez, a Data Science student at UPV with real experience inside professional cycling. I combine data analysis with elite sports performance to turn every metric into a decision that improves results."
+	},
+	"stats": [
+		{
+			"value": "UPV",
+			"label": "Education",
+			"detail": "Data Science degree, Universitat Politècnica de València."
+		},
+		{
+			"value": "Elite",
+			"label": "Experience",
+			"detail": "Real work inside a professional cycling team."
+		},
+		{
+			"value": "Data + Sport",
+			"label": "Focus",
+			"detail": "Analytics applied to improving sports performance."
+		}
+	],
+	"experienciaResumen": {
+		"eyebrow": "Experience",
+		"title": "Two worlds, one language: performance",
+		"text": "I've competed at the highest level and now apply that same mindset to data: I understand what a number means to an athlete, because I've been that athlete."
+	},
+	"ctaFinal": {
+		"title": "Got data and a question to solve?",
+		"text": "Tell me about your project and let's find together where the decisions that improve performance are hiding."
+	}
+}

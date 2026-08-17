@@ -1,0 +1,18 @@
+{
+	"bio": [
+		"I started out competing. At 18 I became Spanish madison champion on the track, and the Spanish Cycling Federation called me up for the World and European Championships, where I finished sixth in both — which earned me elite athlete status.",
+		"From there I made the leap into Data Science: I'm now in my 3rd year of the degree at the Universitat Politècnica de València, focused on digitalization and technology applied to sport.",
+		"My differential value is that bridge: I've lived high performance from the inside — as a rider, as a grassroots sporting director, and as a masseur for professional cyclists — and I know how to read the data behind it. I understand what a number means to an athlete, because I've been that athlete. I bring both worlds together to turn data into decisions that improve performance.",
+		"On top of that, thanks to my elite athlete status I was awarded a scholarship for a Master's in Digitalization, Innovation and Technology in Sport, which I've now completed and which broadens my focus to the whole sports ecosystem, beyond cycling."
+	],
+	"facts": [
+		{ "label": "Based in", "value": "Benidorm · Valencia" },
+		{
+			"label": "Education",
+			"value": "Data Science degree (UPV) · Master's in Digitalization, Innovation and Technology in Sport"
+		},
+		{ "label": "Focus", "value": "Data + sports performance" },
+		{ "label": "Languages", "value": "Native Spanish · Valencian · English B1" },
+		{ "label": "Status", "value": "Available for projects" }
+	]
+}

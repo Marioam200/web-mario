@@ -1,30 +1,40 @@
 ---
 import '../styles/global.css';
+import SocialLinks from '../components/SocialLinks.astro';
+import { type Locale, localizedPath, alternatePath, strings } from '../lib/i18n';
 
 interface Props {
 	title?: string;
 	description?: string;
 	noindex?: boolean;
+	lang?: Locale;
 }
 
 const {
 	title = 'Mario Álvarez — Científico de datos especializado en deporte',
 	description = 'Mario Álvarez, científico de datos en Valencia especializado en analítica deportiva. Data · Sport · Progress.',
 	noindex = false,
+	lang = 'es',
 } = Astro.props;
+
+const t = strings[lang];
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL('/og-card.png?v=1', Astro.site);
 const socialImageAlt = 'Mario Álvarez — científico de datos especializado en analítica deportiva';
 
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const otherLocalePath = alternatePath(currentPath);
+const pathES = lang === 'es' ? currentPath : otherLocalePath;
+const pathEN = lang === 'en' ? currentPath : otherLocalePath;
+
 const navLinks = [
-	{ href: '/sobre-mi', label: 'Sobre mí' },
-	{ href: '/proyectos', label: 'Proyectos' },
-	{ href: '/experiencia', label: 'Experiencia' },
-	{ href: '/contacto', label: 'Contacto' },
+	{ href: localizedPath('/sobre-mi', lang), label: t.nav.sobreMi },
+	{ href: localizedPath('/proyectos', lang), label: t.nav.proyectos },
+	{ href: localizedPath('/experiencia', lang), label: t.nav.experiencia },
+	{ href: localizedPath('/contacto', lang), label: t.nav.contacto },
 ];
 
-const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => currentPath === href;
 
 const socialLinks = [
@@ -32,10 +42,31 @@ const socialLinks = [
 	{ href: 'https://github.com/Marioam200', label: 'GitHub' },
 	{ href: 'https://www.instagram.com/mario.a.m_200/', label: 'Instagram' },
 ];
+
+const personSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: 'Mario Álvarez',
+	jobTitle: 'Científico de datos',
+	description:
+		'Científico de datos especializado en analítica deportiva, con experiencia dentro del ciclismo profesional.',
+	url: 'https://marioalvarez.me',
+	image: 'https://marioalvarez.me/mario.jpg',
+	alumniOf: {
+		'@type': 'CollegeOrUniversity',
+		name: 'Universitat Politècnica de València',
+	},
+	knowsAbout: ['Ciencia de datos', 'Analítica deportiva', 'Ciclismo', 'Machine Learning', 'Python', 'SQL', 'R', 'Power BI'],
+	sameAs: [
+		'https://www.linkedin.com/in/mario-alvarez-martinez/',
+		'https://github.com/Marioam200',
+		'https://www.instagram.com/mario.a.m_200/',
+	],
+};
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,13 +78,17 @@ const socialLinks = [
 		<meta name="description" content={description} />
 		{noindex && <meta name="robots" content="noindex,nofollow" />}
 		<link rel="canonical" href={canonicalURL} />
+		<link rel="alternate" hreflang="es" href={new URL(pathES, Astro.site)} />
+		<link rel="alternate" hreflang="en" href={new URL(pathEN, Astro.site)} />
+		<link rel="alternate" hreflang="x-default" href={new URL(pathES, Astro.site)} />
 
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content={canonicalURL} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:site_name" content="Mario Álvarez" />
-		<meta property="og:locale" content="es_ES" />
+		<meta property="og:locale" content={lang === 'en' ? 'en_US' : 'es_ES'} />
+		<meta property="og:locale:alternate" content={lang === 'en' ? 'es_ES' : 'en_US'} />
 		<meta property="og:image" content={socialImageURL} />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
@@ -65,27 +100,7 @@ const socialLinks = [
 		<meta name="twitter:image" content={socialImageURL} />
 		<meta name="twitter:image:alt" content={socialImageAlt} />
 
-		<script type="application/ld+json" is:inline>
-			{
-				"@context": "https://schema.org",
-				"@type": "Person",
-				"name": "Mario Álvarez",
-				"jobTitle": "Científico de datos",
-				"description": "Científico de datos especializado en analítica deportiva, con experiencia dentro del ciclismo profesional.",
-				"url": "https://marioalvarez.me",
-				"image": "https://marioalvarez.me/mario.jpg",
-				"alumniOf": {
-					"@type": "CollegeOrUniversity",
-					"name": "Universitat Politècnica de València"
-				},
-				"knowsAbout": ["Ciencia de datos", "Analítica deportiva", "Ciclismo", "Machine Learning", "Python", "SQL", "R", "Power BI"],
-				"sameAs": [
-					"https://www.linkedin.com/in/mario-alvarez-martinez/",
-					"https://github.com/Marioam200",
-					"https://www.instagram.com/mario.a.m_200/"
-				]
-			}
-		</script>
+		{lang === 'es' && <script type="application/ld+json" set:html={JSON.stringify(personSchema)} is:inline />}
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -97,12 +112,12 @@ const socialLinks = [
 	<body>
 		<header id="site-header">
 			<div class="container nav-inner">
-				<a href="/" class="brand">
+				<a href={localizedPath('/', lang)} class="brand">
 					<img src="/mark-blanco.png" alt="" width="36" height="36" class="brand-mark" />
 					<span class="brand-name">Mario Álvarez</span>
 				</a>
 
-				<nav id="site-nav" aria-label="Navegación principal">
+				<nav id="site-nav" aria-label={t.nav.ariaMain}>
 					<ul>
 						{
 							navLinks.map((link) => (
@@ -117,8 +132,19 @@ const socialLinks = [
 				</nav>
 
 				<div class="nav-actions">
-					<a href="/contacto" class="btn btn-primary">Contacto</a>
-					<button id="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="site-nav">
+					<div class="lang-switch" aria-label={t.langSwitch.label}>
+						<a href={pathES} aria-current={lang === 'es' ? 'true' : undefined}>
+							{t.langSwitch.es}
+						</a>
+						<span aria-hidden="true">·</span>
+						<a href={pathEN} aria-current={lang === 'en' ? 'true' : undefined}>
+							{t.langSwitch.en}
+						</a>
+					</div>
+					<a href={localizedPath('/contacto', lang)} class="btn btn-primary">
+						{t.nav.contacto}
+					</a>
+					<button id="nav-toggle" aria-label={t.nav.openMenu} aria-expanded="false" aria-controls="site-nav">
 						<span></span>
 						<span></span>
 						<span></span>
@@ -137,24 +163,14 @@ const socialLinks = [
 					<img src="/mark-blanco.png" alt="" width="30" height="30" class="footer-mark" />
 					<div>
 						<p class="footer-name">Mario Álvarez</p>
-						<p class="text-dim">Data · Sport · Progress</p>
+						<p class="text-dim">{t.footer.tagline}</p>
 					</div>
 				</div>
 
-				<ul class="footer-social" aria-label="Redes sociales">
-					{
-						socialLinks.map((link) => (
-							<li>
-								<a href={link.href} target="_blank" rel="noopener noreferrer">
-									{link.label}
-								</a>
-							</li>
-						))
-					}
-				</ul>
+				<SocialLinks links={socialLinks} ariaLabel={t.footer.ariaSocial} />
 			</div>
 			<div class="container">
-				<p class="footer-copy text-dim">© {new Date().getFullYear()} Mario Álvarez. Valencia.</p>
+				<p class="footer-copy text-dim">{t.footer.copy(new Date().getFullYear())}</p>
 			</div>
 		</footer>
 
@@ -277,6 +293,30 @@ const socialLinks = [
 		gap: 1rem;
 	}
 
+	.lang-switch {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-family: var(--font-mono);
+		font-size: 0.8rem;
+		color: var(--color-text-dim);
+	}
+
+	.lang-switch a {
+		text-decoration: none;
+		color: var(--color-text-dim);
+		transition: color var(--transition-fast);
+	}
+
+	.lang-switch a[aria-current='true'] {
+		color: var(--color-blue);
+		font-weight: 600;
+	}
+
+	.lang-switch a:hover {
+		color: var(--color-text);
+	}
+
 	#nav-toggle {
 		display: none;
 		flex-direction: column;
@@ -332,24 +372,6 @@ const socialLinks = [
 		font-family: var(--font-heading);
 		font-weight: 600;
 		margin-block-end: 0.2rem;
-	}
-
-	.footer-social {
-		display: flex;
-		gap: 1.5rem;
-		list-style: none;
-	}
-
-	.footer-social a {
-		text-decoration: none;
-		color: var(--color-text-dim);
-		font-size: 0.9rem;
-		font-weight: 500;
-		transition: color var(--transition-fast);
-	}
-
-	.footer-social a:hover {
-		color: var(--color-green);
 	}
 
 	.footer-copy {

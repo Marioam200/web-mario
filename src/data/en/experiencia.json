@@ -1,0 +1,50 @@
+{
+	"datos": [
+		{
+			"title": "SIME Telecom — Data Science Internship",
+			"meta": "Data Engineering · Benidorm · 2026",
+			"paragraphs": [
+				"SIME builds management software (bookings, billing, reporting, restaurant orders) serving hundreds of clients from a central system, on a database of 580+ interconnected tables and 100+ million records. Growth had forced clients to be split across several databases to ease the load and complaints about slowness.",
+				"My job: analyze those databases and, through query and index optimization, design the unification of all the data into a single efficient database without scaling the hardware (RAM/CPU) much at all. The improvement is already built and in validation on a test server."
+			]
+		},
+		{
+			"title": "Projects with Team Cofidis (World Tour)",
+			"meta": "Python · Summer 2025",
+			"paragraphs": [
+				"A personal project I built as a test to break into data analysis in professional cycling:"
+			],
+			"list": [
+				"UCI difficulty analyzer: using web scraping of the UCI ranking, it places the team's riders and estimates the difficulty level needed to score UCI points according to the roster.",
+				"Race profile predictor: anticipates the characteristics of each race and assigns it a difficulty rating to plan objectives and strategy."
+			]
+		},
+		{
+			"title": "Academic and personal projects",
+			"meta": "Analysis, visualization and machine learning",
+			"paragraphs": ["Personal work in data analysis, visualization and machine learning."],
+			"link": { "href": "/proyectos", "label": "View projects" }
+		}
+	],
+	"deporte": [
+		{
+			"title": "Competition",
+			"paragraphs": [
+				"Spanish madison champion (age 18); World and European track championships with the Spanish national team (6th in both); elite athlete status; active federated track cyclist."
+			]
+		},
+		{
+			"title": "Sporting direction",
+			"paragraphs": [
+				"Sporting Director Level I and II (RFEC, Spanish Cycling Federation); coaching and mentoring grassroots riders (ages 14–18) alongside my father; assistant with the Valencian Community team at competitions (2026)."
+			]
+		},
+		{
+			"title": "Massage therapy and technical staff",
+			"meta": "Summer 2025",
+			"paragraphs": [
+				"Certified massage therapist; masseur for professional cyclists; technical staff with the Valencian Community team, a Filipino continental team, and private clients in Benidorm."
+			]
+		}
+	]
+}

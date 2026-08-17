@@ -1,0 +1,329 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Proyectos from '../Proyectos.astro';
+import { localizedPath, type Locale } from '../../lib/i18n';
+import inicioEs from '../../data/inicio.json';
+import inicioEn from '../../data/en/inicio.json';
+
+interface Props {
+	lang?: Locale;
+}
+
+const { lang = 'es' } = Astro.props;
+
+const inicio = lang === 'en' ? inicioEn : inicioEs;
+const { hero, sobreMiResumen, stats, experienciaResumen, ctaFinal } = inicio;
+
+const UI = {
+	es: {
+		title: 'Mario Álvarez — Científico de datos especializado en deporte',
+		description:
+			'Mario Álvarez, científico de datos en Valencia especializado en analítica deportiva. Data · Sport · Progress.',
+		verProyectos: 'Ver proyectos',
+		contacto: 'Contacto',
+		verMas: 'Ver más',
+		verTodosProyectos: 'Ver todos los proyectos',
+		irAContacto: 'Ir a contacto',
+		herramientas: 'Herramientas principales',
+	},
+	en: {
+		title: 'Mario Álvarez — Data scientist specialized in sport',
+		description:
+			'Mario Álvarez, data scientist in Valencia specialized in sports analytics. Data · Sport · Progress.',
+		verProyectos: 'View projects',
+		contacto: 'Contact',
+		verMas: 'Learn more',
+		verTodosProyectos: 'View all projects',
+		irAContacto: 'Get in touch',
+		herramientas: 'Core tools',
+	},
+} as const;
+
+const t = UI[lang];
+---
+
+<Layout title={t.title} description={t.description} lang={lang}>
+	<section id="hero" class="hero">
+		<div class="container hero-grid">
+			<div class="hero-copy reveal">
+				<p class="eyebrow">{hero.eyebrow}</p>
+				<h1>
+					{hero.titlePre}<span class="highlight">{hero.titleHighlight}</span>
+				</h1>
+				<p class="hero-subtitle text-dim">
+					{hero.subtitle}
+				</p>
+				<div class="hero-actions">
+					<a href="#proyectos" class="btn btn-primary">{t.verProyectos}</a>
+					<a href={localizedPath('/contacto', lang)} class="btn btn-ghost">
+						{t.contacto}
+					</a>
+				</div>
+
+				<ul class="hero-tools" aria-label={t.herramientas}>
+					{hero.tools.map((tool) => <li>{tool}</li>)}
+				</ul>
+			</div>
+
+			<div class="hero-portrait reveal">
+				<div class="portrait-frame">
+					<img src="/mario.jpg" alt="Retrato de Mario Álvarez" width="420" height="420" />
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="sobre-mi-resumen" class="sobre-mi">
+		<div class="container">
+			<div class="section-intro reveal">
+				<p class="eyebrow">{sobreMiResumen.eyebrow}</p>
+				<h2>{sobreMiResumen.title}</h2>
+				<p class="text-dim">
+					{sobreMiResumen.text}
+				</p>
+				<a href={localizedPath('/sobre-mi', lang)} class="btn btn-ghost section-cta">
+					{t.verMas}
+				</a>
+			</div>
+
+			<div class="stats-grid">
+				{
+					stats.map((stat, i) => (
+						<div class="stat-card reveal" style={`transition-delay: ${i * 0.1}s`}>
+							<p class="stat-value">{stat.value}</p>
+							<p class="stat-label">{stat.label}</p>
+							<p class="stat-detail text-dim">{stat.detail}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section id="experiencia-resumen" class="experiencia-teaser">
+		<div class="container">
+			<div class="section-intro reveal">
+				<p class="eyebrow">{experienciaResumen.eyebrow}</p>
+				<h2>{experienciaResumen.title}</h2>
+				<p class="text-dim">
+					{experienciaResumen.text}
+				</p>
+				<a href={localizedPath('/experiencia', lang)} class="btn btn-ghost section-cta">
+					{t.verMas}
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<Proyectos lang={lang} />
+
+	<div class="container proyectos-cta reveal">
+		<a href={localizedPath('/proyectos', lang)} class="btn btn-ghost">
+			{t.verTodosProyectos}
+		</a>
+	</div>
+
+	<section class="cta-final">
+		<div class="container cta-final-inner reveal">
+			<h2>{ctaFinal.title}</h2>
+			<p class="text-dim">{ctaFinal.text}</p>
+			<a href={localizedPath('/contacto', lang)} class="btn btn-primary">
+				{t.irAContacto}
+			</a>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.hero {
+		padding-block: 5rem 2.5rem;
+	}
+
+	.hero-grid {
+		display: grid;
+		grid-template-columns: 1.15fr 0.85fr;
+		align-items: center;
+		gap: 3rem;
+	}
+
+	.hero-copy h1 {
+		font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+		margin-block: 0.9rem 1.1rem;
+	}
+
+	.hero-subtitle {
+		font-size: 1.05rem;
+		max-width: 46ch;
+		margin-block-end: 2rem;
+	}
+
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.hero-tools {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+		list-style: none;
+		margin-block-start: 2rem;
+	}
+
+	.hero-tools li {
+		font-family: var(--font-mono);
+		font-size: 0.78rem;
+		color: var(--color-text-dim);
+		border: 1px solid var(--color-border);
+		border-radius: 999px;
+		padding: 0.35rem 0.85rem;
+	}
+
+	.hero-portrait {
+		display: flex;
+		justify-content: center;
+	}
+
+	.portrait-frame {
+		position: relative;
+		width: min(360px, 80vw);
+		aspect-ratio: 1 / 1;
+		border-radius: 28px;
+		padding: 4px;
+		background: linear-gradient(155deg, var(--color-blue), var(--color-green) 60%, transparent);
+	}
+
+	.portrait-frame::before {
+		content: '';
+		position: absolute;
+		inset: -30px;
+		z-index: -1;
+		background: radial-gradient(circle, rgba(56, 189, 248, 0.25), transparent 70%);
+		filter: blur(20px);
+	}
+
+	.portrait-frame img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 24px;
+		background: var(--color-bg-elevated);
+	}
+
+	.sobre-mi {
+		padding-block: 1rem 6rem;
+	}
+
+	.section-intro {
+		max-width: 62ch;
+		margin-block-end: 3rem;
+	}
+
+	.section-intro h2 {
+		font-size: clamp(1.6rem, 3vw, 2.1rem);
+		margin-block: 0.75rem 1rem;
+	}
+
+	.section-intro p.text-dim {
+		font-size: 1.02rem;
+	}
+
+	.section-cta {
+		margin-block-start: 1.5rem;
+	}
+
+	.experiencia-teaser {
+		padding-block: 1rem 6rem;
+	}
+
+	.experiencia-teaser .section-intro {
+		margin-block-end: 0;
+	}
+
+	.proyectos-cta {
+		display: flex;
+		justify-content: center;
+		margin-block-start: -3.5rem;
+		margin-block-end: 6rem;
+	}
+
+	.cta-final {
+		border-top: 1px solid var(--color-border);
+		padding-block: 4.5rem;
+	}
+
+	.cta-final-inner {
+		max-width: 56ch;
+		text-align: center;
+		margin-inline: auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.cta-final-inner h2 {
+		font-size: clamp(1.6rem, 3vw, 2.2rem);
+	}
+
+	.cta-final-inner .btn {
+		margin-block-start: 0.5rem;
+	}
+
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		gap: 1.5rem;
+	}
+
+	.stat-card {
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: 16px;
+		padding: 1.5rem;
+		transition:
+			border-color var(--transition-fast),
+			transform var(--transition-fast),
+			opacity 0.6s ease,
+			transform 0.6s ease;
+	}
+
+	.stat-card:hover {
+		border-color: var(--color-blue);
+		transform: translateY(-3px);
+	}
+
+	.stat-value {
+		font-family: var(--font-mono);
+		font-size: 1.4rem;
+		font-weight: 500;
+		color: var(--color-green);
+		margin-block-end: 0.35rem;
+	}
+
+	.stat-label {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		margin-block-end: 0.5rem;
+	}
+
+	.stat-detail {
+		font-size: 0.92rem;
+		line-height: 1.5;
+	}
+
+	@media (max-width: 860px) {
+		.hero-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.hero-portrait {
+			order: -1;
+		}
+
+		.portrait-frame {
+			width: min(280px, 60vw);
+		}
+	}
+</style>

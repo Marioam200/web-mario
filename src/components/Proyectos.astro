@@ -1,5 +1,6 @@
 ---
 import { obtenerDescripciones } from '../lib/descripciones';
+import type { Locale } from '../lib/i18n';
 
 interface Repo {
 	id: number;
@@ -10,6 +11,38 @@ interface Repo {
 	updated_at: string;
 	fork: boolean;
 }
+
+interface Props {
+	lang?: Locale;
+}
+
+const { lang = 'es' } = Astro.props;
+
+// Las descripciones de los repos las genera Gemini a partir del README (ver src/lib/descripciones.js)
+// y se cachean en español; traducirlas es un pipeline aparte que no toca esta tarea, así que en la
+// versión en inglés de la página el resto del texto está localizado pero esas descripciones no.
+const UI = {
+	es: {
+		eyebrow: 'Trabajo',
+		title: 'Proyectos',
+		intro: 'Una selección automática de mis repositorios públicos en GitHub.',
+		especializaciones: 'Especializaciones',
+		fallbackDescripcion: 'Proyecto de análisis y ciencia de datos.',
+		verEnGithub: 'Ver en GitHub',
+		vacio: 'No se pudieron cargar los repositorios en este momento.',
+	},
+	en: {
+		eyebrow: 'Work',
+		title: 'Projects',
+		intro: 'An automatic selection of my public GitHub repositories.',
+		especializaciones: 'Specializations',
+		fallbackDescripcion: 'Data analysis and data science project.',
+		verEnGithub: 'View on GitHub',
+		vacio: "Repositories couldn't be loaded right now.",
+	},
+} as const;
+
+const t = UI[lang];
 
 const GITHUB_USER = 'Marioam200';
 const ESPECIALIZACIONES_MANUALES = ['R', 'SQL', 'Power BI'];
@@ -51,18 +84,18 @@ try {
 <section id="proyectos">
 	<div class="container">
 		<div class="section-header reveal">
-			<p class="eyebrow">Trabajo</p>
-			<h2>Proyectos</h2>
-			<p class="text-dim">Una selección automática de mis repositorios públicos en GitHub.</p>
+			<p class="eyebrow">{t.eyebrow}</p>
+			<h2>{t.title}</h2>
+			<p class="text-dim">{t.intro}</p>
 		</div>
 
 		{
 			languages.length > 0 && (
 				<div class="especializaciones reveal">
-					<h3>Especializaciones</h3>
+					<h3>{t.especializaciones}</h3>
 					<ul class="tags">
-						{languages.map((lang) => (
-							<li class="tag">{lang}</li>
+						{languages.map((especialidad) => (
+							<li class="tag">{especialidad}</li>
 						))}
 					</ul>
 				</div>
@@ -79,16 +112,16 @@ try {
 								{repo.language && <span class="language">{repo.language}</span>}
 							</div>
 							<p class="description text-dim">
-								{descripciones[repo.name] || repo.description || 'Proyecto de análisis y ciencia de datos.'}
+								{descripciones[repo.name] || repo.description || t.fallbackDescripcion}
 							</p>
 							<a class="button" href={repo.html_url} target="_blank" rel="noopener noreferrer">
-								Ver en GitHub
+								{t.verEnGithub}
 							</a>
 						</article>
 					))}
 				</div>
 			) : (
-				<p class="empty text-dim">No se pudieron cargar los repositorios en este momento.</p>
+				<p class="empty text-dim">{t.vacio}</p>
 			)
 		}
 	</div>

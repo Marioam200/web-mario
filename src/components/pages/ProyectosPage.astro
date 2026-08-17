@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../PageHeader.astro';
+import Proyectos from '../Proyectos.astro';
+import { type Locale } from '../../lib/i18n';
+
+interface Props {
+	lang?: Locale;
+}
+
+const { lang = 'es' } = Astro.props;
+
+const UI = {
+	es: {
+		title: 'Proyectos — Mario Álvarez',
+		description: 'Repositorios y proyectos de análisis de datos, visualización y machine learning de Mario Álvarez.',
+		eyebrow: 'Proyectos',
+		heading: 'Proyectos',
+		intro:
+			'Un vistazo a mi trabajo: desde herramientas para ciclismo profesional hasta proyectos académicos de análisis y machine learning.',
+	},
+	en: {
+		title: 'Projects — Mario Álvarez',
+		description: "Mario Álvarez's data analysis, visualization and machine learning repositories and projects.",
+		eyebrow: 'Projects',
+		heading: 'Projects',
+		intro: 'A look at my work: from tools for professional cycling to academic projects in analysis and machine learning.',
+	},
+} as const;
+
+const t = UI[lang];
+---
+
+<Layout title={t.title} description={t.description} lang={lang}>
+	<PageHeader eyebrow={t.eyebrow} title={t.heading} description={t.intro} />
+
+	<Proyectos lang={lang} />
+</Layout>

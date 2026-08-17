@@ -16,8 +16,10 @@
     "@astrojs/sitemap": "^3.7.3",
     "@google/generative-ai": "^0.24.1",
     "astro": "^7.2.1",
+    "lucide-static": "^1.31.0",
     "pdf-lib": "^1.17.1",
-    "qrcode-generator": "^2.0.4"
+    "qrcode-generator": "^2.0.4",
+    "simple-icons": "^16.28.0"
   },
   "devDependencies": {
     "wrangler": "^4.123.0"

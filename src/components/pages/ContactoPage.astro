@@ -1,0 +1,204 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../PageHeader.astro';
+import SocialLinks from '../SocialLinks.astro';
+import { type Locale } from '../../lib/i18n';
+import mailIcon from 'lucide-static/icons/mail.svg?raw';
+import phoneIcon from 'lucide-static/icons/phone.svg?raw';
+
+interface Props {
+	lang?: Locale;
+}
+
+const { lang = 'es' } = Astro.props;
+
+const TELEFONO = '+34 656 867 231';
+const TELEFONO_TEL = 'tel:+34656867231';
+
+const socialLinks = [
+	{ href: 'https://www.linkedin.com/in/mario-alvarez-martinez/', label: 'LinkedIn' },
+	{ href: 'https://github.com/Marioam200', label: 'GitHub' },
+	{ href: 'https://www.instagram.com/mario.a.m_200/', label: 'Instagram' },
+];
+
+const UI = {
+	es: {
+		title: 'Contacto — Mario Álvarez',
+		description: 'Ponte en contacto con Mario Álvarez para hablar de datos, rendimiento deportivo y proyectos.',
+		eyebrow: 'Contacto',
+		heading: '¿Tienes datos y una pregunta que resolver?',
+		intro:
+			'Hablemos. Ya sea un proyecto de analítica deportiva, una colaboración de datos o simplemente una idea que quieras contrastar, respondo con gusto.',
+		email: 'Email',
+		telefono: 'Teléfono',
+		verTelefono: 'Ver teléfono',
+		redesSociales: 'Redes sociales',
+	},
+	en: {
+		title: 'Contact — Mario Álvarez',
+		description: 'Get in touch with Mario Álvarez to talk about data, sports performance and projects.',
+		eyebrow: 'Contact',
+		heading: 'Got data and a question to solve?',
+		intro:
+			"Let's talk. Whether it's a sports analytics project, a data collaboration, or just an idea you want to bounce off someone, I'm happy to respond.",
+		email: 'Email',
+		telefono: 'Phone',
+		verTelefono: 'Show phone number',
+		redesSociales: 'Social media',
+	},
+} as const;
+
+const t = UI[lang];
+---
+
+<Layout title={t.title} description={t.description} lang={lang}>
+	<PageHeader eyebrow={t.eyebrow} title={t.heading} description={t.intro} />
+
+	<section class="contact">
+		<div class="container contact-grid">
+			<div class="contact-methods reveal">
+				<a href="mailto:malvmar5@hotmail.com" class="contact-card-face">
+					<span class="contact-card-icon" set:html={mailIcon} />
+					<span class="contact-card-body">
+						<span class="contact-card-label">{t.email}</span>
+						<span class="contact-card-value">malvmar5@hotmail.com</span>
+					</span>
+				</a>
+
+				<div class="contact-card">
+					<button id="btn-telefono" type="button" class="contact-card-face">
+						<span class="contact-card-icon" set:html={phoneIcon} />
+						<span class="contact-card-body">
+							<span class="contact-card-label">{t.telefono}</span>
+							<span class="contact-card-value">{t.verTelefono}</span>
+						</span>
+					</button>
+
+					<a id="telefono-link" href={TELEFONO_TEL} class="contact-card-face" hidden>
+						<span class="contact-card-icon" set:html={phoneIcon} />
+						<span class="contact-card-body">
+							<span class="contact-card-label">{t.telefono}</span>
+							<span class="contact-card-value">{TELEFONO}</span>
+						</span>
+					</a>
+				</div>
+			</div>
+
+			<div class="contact-social reveal">
+				<SocialLinks links={socialLinks} ariaLabel={t.redesSociales} />
+			</div>
+		</div>
+	</section>
+
+	<script>
+		const btnTelefono = document.getElementById('btn-telefono');
+		const telefonoLink = document.getElementById('telefono-link');
+
+		btnTelefono?.addEventListener('click', () => {
+			btnTelefono.hidden = true;
+			telefonoLink?.removeAttribute('hidden');
+			requestAnimationFrame(() => telefonoLink?.classList.add('is-visible'));
+			(telefonoLink as HTMLElement)?.focus();
+		});
+	</script>
+</Layout>
+
+<style>
+	.contact {
+		padding-block: 1.5rem 6rem;
+	}
+
+	.contact-grid {
+		display: flex;
+		flex-direction: column;
+		gap: 2.5rem;
+	}
+
+	.contact-methods {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: 1.25rem;
+	}
+
+	.contact-card {
+		display: contents;
+	}
+
+	.contact-card-face {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		width: 100%;
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: 14px;
+		padding: 1.25rem 1.4rem;
+		text-decoration: none;
+		color: var(--color-text);
+		font-family: inherit;
+		font-size: 1em;
+		text-align: left;
+		cursor: pointer;
+		transition:
+			border-color var(--transition-fast),
+			transform var(--transition-fast),
+			opacity 0.25s ease;
+	}
+
+	.contact-card-face:hover {
+		border-color: var(--color-blue);
+		transform: translateY(-2px);
+	}
+
+	/* [hidden] pierde contra .contact-card-face { display:flex } si no se refuerza:
+	   ambas son reglas de autor con la misma especificidad, y la última en cascada gana. */
+	.contact-card-face[hidden] {
+		display: none;
+	}
+
+	#telefono-link.contact-card-face {
+		opacity: 0;
+	}
+
+	#telefono-link.contact-card-face.is-visible {
+		opacity: 1;
+	}
+
+	.contact-card-icon {
+		flex-shrink: 0;
+		display: inline-flex;
+		color: var(--color-blue);
+	}
+
+	.contact-card-icon :global(svg) {
+		width: 22px;
+		height: 22px;
+	}
+
+	.contact-card-body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		min-width: 0;
+	}
+
+	.contact-card-label {
+		font-family: var(--font-mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-text-dim);
+	}
+
+	.contact-card-value {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 1rem;
+		word-break: break-word;
+	}
+
+	.contact-social {
+		padding-block-start: 1.75rem;
+		border-top: 1px solid var(--color-border);
+	}
+</style>

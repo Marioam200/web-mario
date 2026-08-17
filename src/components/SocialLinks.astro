@@ -1,0 +1,65 @@
+---
+import { siGithub, siInstagram } from 'simple-icons';
+import externalLinkIcon from 'lucide-static/icons/external-link.svg?raw';
+
+interface Props {
+	links: { href: string; label: string }[];
+	size?: number;
+	ariaLabel?: string;
+}
+
+// simple-icons retiró el logo de LinkedIn del paquete (aviso legal de LinkedIn/Microsoft),
+// así que para esa red usamos un icono genérico de enlace externo en vez de inventar un trazado de marca.
+const MARCAS: Record<string, { path: string } | undefined> = {
+	GitHub: siGithub,
+	Instagram: siInstagram,
+};
+
+const { links, size = 21, ariaLabel = 'Redes sociales' } = Astro.props;
+---
+
+<ul class="social-links" aria-label={ariaLabel}>
+	{
+		links.map((link) => {
+			const marca = MARCAS[link.label];
+			return (
+				<li>
+					<a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
+						{marca ? (
+							<svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" aria-hidden="true">
+								<path d={marca.path} />
+							</svg>
+						) : (
+							<Fragment set:html={externalLinkIcon} />
+						)}
+					</a>
+				</li>
+			);
+		})
+	}
+</ul>
+
+<style>
+	.social-links {
+		display: flex;
+		align-items: center;
+		gap: 1.25rem;
+		list-style: none;
+	}
+
+	.social-links a {
+		display: inline-flex;
+		color: var(--color-text-dim);
+		transition: color var(--transition-fast);
+	}
+
+	.social-links a:hover {
+		color: var(--color-blue);
+	}
+
+	.social-links :global(svg) {
+		width: 21px;
+		height: 21px;
+		stroke: currentColor;
+	}
+</style>
