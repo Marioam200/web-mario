@@ -169,13 +169,14 @@ const personSchema = {
 					</div>
 				</div>
 
-				<div class="footer-social-row">
+				<div class="footer-legal-links">
+					<a href={localizedPath('/politica-de-privacidad', lang)} class="footer-cookie-btn">{t.legal.privacidad}</a>
+					<a href={localizedPath('/politica-de-cookies', lang)} class="footer-cookie-btn">{t.legal.cookies}</a>
+					<button type="button" id="cookie-config-btn" class="footer-cookie-btn">{t.cookies.configurar}</button>
+				</div>
+
+				<div class="footer-social">
 					<SocialLinks links={socialLinks} ariaLabel={t.footer.ariaSocial} />
-					<div class="footer-legal-links">
-						<a href={localizedPath('/politica-de-privacidad', lang)} class="footer-cookie-btn">{t.legal.privacidad}</a>
-						<a href={localizedPath('/politica-de-cookies', lang)} class="footer-cookie-btn">{t.legal.cookies}</a>
-						<button type="button" id="cookie-config-btn" class="footer-cookie-btn">{t.cookies.configurar}</button>
-					</div>
 				</div>
 			</div>
 			<div class="container">
@@ -365,10 +366,9 @@ const personSchema = {
 	}
 
 	.footer-inner {
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: auto 1fr auto;
 		align-items: center;
-		justify-content: space-between;
 		gap: 1.5rem;
 		padding-block-end: 1.5rem;
 	}
@@ -383,18 +383,15 @@ const personSchema = {
 		flex-shrink: 0;
 	}
 
-	.footer-social-row {
+	.footer-legal-links {
 		display: flex;
-		align-items: center;
 		flex-wrap: wrap;
+		justify-content: center;
 		gap: 1.5rem;
 	}
 
-	.footer-legal-links {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 1.25rem;
+	.footer-social {
+		justify-self: end;
 	}
 
 	.footer-cookie-btn {
@@ -483,6 +480,7 @@ const personSchema = {
 
 	@media (max-width: 520px) {
 		.footer-inner {
+			grid-template-columns: 1fr;
 			flex-direction: column;
 			align-items: flex-start;
 		}
