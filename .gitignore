@@ -26,3 +26,4 @@ pnpm-debug.log*
 # secretos y wrangler (nunca subir)
 .dev.vars
 .wrangler/
+public/panel-prueba.html
