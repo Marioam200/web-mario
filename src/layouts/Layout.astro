@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import SocialLinks from '../components/SocialLinks.astro';
+import CookieBanner from '../components/CookieBanner.astro';
 import { type Locale, localizedPath, alternatePath, strings } from '../lib/i18n';
 
 interface Props {
@@ -168,12 +169,21 @@ const personSchema = {
 					</div>
 				</div>
 
-				<SocialLinks links={socialLinks} ariaLabel={t.footer.ariaSocial} />
+				<div class="footer-social-row">
+					<SocialLinks links={socialLinks} ariaLabel={t.footer.ariaSocial} />
+					<div class="footer-legal-links">
+						<a href={localizedPath('/politica-de-privacidad', lang)} class="footer-cookie-btn">{t.legal.privacidad}</a>
+						<a href={localizedPath('/politica-de-cookies', lang)} class="footer-cookie-btn">{t.legal.cookies}</a>
+						<button type="button" id="cookie-config-btn" class="footer-cookie-btn">{t.cookies.configurar}</button>
+					</div>
+				</div>
 			</div>
 			<div class="container">
 				<p class="footer-copy text-dim">{t.footer.copy(new Date().getFullYear())}</p>
 			</div>
 		</footer>
+
+		<CookieBanner lang={lang} />
 
 		<script>
 			const toggle = document.getElementById('nav-toggle');
@@ -211,6 +221,10 @@ const personSchema = {
 
 				revealEls.forEach((el) => observer.observe(el));
 			}
+		</script>
+
+		<script>
+			import '../scripts/tracking.js';
 		</script>
 	</body>
 </html>
@@ -367,6 +381,37 @@ const personSchema = {
 
 	.footer-mark {
 		flex-shrink: 0;
+	}
+
+	.footer-social-row {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 1.5rem;
+	}
+
+	.footer-legal-links {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 1.25rem;
+	}
+
+	.footer-cookie-btn {
+		background: none;
+		border: none;
+		padding: 0;
+		font: inherit;
+		font-size: 0.9rem;
+		color: var(--color-text-dim);
+		cursor: pointer;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		transition: color var(--transition-fast);
+	}
+
+	.footer-cookie-btn:hover {
+		color: var(--color-blue);
 	}
 
 	.footer-name {

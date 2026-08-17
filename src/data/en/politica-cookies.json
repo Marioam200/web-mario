@@ -1,0 +1,39 @@
+{
+	"bloques": [
+		{
+			"tipo": "parrafo",
+			"texto": "This website uses cookies and similar technologies (such as browser local storage) for it to function correctly and, if you give your consent, to anonymously analyse how the content is used."
+		},
+		{ "tipo": "parrafo", "texto": "Cookies used:" },
+		{
+			"tipo": "tabla",
+			"columnas": ["Name", "Purpose", "Type", "Duration"],
+			"filas": [
+				[
+					"consentimiento_cookies",
+					"Remembers your choice regarding this cookie policy",
+					"First-party, technical (exempt from consent)",
+					"12 months"
+				],
+				[
+					"visitante_id",
+					"Anonymous identifier used to link your visits and understand which content is useful",
+					"First-party, analytics (requires your consent)",
+					"12 months"
+				]
+			]
+		},
+		{
+			"tipo": "parrafo",
+			"texto": "None of these cookies are third-party cookies, none are used for advertising purposes, and none are shared with anyone outside this site."
+		},
+		{
+			"tipo": "parrafo",
+			"texto": "You can change your decision or withdraw your consent at any time via the \"Manage cookies\" link in the footer, and delete all your data immediately using the \"Delete my data\" button in that same panel."
+		},
+		{
+			"tipo": "parrafo",
+			"texto": "For more information on how your data is handled, please see the Privacy Policy."
+		}
+	]
+}

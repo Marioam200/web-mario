@@ -106,7 +106,11 @@ try {
 			repos.length > 0 ? (
 				<div class="grid">
 					{repos.map((repo, i) => (
-						<article class="card reveal" style={`transition-delay: ${Math.min(i, 6) * 0.06}s`}>
+						<article
+							class="card reveal"
+							style={`transition-delay: ${Math.min(i, 6) * 0.06}s`}
+							data-tracking-proyecto={repo.name}
+						>
 							<div class="card-header">
 								<h3>{repo.name}</h3>
 								{repo.language && <span class="language">{repo.language}</span>}

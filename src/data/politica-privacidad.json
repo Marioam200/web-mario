@@ -1,0 +1,83 @@
+{
+	"secciones": [
+		{
+			"titulo": "1. Responsable del tratamiento",
+			"bloques": [
+				{ "tipo": "parrafo", "texto": "Mario Álvarez Martínez, con domicilio en Benidorm (Alicante), España. Contacto: malvmar5@hotmail.com" }
+			]
+		},
+		{
+			"titulo": "2. Finalidad del tratamiento",
+			"bloques": [
+				{
+					"tipo": "parrafo",
+					"texto": "Esta web analiza de forma interna y con fines exclusivamente estadísticos qué contenidos (secciones, proyectos) resultan más útiles a quienes la visitan, con el objetivo de mejorar su contenido. No se utiliza con fines publicitarios, no se comparte con terceros y no se vende bajo ninguna circunstancia."
+				}
+			]
+		},
+		{
+			"titulo": "3. Datos que se recogen (solo si aceptas las cookies analíticas)",
+			"bloques": [
+				{
+					"tipo": "lista",
+					"items": [
+						"Un identificador anónimo aleatorio, no vinculado a tu nombre, email ni ninguna otra información que te identifique directamente.",
+						"Páginas y proyectos que visitas, y el tiempo de atención en cada uno (mientras la pestaña está activa).",
+						"Interacciones (clics en proyectos, enlaces o botones).",
+						"Fecha y hora de la visita.",
+						"Idioma del sitio consultado.",
+						"Tipo de dispositivo (móvil o escritorio).",
+						"País aproximado, obtenido a través de la infraestructura de Cloudflare, sin almacenar tu dirección IP.",
+						"Página de procedencia (por ejemplo, LinkedIn o un buscador)."
+					]
+				},
+				{
+					"tipo": "parrafo",
+					"texto": "No se recoge tu dirección IP, no se utilizan técnicas de identificación del navegador (fingerprinting), ni herramientas de terceros como Google Analytics o similares."
+				}
+			]
+		},
+		{
+			"titulo": "4. Base legal",
+			"bloques": [
+				{
+					"tipo": "parrafo",
+					"texto": "El tratamiento se basa en tu consentimiento explícito (artículo 6.1.a del RGPD y artículo 22.2 de la LSSI-CE), que puedes retirar en cualquier momento desde el gestor de cookies del propio sitio."
+				}
+			]
+		},
+		{
+			"titulo": "5. Plazo de conservación",
+			"bloques": [
+				{
+					"tipo": "parrafo",
+					"texto": "Los datos se conservan un máximo de 12 meses desde tu última visita, transcurridos los cuales se eliminan automáticamente."
+				}
+			]
+		},
+		{
+			"titulo": "6. Destinatarios y transferencias internacionales",
+			"bloques": [
+				{
+					"tipo": "parrafo",
+					"texto": "Los datos no se ceden ni se venden a terceros. Se almacenan en Cloudflare D1, un servicio de base de datos proporcionado por Cloudflare, Inc., que actúa como encargado del tratamiento. Cloudflare puede procesar datos fuera del Espacio Económico Europeo; en ese caso, dicha transferencia se ampara en las Cláusulas Contractuales Tipo aprobadas por la Comisión Europea. Más información en la política de privacidad de Cloudflare: https://www.cloudflare.com/privacypolicy/"
+				}
+			]
+		},
+		{
+			"titulo": "7. Tus derechos",
+			"bloques": [
+				{
+					"tipo": "parrafo",
+					"texto": "Puedes ejercer en cualquier momento tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad escribiendo a malvmar5@hotmail.com. Además, puedes borrar tus datos de forma inmediata, sin necesidad de escribir a nadie, desde el botón \"Borrar mis datos\" disponible en la configuración de cookies del sitio. También tienes derecho a presentar una reclamación ante la Agencia Española de Protección de Datos (www.aepd.es) si consideras que tus derechos no han sido atendidos correctamente."
+				}
+			]
+		},
+		{
+			"titulo": "8. Cambios en esta política",
+			"bloques": [
+				{ "tipo": "parrafo", "texto": "Esta política puede actualizarse para adaptarse a cambios legales o del propio sitio." }
+			]
+		}
+	]
+}

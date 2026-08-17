@@ -2,12 +2,14 @@
   "mario-alvarez-site": {
     "name": "mario-alvarez-site",
     "updated_at": "2026-08-13T07:53:56Z",
-    "description": "Sitio web y portfolio personal enfocado en ciencia de datos y deporte, con soporte bilingüe en español e inglés. Está desarrollado como una página estática sencilla utilizando únicamente HTML, CSS y JavaScript puro, sin dependencias ni herramientas de compilación."
+    "es": "Sitio web y portfolio personal enfocado en ciencia de datos y deporte, con soporte bilingüe en español e inglés. Está desarrollado como una página estática sencilla utilizando únicamente HTML, CSS y JavaScript puro, sin dependencias ni herramientas de compilación.",
+    "en": "A personal portfolio website focused on data science and sports, featuring built-in bilingual English and Spanish support. It is built as a single-page static site using pure HTML, CSS, and vanilla JavaScript without any external dependencies or build tools."
   },
   "CATALOGO_HECTOR_ALVAREZ": {
     "name": "CATALOGO_HECTOR_ALVAREZ",
     "updated_at": "2026-08-12T10:16:44Z",
-    "en": "Data analysis and data science project."
+    "en": "Data analysis and data science project.",
+    "es": "Proyecto de análisis y ciencia de datos."
   },
   "TRABAJO_MDP": {
     "name": "TRABAJO_MDP",
@@ -16,8 +18,8 @@
   },
   "web-mario": {
     "name": "web-mario",
-    "updated_at": "2026-08-17T14:39:59Z",
-    "en": "A starter web project initialized with the Astro framework to learn and practice component-based web development. It serves as a basic foundation for building a site using Astro's standard templates and layouts."
+    "updated_at": "2026-08-17T19:32:22Z",
+    "en": "A starter web project built with the Astro framework based on its standard basic template. It serves as a foundational setup for practicing and building with Astro components and layouts."
   },
   "TRABAJO_CORREDORES": {
     "name": "TRABAJO_CORREDORES",

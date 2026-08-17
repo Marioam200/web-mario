@@ -1,0 +1,53 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../PageHeader.astro';
+import PoliticaBloques from '../PoliticaBloques.astro';
+import { type Locale } from '../../lib/i18n';
+import cookiesEs from '../../data/politica-cookies.json';
+import cookiesEn from '../../data/en/politica-cookies.json';
+
+interface Props {
+	lang?: Locale;
+}
+
+const { lang = 'es' } = Astro.props;
+
+const politica = lang === 'en' ? cookiesEn : cookiesEs;
+
+const UI = {
+	es: {
+		title: 'Política de Cookies — Mario Álvarez',
+		description: 'Qué cookies utiliza este sitio, con qué finalidad y cómo cambiar tu consentimiento en cualquier momento.',
+		eyebrow: 'Legal',
+		heading: 'Política de Cookies',
+	},
+	en: {
+		title: 'Cookie Policy — Mario Álvarez',
+		description: 'What cookies this site uses, for what purpose, and how to change your consent at any time.',
+		eyebrow: 'Legal',
+		heading: 'Cookie Policy',
+	},
+} as const;
+
+const t = UI[lang];
+---
+
+<Layout title={t.title} description={t.description} lang={lang}>
+	<PageHeader eyebrow={t.eyebrow} title={t.heading} />
+
+	<section class="politica">
+		<div class="container politica-inner">
+			<PoliticaBloques bloques={politica.bloques} />
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.politica {
+		padding-block: 1rem 6rem;
+	}
+
+	.politica-inner {
+		max-width: 74ch;
+	}
+</style>

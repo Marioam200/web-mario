@@ -1,0 +1,39 @@
+{
+	"bloques": [
+		{
+			"tipo": "parrafo",
+			"texto": "Esta web utiliza cookies y tecnologías similares (como el almacenamiento local del navegador) para su correcto funcionamiento y, si das tu consentimiento, para analizar de forma anónima cómo se usa el contenido."
+		},
+		{ "tipo": "parrafo", "texto": "Cookies utilizadas:" },
+		{
+			"tipo": "tabla",
+			"columnas": ["Nombre", "Finalidad", "Tipo", "Duración"],
+			"filas": [
+				[
+					"consentimiento_cookies",
+					"Recordar tu elección sobre esta política de cookies",
+					"Propia, técnica (exenta de consentimiento)",
+					"12 meses"
+				],
+				[
+					"visitante_id",
+					"Identificador anónimo para relacionar tus visitas y saber qué contenido resulta útil",
+					"Propia, analítica (requiere tu consentimiento)",
+					"12 meses"
+				]
+			]
+		},
+		{
+			"tipo": "parrafo",
+			"texto": "Ninguna de estas cookies es de terceros, ninguna se usa con fines publicitarios, y ninguna se comparte con nadie fuera de este sitio."
+		},
+		{
+			"tipo": "parrafo",
+			"texto": "Puedes cambiar tu decisión o retirar tu consentimiento en cualquier momento desde el enlace \"Configurar cookies\" en el pie de página, y borrar de forma inmediata todos tus datos con el botón \"Borrar mis datos\" en ese mismo panel."
+		},
+		{
+			"tipo": "parrafo",
+			"texto": "Para más información sobre cómo se tratan tus datos, consulta la Política de Privacidad."
+		}
+	]
+}

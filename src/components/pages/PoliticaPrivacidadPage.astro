@@ -1,0 +1,73 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../PageHeader.astro';
+import PoliticaBloques from '../PoliticaBloques.astro';
+import { type Locale } from '../../lib/i18n';
+import politicaEs from '../../data/politica-privacidad.json';
+import politicaEn from '../../data/en/politica-privacidad.json';
+
+interface Props {
+	lang?: Locale;
+}
+
+const { lang = 'es' } = Astro.props;
+
+const politica = lang === 'en' ? politicaEn : politicaEs;
+
+const UI = {
+	es: {
+		title: 'Política de Privacidad — Mario Álvarez',
+		description:
+			'Política de privacidad del sitio de Mario Álvarez: qué datos se recogen, con qué finalidad y cómo ejercer tus derechos.',
+		eyebrow: 'Legal',
+		heading: 'Política de Privacidad',
+	},
+	en: {
+		title: 'Privacy Policy — Mario Álvarez',
+		description: "Privacy policy for Mario Álvarez's site: what data is collected, for what purpose, and how to exercise your rights.",
+		eyebrow: 'Legal',
+		heading: 'Privacy Policy',
+	},
+} as const;
+
+const t = UI[lang];
+---
+
+<Layout title={t.title} description={t.description} lang={lang}>
+	<PageHeader eyebrow={t.eyebrow} title={t.heading} />
+
+	<section class="politica">
+		<div class="container politica-inner">
+			{
+				politica.secciones.map((seccion) => (
+					<article class="politica-seccion">
+						<h2>{seccion.titulo}</h2>
+						<PoliticaBloques bloques={seccion.bloques} />
+					</article>
+				))
+			}
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.politica {
+		padding-block: 1rem 6rem;
+	}
+
+	.politica-inner {
+		max-width: 74ch;
+		display: flex;
+		flex-direction: column;
+		gap: 2.5rem;
+	}
+
+	.politica-seccion h2 {
+		font-family: var(--font-heading);
+		font-size: 1.15rem;
+		font-weight: 600;
+		margin-block-end: 0.85rem;
+		padding-block-end: 0.6rem;
+		border-bottom: 1px solid var(--color-border);
+	}
+</style>

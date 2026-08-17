@@ -1,0 +1,169 @@
+---
+interface BloqueParrafo {
+	tipo: 'parrafo';
+	texto: string;
+}
+interface BloqueLista {
+	tipo: 'lista';
+	items: string[];
+}
+interface BloqueTabla {
+	tipo: 'tabla';
+	columnas: string[];
+	filas: string[][];
+}
+type Bloque = BloqueParrafo | BloqueLista | BloqueTabla;
+
+interface Props {
+	bloques: Bloque[];
+}
+
+const { bloques } = Astro.props;
+
+const URL_REGEX = /(https?:\/\/[^\s]+)/g;
+
+function partirPorUrls(texto: string) {
+	return texto.split(URL_REGEX).filter((parte) => parte !== '');
+}
+
+function esUrl(parte: string) {
+	return /^https?:\/\//.test(parte);
+}
+---
+
+{
+	bloques.map((bloque) => {
+		if (bloque.tipo === 'parrafo') {
+			return (
+				<p class="politica-parrafo">
+					{partirPorUrls(bloque.texto).map((parte) =>
+						esUrl(parte) ? (
+							<a href={parte} target="_blank" rel="noopener noreferrer" class="politica-link">
+								{parte}
+							</a>
+						) : (
+							parte
+						),
+					)}
+				</p>
+			);
+		}
+
+		if (bloque.tipo === 'lista') {
+			return (
+				<ul class="politica-lista">
+					{bloque.items.map((item) => (
+						<li>{item}</li>
+					))}
+				</ul>
+			);
+		}
+
+		return (
+			<div class="politica-tabla-wrap">
+				<table class="politica-tabla">
+					<thead>
+						<tr>
+							{bloque.columnas.map((columna) => (
+								<th>{columna}</th>
+							))}
+						</tr>
+					</thead>
+					<tbody>
+						{bloque.filas.map((fila) => (
+							<tr>
+								{fila.map((celda) => (
+									<td>{celda}</td>
+								))}
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		);
+	})
+}
+
+<style>
+	.politica-parrafo {
+		font-size: 1rem;
+		line-height: 1.7;
+		color: var(--color-text-dim);
+	}
+
+	.politica-parrafo + .politica-parrafo,
+	.politica-lista + .politica-parrafo,
+	.politica-tabla-wrap + .politica-parrafo {
+		margin-block-start: 1rem;
+	}
+
+	.politica-link {
+		color: var(--color-blue);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		word-break: break-all;
+	}
+
+	.politica-lista {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		margin-block: 1rem;
+	}
+
+	.politica-lista li {
+		position: relative;
+		padding-inline-start: 1.1rem;
+		font-size: 1rem;
+		line-height: 1.6;
+		color: var(--color-text-dim);
+	}
+
+	.politica-lista li::before {
+		content: '';
+		position: absolute;
+		inset-inline-start: 0;
+		inset-block-start: 0.6em;
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: var(--color-blue);
+	}
+
+	.politica-tabla-wrap {
+		overflow-x: auto;
+		margin-block: 1rem;
+		border: 1px solid var(--color-border);
+		border-radius: 12px;
+	}
+
+	.politica-tabla {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.92rem;
+	}
+
+	.politica-tabla th,
+	.politica-tabla td {
+		text-align: left;
+		padding: 0.75rem 1rem;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.politica-tabla th {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		color: var(--color-text);
+		background: var(--color-bg-elevated);
+		white-space: nowrap;
+	}
+
+	.politica-tabla td {
+		color: var(--color-text-dim);
+	}
+
+	.politica-tabla tr:last-child td {
+		border-bottom: none;
+	}
+</style>

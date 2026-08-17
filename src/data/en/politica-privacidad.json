@@ -1,0 +1,83 @@
+{
+	"secciones": [
+		{
+			"titulo": "1. Data controller",
+			"bloques": [
+				{ "tipo": "parrafo", "texto": "Mario Álvarez Martínez, based in Benidorm (Alicante), Spain. Contact: malvmar5@hotmail.com" }
+			]
+		},
+		{
+			"titulo": "2. Purpose of processing",
+			"bloques": [
+				{
+					"tipo": "parrafo",
+					"texto": "This website analyses, internally and for statistical purposes only, which content (sections, projects) is most useful to visitors, in order to improve its content. It is not used for advertising, is not shared with third parties, and is never sold under any circumstances."
+				}
+			]
+		},
+		{
+			"titulo": "3. Data collected (only if you accept analytics cookies)",
+			"bloques": [
+				{
+					"tipo": "lista",
+					"items": [
+						"A random anonymous identifier, not linked to your name, email, or any other directly identifying information.",
+						"Pages and projects you visit, and the time of attention spent on each (while the tab is active).",
+						"Interactions (clicks on projects, links, or buttons).",
+						"Date and time of the visit.",
+						"Language of the site you viewed.",
+						"Device type (mobile or desktop).",
+						"Approximate country, obtained through Cloudflare's infrastructure, without storing your IP address.",
+						"Referring page (for example, LinkedIn or a search engine)."
+					]
+				},
+				{
+					"tipo": "parrafo",
+					"texto": "Your IP address is not collected, no browser fingerprinting techniques are used, and no third-party tools such as Google Analytics or similar are used."
+				}
+			]
+		},
+		{
+			"titulo": "4. Legal basis",
+			"bloques": [
+				{
+					"tipo": "parrafo",
+					"texto": "Processing is based on your explicit consent (Article 6.1.a GDPR and Article 22.2 of the Spanish LSSI-CE law), which you can withdraw at any time from the site's cookie manager."
+				}
+			]
+		},
+		{
+			"titulo": "5. Retention period",
+			"bloques": [
+				{
+					"tipo": "parrafo",
+					"texto": "Data is kept for a maximum of 12 months from your last visit, after which it is automatically deleted."
+				}
+			]
+		},
+		{
+			"titulo": "6. Recipients and international transfers",
+			"bloques": [
+				{
+					"tipo": "parrafo",
+					"texto": "Data is not shared or sold to third parties. It is stored in Cloudflare D1, a database service provided by Cloudflare, Inc., which acts as data processor. Cloudflare may process data outside the European Economic Area; in that case, such transfer is covered by the Standard Contractual Clauses approved by the European Commission. More information in Cloudflare's privacy policy: https://www.cloudflare.com/privacypolicy/"
+				}
+			]
+		},
+		{
+			"titulo": "7. Your rights",
+			"bloques": [
+				{
+					"tipo": "parrafo",
+					"texto": "You can exercise your rights of access, rectification, erasure, objection, restriction of processing, and portability at any time by writing to malvmar5@hotmail.com. You can also delete your data immediately, with no need to contact anyone, using the \"Delete my data\" button available in the site's cookie settings. You also have the right to file a complaint with the Spanish Data Protection Agency (www.aepd.es) if you believe your rights have not been properly addressed."
+				}
+			]
+		},
+		{
+			"titulo": "8. Changes to this policy",
+			"bloques": [
+				{ "tipo": "parrafo", "texto": "This policy may be updated to reflect legal changes or changes to the site itself." }
+			]
+		}
+	]
+}

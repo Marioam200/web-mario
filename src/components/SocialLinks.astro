@@ -37,6 +37,7 @@ const { links, size = 21, ariaLabel = 'Redes sociales' } = Astro.props;
 						target={esExterno ? '_blank' : undefined}
 						rel={esExterno ? 'noopener noreferrer' : undefined}
 						aria-label={link.label}
+						data-tracking-clic={link.label}
 					>
 						{esTelefono ? (
 							<Fragment set:html={phoneIcon} />
