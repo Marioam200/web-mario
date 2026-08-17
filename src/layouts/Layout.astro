@@ -14,7 +14,7 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const socialImageURL = new URL('/og-card.png', Astro.site);
+const socialImageURL = new URL('/og-card.png?v=1', Astro.site);
 const socialImageAlt = 'Mario Álvarez — científico de datos especializado en analítica deportiva';
 
 const navLinks = [
@@ -40,8 +40,8 @@ const socialLinks = [
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" href="/favicon.ico" sizes="any" />
-		<link rel="icon" type="image/png" href="/favicon.png?v=2" sizes="512x512" />
-		<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
+		<link rel="icon" type="image/png" href="/favicon.png?v=3" sizes="512x512" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
