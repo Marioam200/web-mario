@@ -1,17 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import sobreMi from '../data/sobre-mi.json';
 
-const facts = [
-	{ label: 'Base', value: 'Benidorm · Valencia' },
-	{
-		label: 'Formación',
-		value: 'Grado en Ciencia de Datos (UPV) · Máster en Digitalización, Innovación y Tecnología en el Deporte',
-	},
-	{ label: 'Enfoque', value: 'Datos + rendimiento deportivo' },
-	{ label: 'Idiomas', value: 'Español nativo · Valenciano · Inglés B1' },
-	{ label: 'Estado', value: 'Disponible para proyectos' },
-];
+const bio = sobreMi.bio;
+const facts = sobreMi.facts;
 ---
 
 <Layout title="Sobre mí — Mario Álvarez" description="De campeón de España de madison a estudiante de Ciencia de Datos: la trayectoria de Mario Álvarez entre el ciclismo de élite y la analítica deportiva.">
@@ -20,28 +13,7 @@ const facts = [
 	<section class="bio">
 		<div class="container bio-grid">
 			<div class="bio-text reveal">
-				<p>
-					Empecé compitiendo. A los 18 me proclamé campeón de España de madison en pista y la
-					Selección Española de Ciclismo me convocó para los Campeonatos del Mundo y de Europa,
-					donde fui sexto en ambos, lo que me valió la condición de deportista de élite.
-				</p>
-				<p>
-					De ahí di el salto a la Ciencia de Datos: hoy curso 3º del Grado en la Universitat
-					Politècnica de València, orientado a la digitalización y la tecnología aplicadas al
-					deporte.
-				</p>
-				<p>
-					Mi valor diferencial es ese puente: he vivido el alto rendimiento desde dentro —como
-					corredor, como director deportivo de base y como quiromasajista de ciclistas
-					profesionales— y sé leer los datos que hay detrás. Entiendo lo que un número significa
-					para un deportista, porque yo he sido ese deportista. Uno los dos mundos para convertir
-					datos en decisiones que mejoran el rendimiento.
-				</p>
-				<p>
-					Además, gracias a mi condición de deportista de élite, obtuve una beca para cursar un
-					Máster en Digitalización, Innovación y Tecnología en el Deporte, que ya he completado y
-					que amplía mi enfoque a todo el ecosistema deportivo, más allá del ciclismo.
-				</p>
+				{bio.map((p) => <p>{p}</p>)}
 			</div>
 
 			<div class="facts-grid reveal">

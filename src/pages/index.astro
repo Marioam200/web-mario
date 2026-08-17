@@ -1,39 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Proyectos from '../components/Proyectos.astro';
+import inicio from '../data/inicio.json';
 
-const tools = ['Python', 'R', 'SQL', 'Power BI', 'Machine Learning'];
-
-const stats = [
-	{
-		value: 'UPV',
-		label: 'Formación',
-		detail: 'Grado en Ciencia de Datos, Universitat Politècnica de València.',
-	},
-	{
-		value: 'Élite',
-		label: 'Experiencia',
-		detail: 'Trabajo real dentro de un equipo de ciclismo profesional.',
-	},
-	{
-		value: 'Data + Sport',
-		label: 'Enfoque',
-		detail: 'Analítica aplicada a la mejora del rendimiento deportivo.',
-	},
-];
+const { hero, sobreMiResumen, stats, experienciaResumen, ctaFinal } = inicio;
 ---
 
 <Layout>
 	<section id="hero" class="hero">
 		<div class="container hero-grid">
 			<div class="hero-copy reveal">
-				<p class="eyebrow">Científico de datos · Analítica deportiva · Valencia</p>
+				<p class="eyebrow">{hero.eyebrow}</p>
 				<h1>
-					Convierto datos deportivos en <span class="highlight">decisiones que ganan</span>
+					{hero.titlePre}<span class="highlight">{hero.titleHighlight}</span>
 				</h1>
 				<p class="hero-subtitle text-dim">
-					Soy el puente entre el análisis de datos y el deporte de élite: transformo métricas de
-					rendimiento en estrategias que marcan la diferencia sobre el terreno.
+					{hero.subtitle}
 				</p>
 				<div class="hero-actions">
 					<a href="#proyectos" class="btn btn-primary">Ver proyectos</a>
@@ -41,7 +23,7 @@ const stats = [
 				</div>
 
 				<ul class="hero-tools" aria-label="Herramientas principales">
-					{tools.map((tool) => <li>{tool}</li>)}
+					{hero.tools.map((tool) => <li>{tool}</li>)}
 				</ul>
 			</div>
 
@@ -56,12 +38,10 @@ const stats = [
 	<section id="sobre-mi-resumen" class="sobre-mi">
 		<div class="container">
 			<div class="section-intro reveal">
-				<p class="eyebrow">Sobre mí</p>
-				<h2>Datos con contexto de pista, carretera y competición</h2>
+				<p class="eyebrow">{sobreMiResumen.eyebrow}</p>
+				<h2>{sobreMiResumen.title}</h2>
 				<p class="text-dim">
-					Soy Mario Álvarez, estudiante de Ciencia de Datos en la UPV con experiencia real dentro
-					del ciclismo profesional. Combino el análisis de datos con el rendimiento deportivo
-					de élite, para convertir cada métrica en una decisión que mejora resultados.
+					{sobreMiResumen.text}
 				</p>
 				<a href="/sobre-mi" class="btn btn-ghost section-cta">Ver más</a>
 			</div>
@@ -83,11 +63,10 @@ const stats = [
 	<section id="experiencia-resumen" class="experiencia-teaser">
 		<div class="container">
 			<div class="section-intro reveal">
-				<p class="eyebrow">Experiencia</p>
-				<h2>Dos mundos, un mismo lenguaje: el rendimiento</h2>
+				<p class="eyebrow">{experienciaResumen.eyebrow}</p>
+				<h2>{experienciaResumen.title}</h2>
 				<p class="text-dim">
-					He competido al máximo nivel y hoy aplico ese mismo criterio a los datos: entiendo lo
-					que un número significa para un deportista porque he sido ese deportista.
+					{experienciaResumen.text}
 				</p>
 				<a href="/experiencia" class="btn btn-ghost section-cta">Ver más</a>
 			</div>
@@ -102,8 +81,8 @@ const stats = [
 
 	<section class="cta-final">
 		<div class="container cta-final-inner reveal">
-			<h2>¿Hablamos de datos?</h2>
-			<p class="text-dim">Cuéntame tu proyecto y buscamos juntos dónde están las decisiones que mejoran el rendimiento.</p>
+			<h2>{ctaFinal.title}</h2>
+			<p class="text-dim">{ctaFinal.text}</p>
 			<a href="/contacto" class="btn btn-primary">Ir a contacto</a>
 		</div>
 	</section>

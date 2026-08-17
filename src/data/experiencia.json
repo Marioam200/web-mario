@@ -1,0 +1,50 @@
+{
+	"datos": [
+		{
+			"title": "SIME TELECOM — Prácticas de Ciencia de Datos",
+			"meta": "Ingeniería de Datos · Benidorm · 2026",
+			"paragraphs": [
+				"SIME desarrolla software de gestión (reservas, facturación, informes, pedidos de restauración) que sirve a cientos de clientes desde un sistema central, sobre una base de datos de +580 tablas interconectadas y +100 millones de registros. El crecimiento había obligado a repartir clientes en varias bases para aliviar la carga y las quejas de lentitud.",
+				"Mi trabajo: analizar esas bases y, mediante optimización de consultas e índices, diseñar la unificación de todos los datos en una única base eficiente sin escalar apenas el hardware (RAM/CPU). Mejora ya desarrollada, en fase de validación sobre servidor de pruebas."
+			]
+		},
+		{
+			"title": "Proyectos con el equipo Cofidis (World Tour)",
+			"meta": "Python · Verano 2025",
+			"paragraphs": [
+				"Proyecto propio que realicé como prueba para acceder al análisis de datos en el ciclismo profesional:"
+			],
+			"list": [
+				"Analizador de dificultad UCI: mediante web scraping del ranking UCI, sitúa a los corredores del equipo y estima el nivel de dificultad para sumar puntos UCI según la plantilla.",
+				"Predictor de perfil de carrera: anticipa las características de cada carrera y le asigna una nota de dificultad para planificar objetivos y estrategia."
+			]
+		},
+		{
+			"title": "Proyectos académicos y personales",
+			"meta": "Análisis, visualización y machine learning",
+			"paragraphs": ["Trabajos propios de análisis de datos, visualización y machine learning."],
+			"link": { "href": "/proyectos", "label": "Ver proyectos" }
+		}
+	],
+	"deporte": [
+		{
+			"title": "Competición",
+			"paragraphs": [
+				"Campeón de España de madison (18 años); Mundial y Europeo de pista con la Selección Española (6º en ambos); deportista de élite; ciclista de pista federado, en activo."
+			]
+		},
+		{
+			"title": "Dirección deportiva",
+			"paragraphs": [
+				"Director Deportivo Nivel I y II (RFEC); formación y seguimiento de ciclistas de base (14–18) junto a mi padre; auxiliar con la Selección de la Comunidad Valenciana en competiciones (2026)."
+			]
+		},
+		{
+			"title": "Quiromasaje y staff técnico",
+			"meta": "Verano 2025",
+			"paragraphs": [
+				"Quiromasajista titulado; masajista de ciclistas profesionales; staff con la Selección de la Comunidad Valenciana, con un equipo continental filipino y con ciclistas a título particular en Benidorm."
+			]
+		}
+	]
+}

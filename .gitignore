@@ -22,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# secretos y wrangler (nunca subir)
+.dev.vars
+.wrangler/

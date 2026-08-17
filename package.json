@@ -9,11 +9,15 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "panel:dev": "astro build && wrangler pages dev dist --compatibility-date=2024-01-01"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "@google/generative-ai": "^0.24.1",
     "astro": "^7.2.1"
+  },
+  "devDependencies": {
+    "wrangler": "^4.123.0"
   }
 }

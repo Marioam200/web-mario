@@ -1,0 +1,40 @@
+{
+	"hero": {
+		"eyebrow": "Científico de datos · Analítica deportiva · Valencia",
+		"titlePre": "Convierto datos deportivos en ",
+		"titleHighlight": "decisiones que ganan",
+		"subtitle": "Soy el puente entre el análisis de datos y el deporte de élite: transformo métricas de rendimiento en estrategias que marcan la diferencia sobre el terreno.",
+		"tools": ["Python", "R", "SQL", "Power BI", "Machine Learning"]
+	},
+	"sobreMiResumen": {
+		"eyebrow": "Sobre mí",
+		"title": "Datos con contexto de pista, carretera y competición",
+		"text": "Soy Mario Álvarez, estudiante de Ciencia de Datos en la UPV con experiencia real dentro del ciclismo profesional. Combino el análisis de datos con el rendimiento deportivo de élite, para convertir cada métrica en una decisión que mejora resultados."
+	},
+	"stats": [
+		{
+			"value": "UPV",
+			"label": "Formación",
+			"detail": "Grado en Ciencia de Datos, Universitat Politècnica de València."
+		},
+		{
+			"value": "Élite",
+			"label": "Experiencia",
+			"detail": "Trabajo real dentro de un equipo de ciclismo profesional."
+		},
+		{
+			"value": "Data + Sport",
+			"label": "Enfoque",
+			"detail": "Analítica aplicada a la mejora del rendimiento deportivo."
+		}
+	],
+	"experienciaResumen": {
+		"eyebrow": "Experiencia",
+		"title": "Dos mundos, un mismo lenguaje: el rendimiento",
+		"text": "He competido al máximo nivel y hoy aplico ese mismo criterio a los datos: entiendo lo que un número significa para un deportista porque he sido ese deportista."
+	},
+	"ctaFinal": {
+		"title": "¿Hablamos de datos?",
+		"text": "Cuéntame tu proyecto y buscamos juntos dónde están las decisiones que mejoran el rendimiento."
+	}
+}
