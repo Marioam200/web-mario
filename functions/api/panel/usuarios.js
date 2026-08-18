@@ -9,9 +9,16 @@ export async function onRequestGet({ request, env }) {
 	if (!userId) return json({ error: 'No autenticado' }, 401);
 
 	try {
-		const { results } = await env.DB.prepare('SELECT nombre, email, creado_en FROM usuarios_panel ORDER BY creado_en DESC').all();
+		const { results } = await env.DB.prepare(
+			'SELECT id, nombre, email, creado_en FROM usuarios_panel ORDER BY creado_en DESC',
+		).all();
 
-		const usuarios = results.map((fila) => ({ nombre: fila.nombre, email: fila.email, creadoEn: fila.creado_en }));
+		const usuarios = results.map((fila) => ({
+			id: fila.id,
+			nombre: fila.nombre,
+			email: fila.email,
+			creadoEn: fila.creado_en,
+		}));
 		return json({ usuarios });
 	} catch (error) {
 		console.error('Error listando usuarios del panel:', error);
@@ -51,12 +58,12 @@ export async function onRequestPost({ request, env }) {
 		const { hash, salt } = await hashPassword(password);
 
 		const fila = await env.DB.prepare(
-			'INSERT INTO usuarios_panel (nombre, email, password_hash, password_salt) VALUES (?, ?, ?, ?) RETURNING creado_en',
+			'INSERT INTO usuarios_panel (nombre, email, password_hash, password_salt) VALUES (?, ?, ?, ?) RETURNING id, creado_en',
 		)
 			.bind(nombre, email, hash, salt)
 			.first();
 
-		return json({ nombre, email, creadoEn: fila.creado_en }, 201);
+		return json({ id: fila.id, nombre, email, creadoEn: fila.creado_en }, 201);
 	} catch (error) {
 		console.error('Error creando usuario del panel:', error);
 		return json({ error: 'No se pudo crear el usuario' }, 500);

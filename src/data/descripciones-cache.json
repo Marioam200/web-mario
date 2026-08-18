@@ -14,24 +14,31 @@
   "TRABAJO_MDP": {
     "name": "TRABAJO_MDP",
     "updated_at": "2026-06-07T17:06:33Z",
-    "description": "Un proyecto práctico de análisis exploratorio y reducción de dimensionalidad mediante PCA sobre las propiedades fisicoquímicas de distintos cristales. Está desarrollado en R utilizando paquetes como FactoMineR, factoextra, dplyr y ggplot2 para la limpieza de datos, el tratamiento de valores atípicos y la visualización."
+    "es": "Un proyecto práctico de análisis exploratorio y reducción de dimensionalidad mediante PCA sobre las propiedades fisicoquímicas de distintos cristales. Está desarrollado en R utilizando paquetes como FactoMineR, factoextra, dplyr y ggplot2 para la limpieza de datos, el tratamiento de valores atípicos y la visualización.",
+    "en": "An academic data analysis project in R that explores and characterizes a physicochemical crystal dataset. It covers data cleaning, preprocessing, and dimensionality reduction through Principal Component Analysis (PCA) using packages such as FactoMineR, factoextra, and ggplot2."
   },
   "web-mario": {
     "name": "web-mario",
-    "updated_at": "2026-08-17T21:10:15Z",
-    "es": "Proyecto web básico desarrollado con el framework Astro a partir de su plantilla inicial. Se trata de un punto de partida para experimentar y construir un sitio web personal."
+    "updated_at": "2026-08-17T22:02:58Z",
+    "es": "Proyecto web inicial creado como punto de partida y práctica con el framework Astro, utilizando su plantilla básica para estructurar el sitio.",
+    "en": "A basic web project created using the Astro framework starter template. It serves as a simple setup for experimenting with Astro's component structure and development workflow."
   },
   "TRABAJO_CORREDORES": {
     "name": "TRABAJO_CORREDORES",
     "updated_at": "2026-04-13T16:24:44Z",
-    "es": "Una aplicación creada con Streamlit y Python para planificar alineaciones en equipos ciclistas, obteniendo datos de portales especializados mediante web scraping con Selenium y BeautifulSoup. También incorpora la API de Gemini para procesar automáticamente normativas en PDF y extraer los sistemas de puntuación UCI."
+    "es": "Una aplicación creada con Streamlit y Python para planificar alineaciones en equipos ciclistas, obteniendo datos de portales especializados mediante web scraping con Selenium y BeautifulSoup. También incorpora la API de Gemini para procesar automáticamente normativas en PDF y extraer los sistemas de puntuación UCI.",
+    "en": "A Streamlit web application that helps manage cycling teams by scraping race and rider data from ProCyclingStats and FirstCycling to analyze upcoming events and cyclist specialties. It is built with Python using BeautifulSoup, Selenium, Pandas, and the Gemini API to process data and extract UCI points regulations from PDFs."
   },
   "EVALUACION-DE-MODELOS-": {
     "name": "EVALUACION-DE-MODELOS-",
-    "updated_at": "2026-07-07T11:35:18Z"
+    "updated_at": "2026-07-07T11:35:18Z",
+    "en": "This repository contains practical assignments for a university model evaluation course, covering topics such as cost-sensitive classification, fairness metrics on the COMPAS dataset, and model interpretability using partial dependence plots. The exercises and analyses are implemented using Python and R across Jupyter Notebooks and R Markdown reports.",
+    "es": "Repositorio de prácticas académicas sobre evaluación de modelos de aprendizaje automático, donde se exploran temas como la clasificación sensible al coste, la detección de clases desconocidas, el análisis de sesgos y la explicabilidad de predicciones. Los ejercicios están implementados en Python y R mediante Jupyter Notebooks y R Markdown."
   },
   "COFIDIS": {
     "name": "COFIDIS",
-    "updated_at": "2026-04-13T16:24:41Z"
+    "updated_at": "2026-04-13T16:24:41Z",
+    "en": "Developed as an academic project, this tool scrapes UCI rankings and race data from ProCyclingStats to calculate race difficulty scores tailored to the Cofidis cycling team's calendar. It is built with Python, using Selenium and BeautifulSoup for web scraping, Pandas for data processing, and Streamlit for the interactive interface.",
+    "es": "Proyecto académico que calcula una puntuación de dificultad para las carreras del equipo ciclista Cofidis a partir de datos de ProCyclingStats. Utiliza web scraping con Selenium y BeautifulSoup, procesamiento de datos con Pandas y una interfaz web interactiva creada en Streamlit."
   }
 }

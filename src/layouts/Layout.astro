@@ -9,6 +9,7 @@ interface Props {
 	description?: string;
 	noindex?: boolean;
 	lang?: Locale;
+	panelPrivado?: boolean;
 }
 
 const {
@@ -16,6 +17,7 @@ const {
 	description = 'Mario Álvarez, científico de datos en Valencia especializado en analítica deportiva. Data · Sport · Progress.',
 	noindex = false,
 	lang = 'es',
+	panelPrivado = false,
 } = Astro.props;
 
 const t = strings[lang];
@@ -112,79 +114,83 @@ const personSchema = {
 		/>
 	</head>
 	<body>
-		<header id="site-header">
-			<div class="container nav-inner">
-				<a href={localizedPath('/', lang)} class="brand">
-					<img src="/mark-blanco.png" alt="" width="36" height="36" class="brand-mark" />
-					<span class="brand-name">Mario Álvarez</span>
-				</a>
-
-				<nav id="site-nav" aria-label={t.nav.ariaMain}>
-					<ul>
-						{
-							navLinks.map((link) => (
-								<li>
-									<a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
-										{link.label}
-									</a>
-								</li>
-							))
-						}
-					</ul>
-				</nav>
-
-				<div class="nav-actions">
-					<div class="lang-switch" aria-label={t.langSwitch.label}>
-						<a href={pathES} aria-current={lang === 'es' ? 'true' : undefined}>
-							{t.langSwitch.es}
-						</a>
-						<span aria-hidden="true">·</span>
-						<a href={pathEN} aria-current={lang === 'en' ? 'true' : undefined}>
-							{t.langSwitch.en}
-						</a>
-					</div>
-					<a href={localizedPath('/contacto', lang)} class="btn btn-primary">
-						{t.nav.contacto}
+		{!panelPrivado && (
+			<header id="site-header">
+				<div class="container nav-inner">
+					<a href={localizedPath('/', lang)} class="brand">
+						<img src="/mark-blanco.png" alt="" width="36" height="36" class="brand-mark" />
+						<span class="brand-name">Mario Álvarez</span>
 					</a>
-					<button id="nav-toggle" aria-label={t.nav.openMenu} aria-expanded="false" aria-controls="site-nav">
-						<span></span>
-						<span></span>
-						<span></span>
-					</button>
+
+					<nav id="site-nav" aria-label={t.nav.ariaMain}>
+						<ul>
+							{
+								navLinks.map((link) => (
+									<li>
+										<a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
+											{link.label}
+										</a>
+									</li>
+								))
+							}
+						</ul>
+					</nav>
+
+					<div class="nav-actions">
+						<div class="lang-switch" aria-label={t.langSwitch.label}>
+							<a href={pathES} aria-current={lang === 'es' ? 'true' : undefined}>
+								{t.langSwitch.es}
+							</a>
+							<span aria-hidden="true">·</span>
+							<a href={pathEN} aria-current={lang === 'en' ? 'true' : undefined}>
+								{t.langSwitch.en}
+							</a>
+						</div>
+						<a href={localizedPath('/contacto', lang)} class="btn btn-primary">
+							{t.nav.contacto}
+						</a>
+						<button id="nav-toggle" aria-label={t.nav.openMenu} aria-expanded="false" aria-controls="site-nav">
+							<span></span>
+							<span></span>
+							<span></span>
+						</button>
+					</div>
 				</div>
-			</div>
-		</header>
+			</header>
+		)}
 
 		<main>
 			<slot />
 		</main>
 
-		<footer id="contacto">
-			<div class="container footer-inner">
-				<div class="footer-brand">
-					<img src="/mark-blanco.png" alt="" width="30" height="30" class="footer-mark" />
-					<div>
-						<p class="footer-name">Mario Álvarez</p>
-						<p class="text-dim">{t.footer.tagline}</p>
+		{!panelPrivado && (
+			<footer id="contacto">
+				<div class="container footer-inner">
+					<div class="footer-brand">
+						<img src="/mark-blanco.png" alt="" width="30" height="30" class="footer-mark" />
+						<div>
+							<p class="footer-name">Mario Álvarez</p>
+							<p class="text-dim">{t.footer.tagline}</p>
+						</div>
+					</div>
+
+					<div class="footer-legal-links">
+						<a href={localizedPath('/politica-de-privacidad', lang)} class="footer-cookie-btn">{t.legal.privacidad}</a>
+						<a href={localizedPath('/politica-de-cookies', lang)} class="footer-cookie-btn">{t.legal.cookies}</a>
+						<button type="button" id="cookie-config-btn" class="footer-cookie-btn">{t.cookies.configurar}</button>
+					</div>
+
+					<div class="footer-social">
+						<SocialLinks links={socialLinks} ariaLabel={t.footer.ariaSocial} />
 					</div>
 				</div>
-
-				<div class="footer-legal-links">
-					<a href={localizedPath('/politica-de-privacidad', lang)} class="footer-cookie-btn">{t.legal.privacidad}</a>
-					<a href={localizedPath('/politica-de-cookies', lang)} class="footer-cookie-btn">{t.legal.cookies}</a>
-					<button type="button" id="cookie-config-btn" class="footer-cookie-btn">{t.cookies.configurar}</button>
+				<div class="container">
+					<p class="footer-copy text-dim">{t.footer.copy(new Date().getFullYear())}</p>
 				</div>
+			</footer>
+		)}
 
-				<div class="footer-social">
-					<SocialLinks links={socialLinks} ariaLabel={t.footer.ariaSocial} />
-				</div>
-			</div>
-			<div class="container">
-				<p class="footer-copy text-dim">{t.footer.copy(new Date().getFullYear())}</p>
-			</div>
-		</footer>
-
-		<CookieBanner lang={lang} />
+		{!panelPrivado && <CookieBanner lang={lang} />}
 
 		<script>
 			const toggle = document.getElementById('nav-toggle');

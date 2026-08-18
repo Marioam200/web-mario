@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Panel — Mario Álvarez" description="Panel privado de gestión del sitio." noindex={true}>
+<Layout title="Panel — Mario Álvarez" description="Panel privado de gestión del sitio." noindex={true} panelPrivado={true}>
 	<section class="panel">
 		<div class="container">
 			<p id="panel-cargando" class="panel-cargando">Cargando…</p>
@@ -27,6 +27,11 @@ import Layout from '../layouts/Layout.astro';
 
 			<div id="panel-app" class="panel-app" hidden>
 				<aside class="panel-sidebar">
+					<div class="sidebar-brand">
+						<img src="/mark-blanco.png" alt="" width="28" height="28" />
+						<span>Panel</span>
+					</div>
+
 					<nav aria-label="Secciones del panel">
 						<div class="sidebar-grupo">
 							<p class="sidebar-titulo">Añadir a la web</p>
@@ -42,6 +47,7 @@ import Layout from '../layouts/Layout.astro';
 							<p class="sidebar-titulo">Sistema</p>
 							<button type="button" class="sidebar-link" data-tab="logs">Registros</button>
 							<button type="button" class="sidebar-link" data-tab="acerca-de">Acerca de</button>
+							<button type="button" class="sidebar-link" data-tab="basedatos">Base de datos</button>
 						</div>
 					</nav>
 
@@ -49,6 +55,11 @@ import Layout from '../layouts/Layout.astro';
 				</aside>
 
 				<main class="panel-main">
+					<div class="panel-topbar">
+						<button type="button" id="btn-toggle-sidebar" class="btn-toggle-sidebar" aria-label="Mostrar u ocultar el menú">☰</button>
+						<span id="nombre-usuario" class="topbar-nombre"></span>
+					</div>
+
 					<section id="tab-chat" class="panel-tab" data-tab-panel="chat">
 						<div class="panel-grid">
 							<div class="chat-card reveal">
@@ -113,6 +124,7 @@ import Layout from '../layouts/Layout.astro';
 									<th>Nombre</th>
 									<th>Correo electrónico</th>
 									<th>Alta</th>
+									<th>Acciones</th>
 								</tr>
 							</thead>
 							<tbody id="usuarios-tbody"></tbody>
@@ -140,6 +152,19 @@ import Layout from '../layouts/Layout.astro';
 						<table class="tabla-panel tabla-clave-valor">
 							<tbody id="acerca-de-tbody"></tbody>
 						</table>
+					</section>
+
+					<section id="tab-basedatos" class="panel-tab" data-tab-panel="basedatos" hidden>
+						<h1>Base de datos</h1>
+						<div class="basedatos-grid">
+							<div id="tablas-lista" class="tablas-lista"></div>
+
+							<div class="sql-panel">
+								<textarea id="sql-input" rows="4" placeholder="SELECT * FROM ..."></textarea>
+								<button type="button" id="btn-ejecutar-sql" class="btn btn-primary">Ejecutar</button>
+								<div id="sql-resultado"></div>
+							</div>
+						</div>
 					</section>
 				</main>
 			</div>
@@ -189,7 +214,7 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	/* --- Login --- */
-	.panel-login {
+	.panel-login:not([hidden]) {
 		display: flex;
 		justify-content: center;
 		padding-block: 3rem;
@@ -426,7 +451,7 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	/* --- Estructura del panel: sidebar + contenido --- */
-	.panel-app {
+	.panel-app:not([hidden]) {
 		display: grid;
 		grid-template-columns: 230px 1fr;
 		gap: 2rem;
@@ -444,6 +469,16 @@ import Layout from '../layouts/Layout.astro';
 		border: 1px solid var(--color-border);
 		border-radius: 16px;
 		padding: 1.5rem 1.25rem;
+	}
+
+	.sidebar-brand {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		color: var(--color-text);
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 0.95rem;
 	}
 
 	.panel-sidebar nav {
@@ -517,6 +552,33 @@ import Layout from '../layouts/Layout.astro';
 
 	.panel-main {
 		min-width: 0;
+	}
+
+	.panel-topbar {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-block: 0.5rem 1rem;
+		margin-block-end: 1rem;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.btn-toggle-sidebar {
+		background: none;
+		border: none;
+		color: var(--color-text);
+		font-size: 1.1rem;
+		line-height: 1;
+		cursor: pointer;
+	}
+
+	.topbar-nombre {
+		color: var(--color-text-dim);
+		font-size: 0.85rem;
+	}
+
+	.sidebar-oculto {
+		display: none;
 	}
 
 	.panel-tab h1 {
@@ -604,8 +666,71 @@ import Layout from '../layouts/Layout.astro';
 		padding: 0.6rem 0.85rem;
 	}
 
+	/* --- Base de datos --- */
+	.basedatos-grid {
+		display: grid;
+		grid-template-columns: 200px 1fr;
+		gap: 1.5rem;
+		align-items: start;
+	}
+
+	.tablas-lista {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+	}
+
+	.tablas-lista .btn-tabla-sql {
+		display: block;
+		width: 100%;
+		text-align: left;
+		background: none;
+		border: none;
+		border-radius: 8px;
+		color: var(--color-text-dim);
+		font-family: var(--font-mono);
+		font-size: 0.85rem;
+		padding: 0.5rem 0.6rem;
+		cursor: pointer;
+		transition:
+			background var(--transition-fast),
+			color var(--transition-fast);
+	}
+
+	.tablas-lista .btn-tabla-sql:hover {
+		color: var(--color-blue);
+		background: rgba(56, 189, 248, 0.1);
+	}
+
+	.sql-panel {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	#sql-input {
+		width: 100%;
+		resize: vertical;
+		background: var(--color-bg-elevated);
+		border: 1px solid var(--color-border);
+		border-radius: 10px;
+		color: var(--color-text);
+		font-family: var(--font-mono);
+		font-size: 0.88rem;
+		padding: 0.7rem 0.85rem;
+	}
+
+	#sql-input:focus {
+		outline: none;
+		border-color: var(--color-blue);
+	}
+
+	#sql-resultado {
+		overflow-x: auto;
+	}
+
 	/* --- Modal nuevo usuario --- */
-	.panel-modal {
+	.panel-modal:not([hidden]) {
 		position: fixed;
 		inset: 0;
 		z-index: 300;
@@ -674,6 +799,10 @@ import Layout from '../layouts/Layout.astro';
 			grid-template-columns: 1fr;
 		}
 
+		.basedatos-grid {
+			grid-template-columns: 1fr;
+		}
+
 		.panel-sidebar {
 			position: static;
 			flex-direction: row;
@@ -713,6 +842,12 @@ import Layout from '../layouts/Layout.astro';
 	const loginErrorEl = document.getElementById('login-error')!;
 
 	const btnLogoutEl = document.getElementById('btn-logout') as HTMLButtonElement;
+
+	const btnToggleSidebarEl = document.getElementById('btn-toggle-sidebar');
+	const sidebarEl = document.querySelector('.panel-sidebar');
+	btnToggleSidebarEl?.addEventListener('click', () => {
+		sidebarEl?.classList.toggle('sidebar-oculto');
+	});
 
 	function escaparHtml(texto: string): string {
 		const div = document.createElement('div');
@@ -858,6 +993,7 @@ import Layout from '../layouts/Layout.astro';
 	const btnCancelarUsuarioEl = document.getElementById('btn-cancelar-usuario') as HTMLButtonElement;
 
 	interface Usuario {
+		id: number;
 		nombre: string;
 		email: string;
 		creadoEn: string;
@@ -870,19 +1006,19 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	async function cargarUsuarios() {
-		usuariosTbodyEl.innerHTML = '<tr><td colspan="3">Cargando…</td></tr>';
+		usuariosTbodyEl.innerHTML = '<tr><td colspan="4">Cargando…</td></tr>';
 		try {
 			const respuesta = await fetch('/api/panel/usuarios');
 			const datos = await respuesta.json();
 
 			if (!respuesta.ok) {
-				usuariosTbodyEl.innerHTML = `<tr><td colspan="3">${escaparHtml(datos.error || 'No se pudo cargar.')}</td></tr>`;
+				usuariosTbodyEl.innerHTML = `<tr><td colspan="4">${escaparHtml(datos.error || 'No se pudo cargar.')}</td></tr>`;
 				return;
 			}
 
 			const usuarios: Usuario[] = datos.usuarios;
 			if (usuarios.length === 0) {
-				usuariosTbodyEl.innerHTML = '<tr><td colspan="3">Todavía no hay usuarios.</td></tr>';
+				usuariosTbodyEl.innerHTML = '<tr><td colspan="4">Todavía no hay usuarios.</td></tr>';
 				return;
 			}
 
@@ -893,14 +1029,43 @@ import Layout from '../layouts/Layout.astro';
 							<td>${escaparHtml(u.nombre)}</td>
 							<td>${escaparHtml(u.email)}</td>
 							<td>${escaparHtml(u.creadoEn)}</td>
+							<td>
+								<button type="button" class="btn-eliminar-usuario" data-id="${u.id}" data-nombre="${escaparHtml(u.email)}">
+									Eliminar
+								</button>
+							</td>
 						</tr>
 					`,
 				)
 				.join('');
 		} catch (error) {
-			usuariosTbodyEl.innerHTML = '<tr><td colspan="3">No se pudo contactar con el servidor.</td></tr>';
+			usuariosTbodyEl.innerHTML = '<tr><td colspan="4">No se pudo contactar con el servidor.</td></tr>';
 		}
 	}
+
+	usuariosTbodyEl.addEventListener('click', async (evento) => {
+		const boton = (evento.target as HTMLElement).closest('.btn-eliminar-usuario') as HTMLButtonElement | null;
+		if (!boton) return;
+
+		const id = boton.dataset.id;
+		const email = boton.dataset.nombre;
+		if (!confirm(`¿Seguro que quieres eliminar el acceso de ${email}? No se puede deshacer.`)) return;
+
+		boton.disabled = true;
+		try {
+			const respuesta = await fetch(`/api/panel/usuarios/${id}`, { method: 'DELETE' });
+			if (!respuesta.ok) {
+				const datos = await respuesta.json().catch(() => ({}));
+				alert(datos.error || 'No se pudo eliminar el usuario.');
+				boton.disabled = false;
+				return;
+			}
+			cargarUsuarios();
+		} catch (error) {
+			alert('No se pudo contactar con el servidor.');
+			boton.disabled = false;
+		}
+	});
 
 	function abrirModalUsuario() {
 		formNuevoUsuarioEl.reset();
@@ -1036,6 +1201,110 @@ import Layout from '../layouts/Layout.astro';
 		}
 	}
 
+	// ================= Base de datos =================
+	const tablasListaEl = document.getElementById('tablas-lista')!;
+	const sqlInputEl = document.getElementById('sql-input') as HTMLTextAreaElement;
+	const btnEjecutarSqlEl = document.getElementById('btn-ejecutar-sql') as HTMLButtonElement;
+	const sqlResultadoEl = document.getElementById('sql-resultado')!;
+
+	interface ResultadoSQL {
+		columnas: string[];
+		filas: Record<string, unknown>[];
+		meta: { cambios: number; filas: number; duracionMs: number | null };
+	}
+
+	const PALABRAS_CONFIRMACION_SQL = ['delete', 'update', 'drop', 'alter', 'truncate'];
+
+	async function cargarTablasSQL() {
+		tablasListaEl.innerHTML = 'Cargando…';
+		try {
+			const respuesta = await fetch('/api/panel/db/tablas');
+			const datos = await respuesta.json();
+
+			if (!respuesta.ok) {
+				tablasListaEl.innerHTML = escaparHtml(datos.error || 'No se pudo cargar.');
+				return;
+			}
+
+			const tablas: string[] = datos.tablas;
+			if (tablas.length === 0) {
+				tablasListaEl.innerHTML = 'No hay tablas.';
+				return;
+			}
+
+			tablasListaEl.innerHTML = tablas
+				.map(
+					(tabla) =>
+						`<button type="button" class="btn-tabla-sql" data-tabla="${escaparHtml(tabla)}">${escaparHtml(tabla)}</button>`,
+				)
+				.join('');
+		} catch (error) {
+			tablasListaEl.innerHTML = 'No se pudo contactar con el servidor.';
+		}
+	}
+
+	function pintarResultadoSQL(datos: ResultadoSQL) {
+		if (datos.columnas.length === 0) {
+			sqlResultadoEl.innerHTML = `<p class="text-dim">${datos.meta.cambios} filas afectadas</p>`;
+			return;
+		}
+
+		const cabecera = datos.columnas.map((columna) => `<th>${escaparHtml(columna)}</th>`).join('');
+		const filas = datos.filas
+			.map(
+				(fila) =>
+					`<tr>${datos.columnas.map((columna) => `<td>${escaparHtml(String(fila[columna] ?? ''))}</td>`).join('')}</tr>`,
+			)
+			.join('');
+
+		sqlResultadoEl.innerHTML = `
+			<table class="tabla-panel">
+				<thead><tr>${cabecera}</tr></thead>
+				<tbody>${filas}</tbody>
+			</table>
+		`;
+	}
+
+	async function ejecutarSQL(sql: string) {
+		const sqlNormalizado = sql.toLowerCase().trimStart();
+		if (PALABRAS_CONFIRMACION_SQL.some((palabra) => sqlNormalizado.startsWith(palabra))) {
+			if (!confirm(`Vas a ejecutar:\n\n${sql}\n\n¿Seguro?`)) return;
+		}
+
+		btnEjecutarSqlEl.disabled = true;
+		try {
+			const respuesta = await fetch('/api/panel/db/consulta', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ sql }),
+			});
+			const datos = await respuesta.json();
+
+			if (!respuesta.ok) {
+				sqlResultadoEl.innerHTML = `<p class="form-error">${escaparHtml(datos.error || 'No se pudo ejecutar.')}</p>`;
+				return;
+			}
+
+			pintarResultadoSQL(datos);
+		} catch (error) {
+			sqlResultadoEl.innerHTML = '<p class="form-error">No se pudo contactar con el servidor.</p>';
+		} finally {
+			btnEjecutarSqlEl.disabled = false;
+		}
+	}
+
+	btnEjecutarSqlEl.addEventListener('click', () => {
+		ejecutarSQL(sqlInputEl.value);
+	});
+
+	tablasListaEl.addEventListener('click', (evento) => {
+		const boton = (evento.target as HTMLElement).closest('.btn-tabla-sql') as HTMLButtonElement | null;
+		if (!boton) return;
+		const tabla = boton.dataset.tabla;
+		sqlInputEl.value = `SELECT * FROM ${tabla} LIMIT 100;`;
+		ejecutarSQL(sqlInputEl.value);
+	});
+
 	// ================= Navegación por pestañas =================
 	const sidebarLinks = Array.from(document.querySelectorAll<HTMLButtonElement>('.sidebar-link'));
 	const paneles = Array.from(document.querySelectorAll<HTMLElement>('.panel-tab'));
@@ -1044,6 +1313,7 @@ import Layout from '../layouts/Layout.astro';
 		usuarios: cargarUsuarios,
 		logs: () => cargarLogs(logsBuscarEl.value.trim()),
 		'acerca-de': cargarAcercaDe,
+		basedatos: cargarTablasSQL,
 	};
 
 	sidebarLinks.forEach((link) => {
@@ -1102,6 +1372,8 @@ import Layout from '../layouts/Layout.astro';
 
 			if (datos.autenticado) {
 				appEl.hidden = false;
+				const nombreUsuarioEl = document.getElementById('nombre-usuario');
+				if (nombreUsuarioEl) nombreUsuarioEl.textContent = datos.nombre;
 			} else {
 				loginSeccionEl.hidden = false;
 				loginEmailEl.focus();
