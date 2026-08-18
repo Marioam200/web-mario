@@ -19,9 +19,8 @@
   },
   "web-mario": {
     "name": "web-mario",
-    "updated_at": "2026-08-17T22:02:58Z",
-    "es": "Proyecto web inicial creado como punto de partida y práctica con el framework Astro, utilizando su plantilla básica para estructurar el sitio.",
-    "en": "A basic web project created using the Astro framework starter template. It serves as a simple setup for experimenting with Astro's component structure and development workflow."
+    "updated_at": "2026-08-18T07:57:49Z",
+    "es": "Proyecto inicial para un sitio web personal creado a partir de la plantilla básica de Astro. Sirve como punto de partida y práctica para familiarizarse con la estructura y componentes de este framework."
   },
   "TRABAJO_CORREDORES": {
     "name": "TRABAJO_CORREDORES",
