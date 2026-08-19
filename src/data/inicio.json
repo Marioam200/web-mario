@@ -1,8 +1,8 @@
 {
 	"hero": {
 		"eyebrow": "Científico de datos · Analítica deportiva · Valencia",
-		"titlePre": "Convierto datos deportivos en ",
-		"titleHighlight": "decisiones que ganan",
+		"titlePre": "Convierto datos en ",
+		"titleHighlight": "decisiones claras",
 		"subtitle": "Soy el puente entre el análisis de datos y el deporte de élite: transformo métricas de rendimiento en estrategias que marcan la diferencia sobre el terreno.",
 		"tools": ["Python", "R", "SQL", "Power BI", "Machine Learning"]
 	},
