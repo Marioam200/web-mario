@@ -1,8 +1,8 @@
 {
 	"hero": {
 		"eyebrow": "Data Scientist · Sports Analytics · Valencia",
-		"titlePre": "Turning sports data into ",
-		"titleHighlight": "decisions that win",
+		"titlePre": "Turning data into ",
+		"titleHighlight": "clear decisions",
 		"subtitle": "I'm the bridge between data analysis and elite sport: I turn performance metrics into strategies that make the difference on the ground.",
 		"tools": ["Python", "R", "SQL", "Power BI", "Machine Learning"]
 	},
