@@ -7,9 +7,8 @@
   },
   "CATALOGO_HECTOR_ALVAREZ": {
     "name": "CATALOGO_HECTOR_ALVAREZ",
-    "updated_at": "2026-08-12T10:16:44Z",
-    "en": "Data analysis and data science project.",
-    "es": "Proyecto de análisis y ciencia de datos."
+    "updated_at": "2026-08-18T08:09:46Z",
+    "es": "Catálogo web de una sola página para la venta de una colección de ropa de ciclismo, que incluye carrito de compra y formulario de pedidos. Está construido con HTML, CSS y JavaScript vanilla, apoyándose en Netlify Functions y la API de PayPal para gestionar el proceso de pago."
   },
   "TRABAJO_MDP": {
     "name": "TRABAJO_MDP",

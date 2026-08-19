@@ -1,0 +1,77 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const lang = Astro.url.pathname.startsWith('/en/') ? 'en' : 'es';
+
+const UI = {
+	es: {
+		title: 'Página no encontrada — Mario Álvarez',
+		description: 'La página que buscas no existe o se ha movido.',
+		heading: 'Página no encontrada',
+		text: 'Lo sentimos, la página que buscas no existe o se ha movido.',
+		cta: 'Volver al inicio',
+		home: '/',
+	},
+	en: {
+		title: 'Page not found — Mario Álvarez',
+		description: 'The page you are looking for does not exist or has been moved.',
+		heading: 'Page not found',
+		text: "Sorry, the page you're looking for doesn't exist or has been moved.",
+		cta: 'Back to home',
+		home: '/en',
+	},
+} as const;
+
+const t = UI[lang];
+---
+
+<Layout title={t.title} description={t.description} lang={lang} noindex={true}>
+	<section class="not-found">
+		<div class="container not-found-inner">
+			<p class="not-found-code">404</p>
+			<h1 class="not-found-heading">{t.heading}</h1>
+			<p class="not-found-text text-dim">{t.text}</p>
+			<a href={t.home} class="btn btn-primary">{t.cta}</a>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.not-found {
+		padding-block: 6rem;
+		min-height: calc(100vh - 68px);
+		display: flex;
+		align-items: center;
+	}
+
+	.not-found-inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 1rem;
+	}
+
+	.not-found-code {
+		font-family: var(--font-heading);
+		font-weight: 700;
+		font-size: clamp(4rem, 12vw, 7rem);
+		line-height: 1;
+		background: linear-gradient(90deg, var(--color-blue), var(--color-green));
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	.not-found-heading {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: clamp(1.5rem, 3vw, 2rem);
+		color: var(--color-text);
+	}
+
+	.not-found-text {
+		max-width: 32ch;
+		margin-block-end: 1rem;
+	}
+</style>

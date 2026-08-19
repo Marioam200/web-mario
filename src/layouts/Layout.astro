@@ -51,11 +51,13 @@ const personSchema = {
 	'@context': 'https://schema.org',
 	'@type': 'Person',
 	name: 'Mario Álvarez',
-	jobTitle: 'Científico de datos',
+	jobTitle: lang === 'en' ? 'Data Scientist' : 'Científico de datos',
 	description:
-		'Científico de datos especializado en analítica deportiva, con experiencia dentro del ciclismo profesional.',
+		lang === 'en'
+			? 'Data scientist specialized in sports analytics, with experience within professional cycling.'
+			: 'Científico de datos especializado en analítica deportiva, con experiencia dentro del ciclismo profesional.',
 	url: 'https://marioalvarez.me',
-	image: 'https://marioalvarez.me/mario.jpg',
+	image: 'https://marioalvarez.me/mario.webp',
 	alumniOf: {
 		'@type': 'CollegeOrUniversity',
 		name: 'Universitat Politècnica de València',
@@ -104,7 +106,7 @@ const personSchema = {
 		<meta name="twitter:image" content={socialImageURL} />
 		<meta name="twitter:image:alt" content={socialImageAlt} />
 
-		{lang === 'es' && <script type="application/ld+json" set:html={JSON.stringify(personSchema)} is:inline />}
+		<script type="application/ld+json" set:html={JSON.stringify(personSchema)} is:inline />
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
