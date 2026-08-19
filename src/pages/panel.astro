@@ -172,7 +172,13 @@ import Layout from '../layouts/Layout.astro';
 					<section id="tab-basedatos" class="panel-tab" data-tab-panel="basedatos" hidden>
 						<h1>Base de datos</h1>
 						<div class="basedatos-grid">
-							<div id="tablas-lista" class="tablas-lista"></div>
+							<div class="tablas-lista-wrap">
+								<button type="button" class="tablas-lista-titulo sidebar-titulo" aria-expanded="false">
+									Tablas
+									<span class="chevron" aria-hidden="true">▾</span>
+								</button>
+								<div id="tablas-lista" class="tablas-lista" hidden></div>
+							</div>
 
 							<div class="sql-panel">
 								<textarea id="sql-input" rows="4" placeholder="SELECT * FROM ..."></textarea>
@@ -954,6 +960,13 @@ import Layout from '../layouts/Layout.astro';
 		boton.setAttribute('aria-expanded', String(!expandido));
 		const links = boton.nextElementSibling as HTMLElement | null;
 		if (links) links.hidden = expandido;
+	});
+
+	const btnTablasListaTituloEl = document.querySelector('.tablas-lista-titulo');
+	btnTablasListaTituloEl?.addEventListener('click', () => {
+		const expandido = btnTablasListaTituloEl.getAttribute('aria-expanded') === 'true';
+		btnTablasListaTituloEl.setAttribute('aria-expanded', String(!expandido));
+		tablasListaEl.hidden = expandido;
 	});
 
 	function escaparHtml(texto: string): string {
