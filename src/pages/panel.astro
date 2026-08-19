@@ -670,6 +670,10 @@ import Layout from '../layouts/Layout.astro';
 		display: none;
 	}
 
+	.panel-app:has(.sidebar-oculto) {
+		grid-template-columns: 1fr;
+	}
+
 	.panel-tab h1 {
 		font-size: 1.4rem;
 		margin-block-end: 1.5rem;

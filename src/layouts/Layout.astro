@@ -3,6 +3,8 @@ import '../styles/global.css';
 import SocialLinks from '../components/SocialLinks.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import { type Locale, localizedPath, alternatePath, strings } from '../lib/i18n';
+import sunIcon from 'lucide-static/icons/sun.svg?raw';
+import moonIcon from 'lucide-static/icons/moon.svg?raw';
 
 interface Props {
 	title?: string;
@@ -158,7 +160,8 @@ const personSchema = {
 							</a>
 						</div>
 						<button type="button" id="btn-tema" class="btn-tema" aria-label="Cambiar entre modo claro y oscuro">
-							<span class="icono-tema">🌙</span>
+							<span class="icono-tema icono-luna" set:html={moonIcon} />
+							<span class="icono-tema icono-sol" set:html={sunIcon} hidden />
 						</button>
 						<a href={localizedPath('/contacto', lang)} class="btn btn-primary">
 							{t.nav.contacto}
@@ -173,7 +176,7 @@ const personSchema = {
 			</header>
 		)}
 
-		<main>
+		<main class={panelPrivado ? 'main-sin-cabecera' : undefined}>
 			<slot />
 		</main>
 
@@ -216,10 +219,13 @@ const personSchema = {
 			});
 
 			const btnTema = document.getElementById('btn-tema');
-			const iconoTema = btnTema?.querySelector('.icono-tema');
+			const iconoLuna = btnTema?.querySelector('.icono-luna');
+			const iconoSol = btnTema?.querySelector('.icono-sol');
 
 			const pintarIconoTema = (tema: string | null) => {
-				if (iconoTema) iconoTema.textContent = tema === 'light' ? '☀️' : '🌙';
+				const esClaro = tema === 'light';
+				iconoLuna?.toggleAttribute('hidden', esClaro);
+				iconoSol?.toggleAttribute('hidden', !esClaro);
 			};
 
 			pintarIconoTema(document.documentElement.getAttribute('data-theme'));
@@ -389,6 +395,12 @@ const personSchema = {
 		border-color: var(--color-blue);
 	}
 
+	.icono-tema svg {
+		width: 18px;
+		height: 18px;
+		stroke: currentColor;
+	}
+
 	#nav-toggle {
 		display: none;
 		flex-direction: column;
@@ -413,6 +425,10 @@ const personSchema = {
 
 	main {
 		padding-block-start: 68px;
+	}
+
+	.main-sin-cabecera {
+		padding-block-start: 0;
 	}
 
 	footer {
