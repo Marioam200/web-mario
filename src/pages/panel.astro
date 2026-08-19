@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Panel — Mario Álvarez" description="Panel privado de gestión del sitio." noindex={true} panelPrivado={true}>
 	<section class="panel">
-		<div class="container">
+		<div class="panel-container">
 			<p id="panel-cargando" class="panel-cargando">Cargando…</p>
 
 			<div id="panel-login" class="panel-login" hidden>
@@ -34,20 +34,35 @@ import Layout from '../layouts/Layout.astro';
 
 					<nav aria-label="Secciones del panel">
 						<div class="sidebar-grupo">
-							<p class="sidebar-titulo">Añadir a la web</p>
-							<button type="button" class="sidebar-link is-active" data-tab="chat">Chat</button>
+							<button type="button" class="sidebar-titulo" aria-expanded="true">
+								Añadir a la web
+								<span class="chevron" aria-hidden="true">▾</span>
+							</button>
+							<div class="sidebar-grupo-links">
+								<button type="button" class="sidebar-link is-active" data-tab="chat">Chat</button>
+							</div>
 						</div>
 
 						<div class="sidebar-grupo">
-							<p class="sidebar-titulo">Usuarios</p>
-							<button type="button" class="sidebar-link" data-tab="usuarios">Gestionar</button>
+							<button type="button" class="sidebar-titulo" aria-expanded="true">
+								Usuarios
+								<span class="chevron" aria-hidden="true">▾</span>
+							</button>
+							<div class="sidebar-grupo-links">
+								<button type="button" class="sidebar-link" data-tab="usuarios">Gestionar</button>
+							</div>
 						</div>
 
 						<div class="sidebar-grupo">
-							<p class="sidebar-titulo">Sistema</p>
-							<button type="button" class="sidebar-link" data-tab="logs">Registros</button>
-							<button type="button" class="sidebar-link" data-tab="acerca-de">Acerca de</button>
-							<button type="button" class="sidebar-link" data-tab="basedatos">Base de datos</button>
+							<button type="button" class="sidebar-titulo" aria-expanded="true">
+								Sistema
+								<span class="chevron" aria-hidden="true">▾</span>
+							</button>
+							<div class="sidebar-grupo-links">
+								<button type="button" class="sidebar-link" data-tab="logs">Registros</button>
+								<button type="button" class="sidebar-link" data-tab="acerca-de">Acerca de</button>
+								<button type="button" class="sidebar-link" data-tab="basedatos">Base de datos</button>
+							</div>
 						</div>
 					</nav>
 
@@ -206,6 +221,12 @@ import Layout from '../layouts/Layout.astro';
 <style>
 	.panel {
 		padding-block: 2rem 6rem;
+	}
+
+	.panel-container {
+		width: 100%;
+		max-width: none;
+		padding-inline: 1rem 1.5rem;
 	}
 
 	.panel-cargando {
@@ -494,6 +515,13 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.sidebar-titulo {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+		align-items: center;
+		background: none;
+		border: none;
+		cursor: pointer;
 		font-family: var(--font-mono);
 		font-size: 0.72rem;
 		letter-spacing: 0.06em;
@@ -501,6 +529,24 @@ import Layout from '../layouts/Layout.astro';
 		color: var(--color-text-dim);
 		padding-inline: 0.6rem;
 		margin-block-end: 0.2rem;
+	}
+
+	.chevron {
+		transition: transform var(--transition-fast);
+	}
+
+	.sidebar-titulo[aria-expanded='false'] .chevron {
+		transform: rotate(-90deg);
+	}
+
+	.sidebar-grupo-links {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+	}
+
+	.sidebar-grupo-links[hidden] {
+		display: none;
 	}
 
 	.sidebar-link {
@@ -897,6 +943,17 @@ import Layout from '../layouts/Layout.astro';
 	const sidebarEl = document.querySelector('.panel-sidebar');
 	btnToggleSidebarEl?.addEventListener('click', () => {
 		sidebarEl?.classList.toggle('sidebar-oculto');
+	});
+
+	const sidebarNavEl = document.querySelector('.panel-sidebar nav');
+	sidebarNavEl?.addEventListener('click', (evento) => {
+		const boton = (evento.target as HTMLElement).closest('.sidebar-titulo') as HTMLButtonElement | null;
+		if (!boton) return;
+
+		const expandido = boton.getAttribute('aria-expanded') === 'true';
+		boton.setAttribute('aria-expanded', String(!expandido));
+		const links = boton.nextElementSibling as HTMLElement | null;
+		if (links) links.hidden = expandido;
 	});
 
 	function escaparHtml(texto: string): string {
