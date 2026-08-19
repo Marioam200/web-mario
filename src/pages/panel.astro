@@ -61,7 +61,15 @@ import Layout from '../layouts/Layout.astro';
 							<div class="sidebar-grupo-links">
 								<button type="button" class="sidebar-link" data-tab="logs">Registros</button>
 								<button type="button" class="sidebar-link" data-tab="acerca-de">Acerca de</button>
-								<button type="button" class="sidebar-link" data-tab="basedatos">Base de datos</button>
+								<div class="sidebar-subgrupo">
+									<div class="sidebar-subgrupo-header">
+										<button type="button" class="sidebar-link" data-tab="basedatos">Base de datos</button>
+										<button type="button" class="sidebar-subgrupo-toggle" aria-expanded="false" aria-label="Mostrar tablas">
+											<span class="chevron" aria-hidden="true">▾</span>
+										</button>
+									</div>
+									<div class="sidebar-subgrupo-links" id="sidebar-tablas-lista" hidden></div>
+								</div>
 							</div>
 						</div>
 					</nav>
@@ -172,13 +180,7 @@ import Layout from '../layouts/Layout.astro';
 					<section id="tab-basedatos" class="panel-tab" data-tab-panel="basedatos" hidden>
 						<h1>Base de datos</h1>
 						<div class="basedatos-grid">
-							<div class="tablas-lista-wrap">
-								<button type="button" class="tablas-lista-titulo sidebar-titulo" aria-expanded="false">
-									Tablas
-									<span class="chevron" aria-hidden="true">▾</span>
-								</button>
-								<div id="tablas-lista" class="tablas-lista" hidden></div>
-							</div>
+							<div id="tablas-lista" class="tablas-lista"></div>
 
 							<div class="sql-panel">
 								<textarea id="sql-input" rows="4" placeholder="SELECT * FROM ..."></textarea>
@@ -541,7 +543,8 @@ import Layout from '../layouts/Layout.astro';
 		transition: transform var(--transition-fast);
 	}
 
-	.sidebar-titulo[aria-expanded='false'] .chevron {
+	.sidebar-titulo[aria-expanded='false'] .chevron,
+	.sidebar-subgrupo-toggle[aria-expanded='false'] .chevron {
 		transform: rotate(-90deg);
 	}
 
@@ -552,6 +555,39 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.sidebar-grupo-links[hidden] {
+		display: none;
+	}
+
+	.sidebar-subgrupo-header {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+	}
+
+	.sidebar-subgrupo-header .sidebar-link {
+		flex-grow: 1;
+	}
+
+	.sidebar-subgrupo-toggle {
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: none;
+		border: none;
+		color: var(--color-text-dim);
+		padding: 0.4rem;
+		cursor: pointer;
+	}
+
+	.sidebar-subgrupo-links {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		padding-inline-start: 0.6rem;
+	}
+
+	.sidebar-subgrupo-links[hidden] {
 		display: none;
 	}
 
@@ -732,7 +768,8 @@ import Layout from '../layouts/Layout.astro';
 		gap: 0.35rem;
 	}
 
-	.tablas-lista .btn-tabla-sql {
+	.tablas-lista .btn-tabla-sql,
+	.sidebar-subgrupo-links .btn-tabla-sql {
 		display: block;
 		width: 100%;
 		text-align: left;
@@ -749,7 +786,8 @@ import Layout from '../layouts/Layout.astro';
 			color var(--transition-fast);
 	}
 
-	.tablas-lista .btn-tabla-sql:hover {
+	.tablas-lista .btn-tabla-sql:hover,
+	.sidebar-subgrupo-links .btn-tabla-sql:hover {
 		color: var(--color-blue);
 		background: rgba(56, 189, 248, 0.1);
 	}
@@ -872,7 +910,8 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <style is:global>
-	.tablas-lista .btn-tabla-sql {
+	.tablas-lista .btn-tabla-sql,
+	.sidebar-subgrupo-links .btn-tabla-sql {
 		display: block;
 		width: 100%;
 		text-align: left;
@@ -889,7 +928,8 @@ import Layout from '../layouts/Layout.astro';
 			color var(--transition-fast);
 	}
 
-	.tablas-lista .btn-tabla-sql:hover {
+	.tablas-lista .btn-tabla-sql:hover,
+	.sidebar-subgrupo-links .btn-tabla-sql:hover {
 		color: var(--color-blue);
 		background: rgba(56, 189, 248, 0.1);
 	}
@@ -962,11 +1002,11 @@ import Layout from '../layouts/Layout.astro';
 		if (links) links.hidden = expandido;
 	});
 
-	const btnTablasListaTituloEl = document.querySelector('.tablas-lista-titulo');
-	btnTablasListaTituloEl?.addEventListener('click', () => {
-		const expandido = btnTablasListaTituloEl.getAttribute('aria-expanded') === 'true';
-		btnTablasListaTituloEl.setAttribute('aria-expanded', String(!expandido));
-		tablasListaEl.hidden = expandido;
+	const subgrupoToggleEl = document.querySelector('.sidebar-subgrupo-toggle') as HTMLButtonElement | null;
+	subgrupoToggleEl?.addEventListener('click', () => {
+		const expandido = subgrupoToggleEl.getAttribute('aria-expanded') === 'true';
+		subgrupoToggleEl.setAttribute('aria-expanded', String(!expandido));
+		sidebarTablasListaEl.hidden = expandido;
 	});
 
 	function escaparHtml(texto: string): string {
@@ -1323,6 +1363,7 @@ import Layout from '../layouts/Layout.astro';
 
 	// ================= Base de datos =================
 	const tablasListaEl = document.getElementById('tablas-lista')!;
+	const sidebarTablasListaEl = document.getElementById('sidebar-tablas-lista')!;
 	const sqlInputEl = document.getElementById('sql-input') as HTMLTextAreaElement;
 	const btnEjecutarSqlEl = document.getElementById('btn-ejecutar-sql') as HTMLButtonElement;
 	const sqlResultadoEl = document.getElementById('sql-resultado')!;
@@ -1352,12 +1393,15 @@ import Layout from '../layouts/Layout.astro';
 				return;
 			}
 
-			tablasListaEl.innerHTML = tablas
+			const botonesHtml = tablas
 				.map(
 					(tabla) =>
 						`<button type="button" class="btn-tabla-sql" data-tabla="${escaparHtml(tabla)}">${escaparHtml(tabla)}</button>`,
 				)
 				.join('');
+
+			tablasListaEl.innerHTML = botonesHtml;
+			sidebarTablasListaEl.innerHTML = botonesHtml;
 		} catch (error) {
 			tablasListaEl.innerHTML = 'No se pudo contactar con el servidor.';
 		}
@@ -1436,15 +1480,25 @@ import Layout from '../layouts/Layout.astro';
 		basedatos: cargarTablasSQL,
 	};
 
-	sidebarLinks.forEach((link) => {
-		link.addEventListener('click', () => {
-			const pestana = link.dataset.tab!;
-			sidebarLinks.forEach((l) => l.classList.toggle('is-active', l === link));
-			paneles.forEach((panel) => {
-				panel.hidden = panel.dataset.tabPanel !== pestana;
-			});
-			cargasPorPestana[pestana]?.();
+	function activarPestana(pestana: string) {
+		sidebarLinks.forEach((l) => l.classList.toggle('is-active', l.dataset.tab === pestana));
+		paneles.forEach((panel) => {
+			panel.hidden = panel.dataset.tabPanel !== pestana;
 		});
+		cargasPorPestana[pestana]?.();
+	}
+
+	sidebarLinks.forEach((link) => {
+		link.addEventListener('click', () => activarPestana(link.dataset.tab!));
+	});
+
+	sidebarTablasListaEl.addEventListener('click', (evento) => {
+		const boton = (evento.target as HTMLElement).closest('.btn-tabla-sql') as HTMLButtonElement | null;
+		if (!boton) return;
+		activarPestana('basedatos');
+		const tabla = boton.dataset.tabla;
+		sqlInputEl.value = `SELECT * FROM ${tabla} LIMIT 100;`;
+		ejecutarSQL(sqlInputEl.value);
 	});
 
 	// ================= Sesión: login / logout / comprobación inicial =================
