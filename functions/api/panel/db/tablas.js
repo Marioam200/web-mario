@@ -7,7 +7,7 @@ export async function onRequestGet({ request, env }) {
 
 	try {
 		const { results } = await env.DB.prepare(
-			"SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name",
+			"SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' ORDER BY name",
 		).all();
 
 		const tablas = results.map((fila) => fila.name);

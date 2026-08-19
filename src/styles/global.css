@@ -19,6 +19,20 @@
 	--transition-base: 0.4s ease;
 }
 
+[data-theme='light'] {
+	--color-bg: #f7f9fc;
+	--color-bg-elevated: #ffffff;
+	--color-border: rgba(15, 23, 42, 0.1);
+	--color-text: #0f172a;
+	--color-text-dim: #5a6472;
+}
+
+[data-theme='light'] body {
+	background-image:
+		radial-gradient(ellipse 900px 500px at 12% -10%, rgba(56, 189, 248, 0.08), transparent 60%),
+		radial-gradient(ellipse 900px 600px at 88% 10%, rgba(52, 211, 153, 0.06), transparent 60%);
+}
+
 *,
 *::before,
 *::after {

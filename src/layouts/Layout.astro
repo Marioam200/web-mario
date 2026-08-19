@@ -75,6 +75,15 @@ const personSchema = {
 <html lang={lang}>
 	<head>
 		<meta charset="utf-8" />
+		{!panelPrivado && (
+			<script is:inline>
+				(function () {
+					const guardado = localStorage.getItem('tema');
+					const tema = guardado || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+					document.documentElement.setAttribute('data-theme', tema);
+				})();
+			</script>
+		)}
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" href="/favicon.ico" sizes="any" />
 		<link rel="icon" type="image/png" href="/favicon.png?v=3" sizes="512x512" />
@@ -148,6 +157,9 @@ const personSchema = {
 								{t.langSwitch.en}
 							</a>
 						</div>
+						<button type="button" id="btn-tema" class="btn-tema" aria-label="Cambiar entre modo claro y oscuro">
+							<span class="icono-tema">🌙</span>
+						</button>
 						<a href={localizedPath('/contacto', lang)} class="btn btn-primary">
 							{t.nav.contacto}
 						</a>
@@ -201,6 +213,23 @@ const personSchema = {
 			toggle?.addEventListener('click', () => {
 				const isOpen = nav?.classList.toggle('is-open');
 				toggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
+			});
+
+			const btnTema = document.getElementById('btn-tema');
+			const iconoTema = btnTema?.querySelector('.icono-tema');
+
+			const pintarIconoTema = (tema) => {
+				if (iconoTema) iconoTema.textContent = tema === 'light' ? '☀️' : '🌙';
+			};
+
+			pintarIconoTema(document.documentElement.getAttribute('data-theme'));
+
+			btnTema?.addEventListener('click', () => {
+				const temaActual = document.documentElement.getAttribute('data-theme');
+				const nuevoTema = temaActual === 'light' ? 'dark' : 'light';
+				document.documentElement.setAttribute('data-theme', nuevoTema);
+				localStorage.setItem('tema', nuevoTema);
+				pintarIconoTema(nuevoTema);
 			});
 
 			nav?.querySelectorAll('a').forEach((link) => {
@@ -339,6 +368,25 @@ const personSchema = {
 
 	.lang-switch a:hover {
 		color: var(--color-text);
+	}
+
+	.btn-tema {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 38px;
+		height: 38px;
+		background: transparent;
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		font-size: 1rem;
+		line-height: 1;
+		cursor: pointer;
+		transition: border-color var(--transition-fast);
+	}
+
+	.btn-tema:hover {
+		border-color: var(--color-blue);
 	}
 
 	#nav-toggle {
