@@ -180,8 +180,6 @@ import Layout from '../layouts/Layout.astro';
 					<section id="tab-basedatos" class="panel-tab" data-tab-panel="basedatos" hidden>
 						<h1>Base de datos</h1>
 						<div class="basedatos-grid">
-							<div id="tablas-lista" class="tablas-lista"></div>
-
 							<div class="sql-panel">
 								<textarea id="sql-input" rows="4" placeholder="SELECT * FROM ..."></textarea>
 								<div class="sql-acciones">
@@ -760,7 +758,7 @@ import Layout from '../layouts/Layout.astro';
 	/* --- Base de datos --- */
 	.basedatos-grid {
 		display: grid;
-		grid-template-columns: 200px 1fr;
+		grid-template-columns: 1fr;
 		gap: 1.5rem;
 		align-items: start;
 	}
@@ -1370,7 +1368,6 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	// ================= Base de datos =================
-	const tablasListaEl = document.getElementById('tablas-lista')!;
 	const sidebarTablasListaEl = document.getElementById('sidebar-tablas-lista')!;
 	const sqlInputEl = document.getElementById('sql-input') as HTMLTextAreaElement;
 	const btnEjecutarSqlEl = document.getElementById('btn-ejecutar-sql') as HTMLButtonElement;
@@ -1388,19 +1385,16 @@ import Layout from '../layouts/Layout.astro';
 	const PALABRAS_CONFIRMACION_SQL = ['delete', 'update', 'drop', 'alter', 'truncate'];
 
 	async function cargarTablasSQL() {
-		tablasListaEl.innerHTML = 'Cargando…';
 		try {
 			const respuesta = await fetch('/api/panel/db/tablas');
 			const datos = await respuesta.json();
 
 			if (!respuesta.ok) {
-				tablasListaEl.innerHTML = escaparHtml(datos.error || 'No se pudo cargar.');
 				return;
 			}
 
 			const tablas: string[] = datos.tablas;
 			if (tablas.length === 0) {
-				tablasListaEl.innerHTML = 'No hay tablas.';
 				return;
 			}
 
@@ -1411,10 +1405,9 @@ import Layout from '../layouts/Layout.astro';
 				)
 				.join('');
 
-			tablasListaEl.innerHTML = botonesHtml;
 			sidebarTablasListaEl.innerHTML = botonesHtml;
 		} catch (error) {
-			tablasListaEl.innerHTML = 'No se pudo contactar con el servidor.';
+			// no-op
 		}
 	}
 
@@ -1506,14 +1499,6 @@ import Layout from '../layouts/Layout.astro';
 		enlace.click();
 		enlace.remove();
 		URL.revokeObjectURL(url);
-	});
-
-	tablasListaEl.addEventListener('click', (evento) => {
-		const boton = (evento.target as HTMLElement).closest('.btn-tabla-sql') as HTMLButtonElement | null;
-		if (!boton) return;
-		const tabla = boton.dataset.tabla;
-		sqlInputEl.value = `SELECT * FROM ${tabla} LIMIT 100;`;
-		ejecutarSQL(sqlInputEl.value);
 	});
 
 	// ================= Navegación por pestañas =================
