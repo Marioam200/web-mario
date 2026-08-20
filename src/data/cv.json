@@ -26,8 +26,7 @@
 			"org": "Equipo Cofidis (UCI World Tour)",
 			"dates": "Verano 2025",
 			"bullets": [
-				"Analizador de dificultad UCI: web scraping del ranking UCI para situar a los corredores del equipo y estimar el nivel de dificultad necesario para sumar puntos según la plantilla.",
-				"Predictor de perfil de carrera: anticipa las características de cada carrera y le asigna una nota de dificultad para planificar objetivos y estrategia."
+				"Dos proyectos propios de analítica aplicada al ciclismo de competición (ver Proyectos)."
 			]
 		},
 		{

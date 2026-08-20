@@ -47,6 +47,15 @@ function wrapText(font, size, maxWidth, texto) {
 	return lineas.length ? lineas : [''];
 }
 
+/** Dibuja texto envuelto a maxWidth, apilando líneas hacia abajo desde (x, y). */
+function drawWrappedLine(page, texto, x, y, maxWidth, size, font, color, lineHeight = size * 1.3) {
+	const lineas = wrapText(font, size, maxWidth, texto);
+	lineas.forEach((linea, i) => {
+		page.drawText(linea, { x, y: y - i * lineHeight, size, font, color });
+	});
+	return lineas.length;
+}
+
 function dibujarQr(page, texto, x, y, tamano, color) {
 	const qr = qrcode(0, 'M');
 	qr.addData(texto);
@@ -88,8 +97,8 @@ class Columna {
 		}
 	}
 
-	titulo(texto, font, underline) {
-		this.asegurarEspacio(30);
+	titulo(texto, font, underline, alturaSiguiente = 0) {
+		this.asegurarEspacio(30 + alturaSiguiente);
 		this.y -= 4;
 		this.page.drawText(sanitize(texto).toUpperCase(), {
 			x: this.x,
@@ -108,6 +117,17 @@ class Columna {
 		this.y -= 10;
 	}
 
+	/** Línea envuelta al ancho de la columna, sin espaciado extra tras el bloque (para roles/meta/títulos de ítem). */
+	lineaAncha(texto, font, size, color, lineHeight = size * 1.25) {
+		const lineas = wrapText(font, size, this.width, texto);
+		this.asegurarEspacio(lineas.length * lineHeight);
+		lineas.forEach((linea, i) => {
+			this.page.drawText(linea, { x: this.x, y: this.y - lineHeight * 0.78 - i * lineHeight, size, font, color });
+		});
+		this.y -= lineas.length * lineHeight;
+		return lineas.length;
+	}
+
 	parrafo(texto, font, size = 9.5, color = COLOR.ink, lineHeight = size * 1.4) {
 		const lineas = wrapText(font, size, this.width, texto);
 		for (const linea of lineas) {
@@ -115,7 +135,7 @@ class Columna {
 			this.page.drawText(linea, { x: this.x, y: this.y - lineHeight * 0.78, size, font, color });
 			this.y -= lineHeight;
 		}
-		this.y -= 6;
+		this.y -= 4;
 	}
 
 	bullet(texto, font, size = 8.8, markerColor = COLOR.green) {
@@ -143,17 +163,20 @@ class Columna {
 	}
 }
 
+/** Chips en la barra lateral. Ningún chip supera nunca anchoDisponible: los textos largos se parten en varias líneas/chips. */
 function dibujarChips(page, items, x, anchoDisponible, yInicial, accent, font) {
+	const size = 7.2;
+	const paddingX = 6;
+	const maxTextW = anchoDisponible - paddingX * 2;
+	const chipsTexto = items.flatMap((raw) => wrapText(font, size, maxTextW, sanitize(raw)));
+
 	let cx = x;
 	let y = yInicial;
 	const altoFila = 16;
-	const paddingX = 6;
 
-	for (const raw of items) {
-		const texto = sanitize(raw);
-		const size = 7.2;
+	for (const texto of chipsTexto) {
 		const textW = font.widthOfTextAtSize(texto, size);
-		const chipW = textW + paddingX * 2;
+		const chipW = Math.min(textW + paddingX * 2, anchoDisponible);
 
 		if (cx !== x && cx + chipW > x + anchoDisponible) {
 			cx = x;
@@ -179,6 +202,27 @@ function dibujarChips(page, items, x, anchoDisponible, yInicial, accent, font) {
 	return y - altoFila;
 }
 
+/** Lista con viñetas en la barra lateral, envuelta a anchoDisponible (para frases largas tipo "Deporte"). */
+function dibujarListaSidebar(page, items, x, anchoDisponible, yInicial, font, color) {
+	const size = 7.6;
+	const lineHeight = size * 1.35;
+	const indent = 8;
+	let y = yInicial;
+
+	for (const raw of items) {
+		const lineas = wrapText(font, size, anchoDisponible - indent, sanitize(raw));
+		lineas.forEach((linea, i) => {
+			if (i === 0) {
+				page.drawRectangle({ x, y: y - 6.5, width: 3, height: 3, color });
+			}
+			page.drawText(linea, { x: x + indent, y: y - 6, size, font, color: COLOR.ink });
+			y -= lineHeight;
+		});
+	}
+
+	return y;
+}
+
 /**
  * Genera el PDF del CV a partir de los datos estructurados de cv.json.
  * @param {object} cv
@@ -194,21 +238,53 @@ export async function generarCvPdf(cv) {
 	const contact = cv.contact || {};
 
 	// --- Cabecera ---
+	// El QR ocupa la esquina superior derecha: el texto se envuelve antes de llegar a esa columna.
+	const qrSize = 58;
+	const qrPad = 6;
+	const qrX = PAGE_W - MARGIN - qrSize;
+	const headerMaxWidth = qrX - qrPad - 14 - MARGIN;
+
 	page1.drawRectangle({ x: 0, y: PAGE_H - HEADER_H, width: PAGE_W, height: HEADER_H, color: COLOR.navy });
-	page1.drawText(sanitize(contact.name), { x: MARGIN, y: PAGE_H - 38, size: 21, font: fontBold, color: COLOR.white });
-	page1.drawText(sanitize(contact.title), { x: MARGIN, y: PAGE_H - 55, size: 10.5, font: fontRegular, color: COLOR.blue });
+	drawWrappedLine(page1, sanitize(contact.name), MARGIN, PAGE_H - 38, headerMaxWidth, 21, fontBold, COLOR.white);
+	drawWrappedLine(page1, sanitize(contact.title), MARGIN, PAGE_H - 55, headerMaxWidth, 10.5, fontRegular, COLOR.blue);
 
 	const lineaContacto = [contact.location, contact.phone, contact.email].filter(Boolean).join('   ·   ');
-	page1.drawText(sanitize(lineaContacto), { x: MARGIN, y: PAGE_H - 72, size: 8.8, font: fontRegular, color: COLOR.white });
+	drawWrappedLine(page1, sanitize(lineaContacto), MARGIN, PAGE_H - 72, headerMaxWidth, 8.8, fontRegular, COLOR.white);
 
 	const lineaEnlaces = [contact.site, contact.github].filter(Boolean).join('   ·   ');
-	page1.drawText(sanitize(lineaEnlaces), {
-		x: MARGIN,
-		y: PAGE_H - 85,
-		size: 8,
-		font: fontRegular,
-		color: rgb(0.72, 0.78, 0.87),
-	});
+	drawWrappedLine(
+		page1,
+		sanitize(lineaEnlaces),
+		MARGIN,
+		PAGE_H - 85,
+		headerMaxWidth,
+		8,
+		fontRegular,
+		rgb(0.72, 0.78, 0.87),
+	);
+
+	if (contact.site) {
+		const qrY = PAGE_H - HEADER_H + (HEADER_H - qrSize) / 2;
+		page1.drawRectangle({
+			x: qrX - qrPad,
+			y: qrY - qrPad,
+			width: qrSize + qrPad * 2,
+			height: qrSize + qrPad * 2,
+			color: COLOR.white,
+		});
+		dibujarQr(page1, contact.site, qrX, qrY, qrSize, COLOR.navy);
+
+		const nota = 'Escanea la web';
+		const notaSize = 6;
+		const notaWidth = fontRegular.widthOfTextAtSize(nota, notaSize);
+		page1.drawText(nota, {
+			x: qrX + qrSize / 2 - notaWidth / 2,
+			y: PAGE_H - HEADER_H + 3,
+			size: notaSize,
+			font: fontRegular,
+			color: rgb(0.72, 0.78, 0.87),
+		});
+	}
 
 	// --- Barra lateral ---
 	page1.drawRectangle({ x: 0, y: 0, width: SIDEBAR_W, height: PAGE_H - HEADER_H, color: COLOR.sidebarBg });
@@ -260,24 +336,8 @@ export async function generarCvPdf(cv) {
 
 	if (cv.sport?.length) {
 		sidebarTitulo('Deporte');
-		sy = dibujarChips(page1, cv.sport, sbX, sbW, sy, COLOR.green, fontRegular);
+		sy = dibujarListaSidebar(page1, cv.sport, sbX, sbW, sy, fontRegular, COLOR.green);
 		sy -= 4;
-	}
-
-	if (contact.site) {
-		const qrSize = 72;
-		const qrY = sy - qrSize;
-		if (qrY > 14) {
-			dibujarQr(page1, contact.site, sbX, qrY, qrSize, COLOR.navy);
-			const nota = 'Escanea para visitar la web';
-			page1.drawText(nota, {
-				x: sbX,
-				y: qrY - 10,
-				size: 6.3,
-				font: fontRegular,
-				color: COLOR.dim,
-			});
-		}
 	}
 
 	// --- Columna principal (con paginación automática) ---
@@ -297,40 +357,42 @@ export async function generarCvPdf(cv) {
 		col.parrafo(cv.profile, fontRegular, 9.3);
 	}
 
+	// Altura estimada del primer elemento de un bloque, para no dejar el título de sección huérfano al paginar.
+	const alturaMeta = (org, dates) => wrapText(fontItalic, 8.3, mainWidth, [org, dates].filter(Boolean).join('  ·  ')).length * 14;
+	const alturaRole = (texto, size = 9.8) => wrapText(fontBold, size, mainWidth, texto).length * 13;
+
 	if (cv.experience?.length) {
-		col.titulo('Experiencia', fontBold, COLOR.green);
+		const primero = cv.experience[0];
+		const alturaPrimero = alturaRole(primero.role) + alturaMeta(primero.org, primero.dates) + (primero.bullets?.length ? 8.6 * 1.4 : 0);
+		col.titulo('Experiencia', fontBold, COLOR.green, alturaPrimero);
 		for (const exp of cv.experience) {
-			col.asegurarEspacio(38);
-			col.page.drawText(sanitize(exp.role), { x: col.x, y: col.y - 10, size: 9.8, font: fontBold, color: COLOR.ink });
-			col.y -= 13;
+			col.lineaAncha(exp.role, fontBold, 9.8, COLOR.ink, 13);
 			const meta = [exp.org, exp.dates].filter(Boolean).join('  ·  ');
-			col.page.drawText(sanitize(meta), { x: col.x, y: col.y - 8, size: 8.3, font: fontItalic, color: COLOR.dim });
-			col.y -= 14;
+			col.lineaAncha(meta, fontItalic, 8.3, COLOR.dim, 14);
 			for (const bullet of exp.bullets || []) {
 				col.bullet(bullet, fontRegular, 8.6, COLOR.green);
 			}
-			col.y -= 6;
+			col.y -= 3;
 		}
 	}
 
 	if (cv.education?.length) {
-		col.titulo('Educación', fontBold, COLOR.green);
+		const primero = cv.education[0];
+		const alturaPrimero = alturaRole(primero.degree) + alturaMeta(primero.org, primero.dates) + (primero.bullets?.length ? 8.6 * 1.4 : 0);
+		col.titulo('Educación', fontBold, COLOR.green, alturaPrimero);
 		for (const edu of cv.education) {
-			col.asegurarEspacio(38);
-			col.page.drawText(sanitize(edu.degree), { x: col.x, y: col.y - 10, size: 9.8, font: fontBold, color: COLOR.ink });
-			col.y -= 13;
+			col.lineaAncha(edu.degree, fontBold, 9.8, COLOR.ink, 13);
 			const meta = [edu.org, edu.dates].filter(Boolean).join('  ·  ');
-			col.page.drawText(sanitize(meta), { x: col.x, y: col.y - 8, size: 8.3, font: fontItalic, color: COLOR.dim });
-			col.y -= 14;
+			col.lineaAncha(meta, fontItalic, 8.3, COLOR.dim, 14);
 			for (const bullet of edu.bullets || []) {
 				col.bullet(bullet, fontRegular, 8.6, COLOR.green);
 			}
-			col.y -= 6;
+			col.y -= 3;
 		}
 	}
 
 	if (cv.certifications?.length) {
-		col.titulo('Certificaciones', fontBold, COLOR.green);
+		col.titulo('Certificaciones', fontBold, COLOR.green, 8.8 * 1.4);
 		for (const cert of cv.certifications) {
 			col.bullet(cert, fontRegular, 8.8, COLOR.green);
 		}
@@ -338,11 +400,11 @@ export async function generarCvPdf(cv) {
 	}
 
 	if (cv.projects?.length) {
-		col.titulo('Proyectos', fontBold, COLOR.green);
+		const primero = cv.projects[0];
+		const alturaPrimero = alturaRole(primero.name, 9.5) + (primero.description ? 8.6 * 1.4 : 0);
+		col.titulo('Proyectos', fontBold, COLOR.green, alturaPrimero);
 		for (const proyecto of cv.projects) {
-			col.asegurarEspacio(24);
-			col.page.drawText(sanitize(proyecto.name), { x: col.x, y: col.y - 10, size: 9.5, font: fontBold, color: COLOR.ink });
-			col.y -= 14;
+			col.lineaAncha(proyecto.name, fontBold, 9.5, COLOR.ink, 13.5);
 			if (proyecto.description) {
 				col.parrafo(proyecto.description, fontRegular, 8.6);
 			}

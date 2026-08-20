@@ -27,3 +27,6 @@ pnpm-debug.log*
 .dev.vars
 .wrangler/
 public/panel-prueba.html
+
+# artefacto de scripts/probar-cv.mjs
+cv-test.pdf
